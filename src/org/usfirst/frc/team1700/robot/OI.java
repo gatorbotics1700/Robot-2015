@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1700.robot;
 
+import org.usfirst.frc.team1700.robot.commands.ChangeAlignerStateCommand;
 import org.usfirst.frc.team1700.robot.commands.LifterDownCommand;
 import org.usfirst.frc.team1700.robot.commands.LifterUpCommand;
 
@@ -43,10 +44,14 @@ public class OI {
 	public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
 	Button lifterUpButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_UP_BUTTON);
 	Button lifterDownButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_DOWN_BUTTON);
+	Button longAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.LONG_ALIGNER_STATE_CHANGE_BUTTON);
+	Button shortAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.SHORT_ALIGNER_STATE_CHANGE_BUTTON);
 	
 	public OI() {
 		lifterUpButton.whenPressed(new LifterUpCommand());
 		lifterDownButton.whenPressed(new LifterDownCommand());
+		longAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(true));
+		shortAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(false));
 	}
 	
 }

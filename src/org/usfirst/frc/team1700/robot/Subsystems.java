@@ -8,7 +8,8 @@ public class Subsystems {
 	public static DriveSubsystem driveSubsystem = new DriveSubsystem();
 	
 	//Aligner
-	public static AlignmentMotorsSubsystem alignmentMotorsSubsystem = new AlignmentMotorsSubsystem();
+	public static AlignmentMotorsSubsystem longAlignmentMotorsSubsystem = new AlignmentMotorsSubsystem(true); // true = long
+	public static AlignmentMotorsSubsystem shortAlignmentMotorsSubsystem = new AlignmentMotorsSubsystem(false); // false = short
 	public static AlignmentPotentiometerSubsystem alignmentPotentiometerSubsystem = new AlignmentPotentiometerSubsystem();
 	
 	//Lifter

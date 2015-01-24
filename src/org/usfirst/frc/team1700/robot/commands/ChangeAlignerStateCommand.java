@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1700.robot.commands;
 
 import org.usfirst.frc.team1700.robot.Subsystems;
+import org.usfirst.frc.team1700.robot.subsystems.AlignmentMotorsSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,13 +12,20 @@ public class ChangeAlignerStateCommand extends Command {
 	
 	private boolean wasVertical = false;
 	private boolean wasHorizontal = false;
+	private AlignmentMotorsSubsystem motors;
 		
 	
-    public ChangeAlignerStateCommand() {
+    public ChangeAlignerStateCommand(boolean isLong) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	if(isLong){
+        	motors = Subsystems.longAlignmentMotorsSubsystem;
+    	} else {
+    		motors = Subsystems.shortAlignmentMotorsSubsystem;
+    	}
+		requires(motors);
     	requires(Subsystems.alignmentPotentiometerSubsystem);
-    	requires(Subsystems.alignmentMotorsSubsystem);
+
     }
 
     // Called just before this Command runs the first time
@@ -33,13 +41,13 @@ public class ChangeAlignerStateCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(wasVertical == true) {
-    		Subsystems.alignmentMotorsSubsystem.goForward();
+    		motors.goForward();
     	}
     	else if(wasHorizontal == true) {
-    		Subsystems.alignmentMotorsSubsystem.goBackward();
+    		motors.goBackward();
     	} else {
     		wasHorizontal = true;
-    		Subsystems.alignmentMotorsSubsystem.goBackward();
+    		motors.goBackward();
     	}
     }
     	
