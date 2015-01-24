@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1700.robot.subsystems;
 
+import org.usfirst.frc.team1700.robot.Robot;
 import org.usfirst.frc.team1700.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Talon;
@@ -15,6 +16,7 @@ public class LifterMotorSubsystem extends Subsystem {
 	private Talon lifterTalon1 = new Talon(RobotMap.LIFTER_TALON_1_ID);
 	private Talon lifterTalon2 = new Talon(RobotMap.LIFTER_TALON_2_ID);
 	private static final double LIFTER_SPEED = 0.2;
+	public static final double DEADBAND = 0.1;
 								
 
     public void initDefaultCommand() {
@@ -39,6 +41,11 @@ public class LifterMotorSubsystem extends Subsystem {
     	// Makes pulley stop
     	lifterTalon1.set(0);
     	lifterTalon2.set(0);
+    }
+    
+    public void lifterMove(double speed) {
+		lifterTalon1.set(speed);
+		lifterTalon2.set(speed);
     }
 }
 

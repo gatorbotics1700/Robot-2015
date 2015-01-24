@@ -29,8 +29,8 @@ public class MecanumDriveCommand extends Command {
     public MecanumDriveCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Subsystems.driveSubsystem);
-    	this.driveSubsystem = Subsystems.driveSubsystem;
+    	requires(Subsystems.lifterMotor);
+    	this.driveSubsystem = Subsystems.driveMotor;
     	this.oi = Robot.oi;
     }
 
