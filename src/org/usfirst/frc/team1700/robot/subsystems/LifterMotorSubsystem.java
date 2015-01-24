@@ -12,7 +12,8 @@ public class LifterMotorSubsystem extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private Talon lifterMotor = new Talon(RobotMap.LIFTER_TALON_ID);
+	private Talon lifterTalon1 = new Talon(RobotMap.LIFTER_TALON_1_ID);
+	private Talon lifterTalon2 = new Talon(RobotMap.LIFTER_TALON_2_ID);
 	private static final double LIFTER_SPEED = 0.2;
 								
 
@@ -24,17 +25,20 @@ public class LifterMotorSubsystem extends Subsystem {
     
     public void pulleyUp() {
     	// Makes pulley go up
-    	lifterMotor.set(LIFTER_SPEED);
+    	lifterTalon1.set(LIFTER_SPEED);
+    	lifterTalon2.set(LIFTER_SPEED);
     }
     
     public void pulleyDown() {
     	// Makes pulley go down
-    	lifterMotor.set(-LIFTER_SPEED);
+    	lifterTalon1.set(-LIFTER_SPEED);
+    	lifterTalon2.set(-LIFTER_SPEED);
     }
     
     public void pulleyStop() {
     	// Makes pulley stop
-    	lifterMotor.set(0);
+    	lifterTalon1.set(0);
+    	lifterTalon2.set(0);
     }
 }
 
