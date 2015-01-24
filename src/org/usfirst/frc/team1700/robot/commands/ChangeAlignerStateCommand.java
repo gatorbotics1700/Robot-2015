@@ -8,7 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ChangeAlignerStateCommand extends Command {
-
+	
+	private boolean wasVertical = false;
+	private boolean wasHorizontal = false;
+		
+	
     public ChangeAlignerStateCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -18,25 +22,41 @@ public class ChangeAlignerStateCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if(Subsystems.alignmentPotentiometerSubsystem.isAlignerVertical()) {
+    		wasVertical = true;
+    	}
+    	else if(Subsystems.alignmentPotentiometerSubsystem.isAlignerHorizontal()) {
+    		wasHorizontal = true;
+    	} 
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Subsystems.alignmentPotentiometerSubsystem.isAlignerVertical()) {
+    	if(wasVertical == true) {
     		Subsystems.alignmentMotorsSubsystem.goForward();
     	}
-    	else if(Subsystems.alignmentPotentiometerSubsystem.isAlignerHorizontal()) {
+    	else if(wasHorizontal == true) {
     		Subsystems.alignmentMotorsSubsystem.goBackward();
     	} else {
+    		wasHorizontal = true;
     		Subsystems.alignmentMotorsSubsystem.goBackward();
     	}
-    	
     }
     	
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	if(wasVertical && Subsystems.alignmentPotentiometerSubsystem.isAlignerHorizontal()) {
+    		wasHorizontal = true;
+    		wasVertical = false; 
+    		return true;
+    	} else if (wasHorizontal && Subsystems.alignmentPotentiometerSubsystem.isAlignerVertical()) {
+    		wasVertical = true;
+    		wasHorizontal = false;
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
 
     // Called once after isFinished returns true
