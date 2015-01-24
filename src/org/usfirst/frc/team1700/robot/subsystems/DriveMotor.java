@@ -4,19 +4,21 @@ import org.usfirst.frc.team1700.robot.Robot;
 import org.usfirst.frc.team1700.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveMotor {
 	private Victor vic;
 	private static final double DEADBAND = 0.1;
-	private static final double SCALE_FACTOR = 0.04;
+	private static final double SCALE_FACTOR = .75;
 	
 	public DriveMotor(int port) {
 		vic = new Victor(port);
 	}
 	
 	public void move(double speed) {
-		if(speed > DEADBAND || speed < -DEADBAND){
+		if(speed > DEADBAND || speed < -DEADBAND){ 
 			vic.set(scale(speed));
+//			SmartDashboard.putNumber("drive motor speed: ", scale(speed));
 			if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println(scale(speed));
 		} else {
 			vic.set(0);
@@ -28,7 +30,6 @@ public class DriveMotor {
 	}
 	
 	private double scale(double value) {
-		value = (value > 0) ? (value - DEADBAND) : (value + DEADBAND); // smoother transition out of deadband zone
 		return (value * SCALE_FACTOR); // safety for driving w/o gearboxes
 	}
 }
