@@ -32,11 +32,11 @@ public class LifterToLevelCommand extends Command {
     protected void execute() {
     	if(targetLevel < currentLevel) {
     		//Move down
-    		Subsystems.lifterMotor.pulleyDown();
+    		Subsystems.lifterMotor.lifterDown();
     	} else if(targetLevel > currentLevel) {
     		//Move up
     		goingUp = true;
-    		Subsystems.lifterMotor.pulleyUp();
+    		Subsystems.lifterMotor.lifterUp();
     	}
     }
 
@@ -62,6 +62,6 @@ public class LifterToLevelCommand extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Subsystems.lifterMotor.pulleyStop();
+    	Subsystems.lifterMotor.lifterStop();
     }
 }

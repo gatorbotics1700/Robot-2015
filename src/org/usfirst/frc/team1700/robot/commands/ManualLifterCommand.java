@@ -41,13 +41,13 @@ public class ManualLifterCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	lifterMotor.pulleyStop();
+    	lifterMotor.lifterStop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	lifterMotor.pulleyStop();
+    	lifterMotor.lifterStop();
     }
     private double deadband(double value) {
 		return (value > DEADBAND || value < -DEADBAND) ? (value - DEADBAND)*JOY_SCALE : 0; // maps (0.1, 1) to (0,1)
