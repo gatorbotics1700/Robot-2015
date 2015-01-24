@@ -7,13 +7,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LifterToLevel extends Command {
+public class LifterToLevelCommand extends Command {
 
 	private int targetLevel;
 	private int currentLevel;
 	private boolean goingUp;
 	
-    public LifterToLevel(int level) {
+    public LifterToLevelCommand(int level) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Subsystems.lifterMotor);

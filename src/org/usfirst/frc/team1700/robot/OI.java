@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1700.robot;
 
 import org.usfirst.frc.team1700.robot.commands.ChangeAlignerStateCommand;
+import org.usfirst.frc.team1700.robot.commands.LifterToLevelCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -42,10 +43,21 @@ public class OI {
 	public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
 	Button longAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.LONG_ALIGNER_STATE_CHANGE_BUTTON);
 	Button shortAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.SHORT_ALIGNER_STATE_CHANGE_BUTTON);
-	
+	Button lifterLevelZeroButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_ZERO_BUTTON);
+	Button lifterLevelOneButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_ONE_BUTTON);
+	Button lifterLevelTwoButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_TWO_BUTTON);
+	Button lifterLevelThreeButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_THREE_BUTTON);
+
 	public OI() {
 		longAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(true));
 		shortAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(false));
+		lifterLevelZeroButton.whenPressed(new LifterToLevelCommand(0));
+		lifterLevelOneButton.whenPressed(new LifterToLevelCommand(1));
+		lifterLevelTwoButton.whenPressed(new LifterToLevelCommand(2));
+		lifterLevelThreeButton.whenPressed(new LifterToLevelCommand(3));
+
+
+
 	}
 	
 }
