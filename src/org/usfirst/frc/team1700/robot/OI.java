@@ -1,6 +1,10 @@
 package org.usfirst.frc.team1700.robot;
 
+import org.usfirst.frc.team1700.robot.commands.LifterDownCommand;
+import org.usfirst.frc.team1700.robot.commands.LifterUpCommand;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -36,7 +40,14 @@ public class OI {
     // button.whenReleased(new ExampleCommand());
 	
 	public Joystick driveJoystick = new Joystick(0);
-	public Joystick controlJoystick = new Joystick(1);
+	public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
+	Button lifterUpButton = new JoystickButton(controlJoystick, 1);
+	Button lifterDownButton = new JoystickButton(controlJoystick, 2);
+	
+	public OI() {
+		lifterUpButton.whenPressed(new LifterUpCommand());
+		lifterDownButton.whenPressed(new LifterDownCommand());
+	}
 	
 }
 

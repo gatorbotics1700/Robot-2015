@@ -6,12 +6,12 @@ import org.usfirst.frc.team1700.robot.RobotMap;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveMotor {
+public class DriveMotorSubsystem {
 	private Victor vic;
 	private static final double DEADBAND = 0.1;
 	private static final double SCALE_FACTOR = .75;
 	
-	public DriveMotor(int port) {
+	public DriveMotorSubsystem(int port) {
 		vic = new Victor(port);
 	}
 	
