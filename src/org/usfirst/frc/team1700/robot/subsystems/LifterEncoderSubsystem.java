@@ -12,19 +12,39 @@ public class LifterEncoderSubsystem extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private double distanceToLevel1 = 1;
-	private Encoder pulleyDetector = new Encoder(RobotMap.LIFTER_ENCODER_PORT_1, RobotMap.LIFTER_ENCODER_PORT_2, false, Encoder.EncodingType.k4X);
+	private int currentLevel = 0; // picking up totes level
+	private int level0 = 0;
+	private int level1 = 1;
+	private int level2 = 2;
+	private int level3 = 3;
+
+	private Encoder lifterEncoder = new Encoder(RobotMap.LIFTER_ENCODER_PORT_1, RobotMap.LIFTER_ENCODER_PORT_2, false, Encoder.EncodingType.k4X);
 	
 	public void resetEncoder() {
-		pulleyDetector.reset();
+		lifterEncoder.reset();
+	}
+	
+	public boolean isAtLevel0() {
+		return (lifterEncoder.getDistance() <= level0);
 	}
 	
 	public boolean isAtLevel1() {
-		return (pulleyDetector.getDistance() >= distanceToLevel1);
+		return (lifterEncoder.getDistance() >= level1);
 	}
-	public boolean isAtLevel0() {
-		return (pulleyDetector.getDistance() <= 0);
+	
+	public boolean isAtLevel2() {
+		return (lifterEncoder.getDistance() >= level2);
+	}	
+	
+	public boolean isAtLevel3() {
+		return (lifterEncoder.getDistance() >= level3);
 	}
+	
+	public int currentLevel(){
+		return currentLevel;
+	}
+	
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

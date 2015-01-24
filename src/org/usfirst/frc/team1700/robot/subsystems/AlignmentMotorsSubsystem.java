@@ -3,7 +3,7 @@ package org.usfirst.frc.team1700.robot.subsystems;
 import org.usfirst.frc.team1700.robot.RobotMap;
 import org.usfirst.frc.team1700.robot.Subsystems;
 
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -11,18 +11,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class AlignmentMotorsSubsystem extends Subsystem {
 	
-	private Talon alignmentTalon1; 
-	private Talon alignmentTalon2;
+	private CANTalon alignmentTalon1; 
+	private CANTalon alignmentTalon2;
 	
 	private static final double TALON_SPEED = 0.2;
 			
 	public AlignmentMotorsSubsystem(boolean isLong){
     	if(isLong){
-        	alignmentTalon1 = new Talon(RobotMap.LONG_ALIGNMENT_TALON_1_ID);
-        	alignmentTalon2 = new Talon(RobotMap.LONG_ALIGNMENT_TALON_2_ID);
+        	alignmentTalon1 = new CANTalon(RobotMap.LONG_ALIGNMENT_TALON_1_ID);
+        	alignmentTalon2 = new CANTalon(RobotMap.LONG_ALIGNMENT_TALON_2_ID);
     	} else {
-    		alignmentTalon1 = new Talon(RobotMap.SHORT_ALIGNMENT_TALON_1_ID);
-        	alignmentTalon2 = new Talon(RobotMap.SHORT_ALIGNMENT_TALON_2_ID);
+    		alignmentTalon1 = new CANTalon(RobotMap.SHORT_ALIGNMENT_TALON_1_ID);
+        	alignmentTalon2 = new CANTalon(RobotMap.SHORT_ALIGNMENT_TALON_2_ID);
     	}
 	}
 	

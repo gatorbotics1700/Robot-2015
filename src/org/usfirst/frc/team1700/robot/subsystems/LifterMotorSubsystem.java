@@ -3,7 +3,7 @@ package org.usfirst.frc.team1700.robot.subsystems;
 import org.usfirst.frc.team1700.robot.Robot;
 import org.usfirst.frc.team1700.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -13,8 +13,8 @@ public class LifterMotorSubsystem extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private Talon lifterTalon1 = new Talon(RobotMap.LIFTER_TALON_1_ID);
-	private Talon lifterTalon2 = new Talon(RobotMap.LIFTER_TALON_2_ID);
+	private CANTalon lifterTalon1 = new CANTalon(RobotMap.LIFTER_TALON_1_ID);
+	private CANTalon lifterTalon2 = new CANTalon(RobotMap.LIFTER_TALON_2_ID);
 	private static final double LIFTER_SPEED = 0.2;
 	public static final double DEADBAND = 0.1;
 								

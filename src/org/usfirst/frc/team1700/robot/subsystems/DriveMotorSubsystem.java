@@ -3,16 +3,16 @@ package org.usfirst.frc.team1700.robot.subsystems;
 import org.usfirst.frc.team1700.robot.Robot;
 import org.usfirst.frc.team1700.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveMotorSubsystem {
-	private Talon driveTalon;
+	private CANTalon driveTalon;
 	private static final double DEADBAND = 0.1;
 	private static final double SCALE_FACTOR = .75;
 	
-	public DriveMotorSubsystem(int port) {
-		driveTalon = new Talon(port);
+	public DriveMotorSubsystem(int ID) {
+		driveTalon = new CANTalon(ID);
 	}
 	
 	public void move(double speed) {
