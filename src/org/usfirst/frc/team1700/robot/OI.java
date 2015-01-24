@@ -39,10 +39,10 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
-	public Joystick driveJoystick = new Joystick(0);
+	public Joystick driveJoystick = new Joystick(RobotMap.DRIVE_JOYSTICK_PORT);
 	public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
-	Button lifterUpButton = new JoystickButton(controlJoystick, 1);
-	Button lifterDownButton = new JoystickButton(controlJoystick, 2);
+	Button lifterUpButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_UP_BUTTON);
+	Button lifterDownButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_DOWN_BUTTON);
 	
 	public OI() {
 		lifterUpButton.whenPressed(new LifterUpCommand());

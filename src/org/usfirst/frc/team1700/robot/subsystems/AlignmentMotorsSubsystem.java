@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1700.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Victor;
+import org.usfirst.frc.team1700.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -8,24 +10,25 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class AlignmentMotorsSubsystem extends Subsystem {
 	
-	private Victor alignmentMotor1 = new Victor(1);
-	private Victor alignmentMotor2 = new Victor(2);
+	private Talon alignmentTalon1 = new Talon(RobotMap.ALIGNMENT_TALON_1_ID);
+	private Talon alignmentTalon2 = new Talon(RobotMap.ALIGNMENT_TALON_2_ID);
+	private static final double TALON_SPEED = 0.2;
+			
 	
 	public void goForward() {
-		alignmentMotor1.set(0.2);
-		alignmentMotor2.set(0.2);
-		
-		
+		alignmentTalon1.set(TALON_SPEED);
+		alignmentTalon2.set(TALON_SPEED);
 	}
+	
 	public void goBackward() {
-		alignmentMotor1.set(-0.2);
-		alignmentMotor2.set(-0.2);
+		alignmentTalon1.set(-TALON_SPEED);
+		alignmentTalon2.set(-TALON_SPEED);
 		
 	}
 	
 	public void stop() {
-		alignmentMotor1.set(0);
-		alignmentMotor2.set(0);
+		alignmentTalon1.set(0);
+		alignmentTalon2.set(0);
 	}
     
     // Put methods for controlling this subsystem

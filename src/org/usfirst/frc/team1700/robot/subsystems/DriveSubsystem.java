@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
 	
-	public final DriveMotorSubsystem driveMotorFR1 = new DriveMotorSubsystem(RobotMap.VICTOR_FR);
-	public final DriveMotorSubsystem driveMotorFL2 = new DriveMotorSubsystem(RobotMap.VICTOR_FL);
-	public final DriveMotorSubsystem driveMotorBL3 = new DriveMotorSubsystem(RobotMap.VICTOR_BL);
-	public final DriveMotorSubsystem driveMotorBR4 = new DriveMotorSubsystem(RobotMap.VICTOR_BR);
+	public final DriveMotorSubsystem driveMotorFR1 = new DriveMotorSubsystem(RobotMap.TALON_FR_ID);
+	public final DriveMotorSubsystem driveMotorFL2 = new DriveMotorSubsystem(RobotMap.TALON_FL_ID);
+	public final DriveMotorSubsystem driveMotorBL3 = new DriveMotorSubsystem(RobotMap.TALON_BL_ID);
+	public final DriveMotorSubsystem driveMotorBR4 = new DriveMotorSubsystem(RobotMap.TALON_BR_ID);
 		
 	public DriveSubsystem(){
 		super();

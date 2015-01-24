@@ -15,21 +15,32 @@ public class RobotMap {
 						    DEBUGGING_BUTTON = 1, // A
 						    B_BUTTON = 2, // B
 						    X_BUTTON = 3, // X
-						    Y_BUTTON = 4; // Y
+						    Y_BUTTON = 4, // Y
+							DRIVE_JOYSTICK_PORT = 0;
 	
 	//Control joystick buttons and ports
-	public static final int CONTROL_JOYSTICK_PORT = 0;
+	public static final int CONTROL_JOYSTICK_PORT = 1,
+							LIFTER_UP_BUTTON = 0,
+							LIFTER_DOWN_BUTTON = 2;
+
 	
-	//Victors
-	public static final int VICTOR_FL = 2,
-							VICTOR_FR = 1,
-							VICTOR_BL = 6, 
-							VICTOR_BR = 4, 
-							LIFTER_VICTOR_PORT = 3;
+	//Talons
+	public static final int TALON_FL_ID = 2,
+							TALON_FR_ID = 1,
+							TALON_BL_ID = 6, 
+							TALON_BR_ID = 4, 
+							LIFTER_TALON_ID = 3,
+							ALIGNMENT_TALON_1_ID = 5,
+							ALIGNMENT_TALON_2_ID = 7;
 	
 	//Sensors
 	public static final int LIFTER_ENCODER_PORT_1 = 1,
- 							LIFTER_ENCODER_PORT_2 = 2;
+ 							LIFTER_ENCODER_PORT_2 = 2,
+							LIFTER_LIMIT_SWITCH_TOP_PORT = 3,
+							LIFTER_LIMIT_SWITCH_BOTTOM_PORT = 4,
+							LIFTER_POTENTIOMETER_PORT = 5;
+	
+	
 
 }
 
