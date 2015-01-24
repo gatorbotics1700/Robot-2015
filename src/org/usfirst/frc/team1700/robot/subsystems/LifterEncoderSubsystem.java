@@ -24,24 +24,39 @@ public class LifterEncoderSubsystem extends Subsystem {
 		lifterEncoder.reset();
 	}
 	
-	public boolean isAtLevel0() {
-		return (lifterEncoder.getDistance() <= level0);
+	public void setCurrentLevel(int level){
+		currentLevel = level;
 	}
 	
-	public boolean isAtLevel1() {
-		return (lifterEncoder.getDistance() >= level1);
-	}
-	
-	public boolean isAtLevel2() {
-		return (lifterEncoder.getDistance() >= level2);
-	}	
-	
-	public boolean isAtLevel3() {
-		return (lifterEncoder.getDistance() >= level3);
+	public int level0(){
+		return level0;
 	}
 	
 	public int currentLevel(){
 		return currentLevel;
+	}
+	
+	public boolean isAtLevel(int level){
+		int targetLevel;
+		switch(level){
+			case 0: 
+				targetLevel = level0;
+				break;
+			case 1: 
+				targetLevel = level1;
+				break;
+			case 2:
+				targetLevel = level2;
+				break;
+			case 3:
+				targetLevel = level3;
+				break;
+			default:
+				targetLevel = level0;
+				break;
+		}
+		
+		return (lifterEncoder.getDistance() >= targetLevel);
 	}
 	
 	
