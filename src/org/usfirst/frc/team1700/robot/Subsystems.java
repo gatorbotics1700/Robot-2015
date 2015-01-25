@@ -5,7 +5,7 @@ import org.usfirst.frc.team1700.robot.subsystems.*;
 public class Subsystems {
 	
 	//Drive
-	public static DriveSubsystem driveMotor = new DriveSubsystem();
+	public static DriveSubsystem drive = new DriveSubsystem();
 	
 	//Aligner
 	public static AlignmentMotorsSubsystem longAlignmentMotorsSubsystem = new AlignmentMotorsSubsystem(true); // true = long

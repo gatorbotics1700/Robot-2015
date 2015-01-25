@@ -37,6 +37,16 @@ public class DriveSubsystem extends Subsystem {
 		driveMotorBL3.stop();
 	}
 	
+	public void alignRight() {
+		driveMotorFR1.move(.1);
+		driveMotorBR4.move(.1);
+	}
+	
+	public void alignLeft() {
+		driveMotorFL2.move(-.1);
+		driveMotorBL3.move(-.1);
+	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

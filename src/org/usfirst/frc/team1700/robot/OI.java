@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1700.robot;
 
+import org.usfirst.frc.team1700.robot.commands.AlignToToteCommand;
 import org.usfirst.frc.team1700.robot.commands.ChangeAlignerStateCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -39,6 +40,8 @@ public class OI {
     // button.whenReleased(new ExampleCommand());
 	
 	public Joystick driveJoystick = new Joystick(RobotMap.DRIVE_JOYSTICK_PORT);
+	Button alignToToteButton = new JoystickButton(driveJoystick, RobotMap.ALIGN_TO_TOTE_BUTTON);
+	
 	public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
 	Button longAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.LONG_ALIGNER_STATE_CHANGE_BUTTON);
 	Button shortAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.SHORT_ALIGNER_STATE_CHANGE_BUTTON);
@@ -46,6 +49,8 @@ public class OI {
 	public OI() {
 		longAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(true));
 		shortAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(false));
+		
+		alignToToteButton.whenPressed(new AlignToToteCommand());
 	}
 	
 }

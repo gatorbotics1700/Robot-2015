@@ -13,7 +13,7 @@ public class RobotMap {
 						    ROTATE_X = 0, // left x
 						    ROTATE_Y = 1, // left y
 						    DEBUGGING_BUTTON = 1, // A
-						    B_BUTTON = 2, // B
+						    ALIGN_TO_TOTE_BUTTON = 2, // B
 						    X_BUTTON = 3, // X
 						    Y_BUTTON = 4, // Y
 							DRIVE_JOYSTICK_PORT = 0;
@@ -37,12 +37,14 @@ public class RobotMap {
 							LONG_ALIGNMENT_TALON_1_ID = 8,
 							LONG_ALIGNMENT_TALON_2_ID = 9;
 	
-	//SensorsS
+	//Sensors
 	public static final int LIFTER_ENCODER_PORT_1 = 1,
  							LIFTER_ENCODER_PORT_2 = 2,
 							LIFTER_LIMIT_SWITCH_TOP_PORT = 3,
 							LIFTER_LIMIT_SWITCH_BOTTOM_PORT = 4,
-							LIFTER_POTENTIOMETER_PORT = 5;
+							LIFTER_POTENTIOMETER_PORT = 5,
+							PROXIMITY_SENSOR_L = 0,
+							PROXIMITY_SENSOR_R = 1;
 	
 	
 
