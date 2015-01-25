@@ -25,20 +25,21 @@ public class LifterMotorSubsystem extends Subsystem {
     	
     }
     
-    public void pulleyUp() {
-    	// Makes pulley go up
+    
+    public void lifterUp() {
+    	// Makes lifter go up
     	lifterTalon1.set(LIFTER_SPEED);
     	lifterTalon2.set(LIFTER_SPEED);
     }
     
-    public void pulleyDown() {
-    	// Makes pulley go down
+    public void lifterDown() {
+    	// Makes lifter go down
     	lifterTalon1.set(-LIFTER_SPEED);
     	lifterTalon2.set(-LIFTER_SPEED);
     }
     
-    public void pulleyStop() {
-    	// Makes pulley stop
+    public void lifterStop() {
+    	// Makes lifter stop
     	lifterTalon1.set(0);
     	lifterTalon2.set(0);
     }

@@ -7,13 +7,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LifterToLevel extends Command {
+public class LifterToLevelCommand extends Command {
 
 	private int targetLevel;
 	private int currentLevel;
 	private boolean goingUp;
 	
-    public LifterToLevel(int level) {
+    public LifterToLevelCommand(int level) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Subsystems.lifterMotor);
@@ -32,11 +32,11 @@ public class LifterToLevel extends Command {
     protected void execute() {
     	if(targetLevel < currentLevel) {
     		//Move down
-    		Subsystems.lifterMotor.pulleyDown();
+    		Subsystems.lifterMotor.lifterDown();
     	} else if(targetLevel > currentLevel) {
     		//Move up
     		goingUp = true;
-    		Subsystems.lifterMotor.pulleyUp();
+    		Subsystems.lifterMotor.lifterUp();
     	}
     }
 
@@ -62,6 +62,6 @@ public class LifterToLevel extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Subsystems.lifterMotor.pulleyStop();
+    	Subsystems.lifterMotor.lifterStop();
     }
 }

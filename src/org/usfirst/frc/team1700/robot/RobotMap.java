@@ -20,10 +20,13 @@ public class RobotMap {
 	
 	//Control joystick buttons and ports
 	public static final int CONTROL_JOYSTICK_PORT = 1,
-							LIFTER_UP_BUTTON = 0,
-							LIFTER_DOWN_BUTTON = 2,
 							LONG_ALIGNER_STATE_CHANGE_BUTTON = 3,
-							SHORT_ALIGNER_STATE_CHANGE_BUTTON = 4;
+							SHORT_ALIGNER_STATE_CHANGE_BUTTON = 4,
+							LIFTER_LEVEL_ZERO_BUTTON = 8,
+							LIFTER_LEVEL_ONE_BUTTON = 9,
+							LIFTER_LEVEL_TWO_BUTTON = 10,
+							LIFTER_LEVEL_THREE_BUTTON = 11; 
+							
 
 	//Talons
 	public static final int TALON_FL_ID = 2,
