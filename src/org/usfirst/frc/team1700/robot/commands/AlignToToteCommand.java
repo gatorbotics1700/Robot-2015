@@ -7,7 +7,7 @@ import org.usfirst.frc.team1700.robot.subsystems.ProximitySensorSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * 
  */
 public class AlignToToteCommand extends Command {
 

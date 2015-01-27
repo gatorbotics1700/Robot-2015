@@ -18,7 +18,7 @@ public class RobotMap {
 						    Y_BUTTON = 4, // Y
 							DRIVE_JOYSTICK_PORT = 0;
 	
-	//Control joystick buttons and ports
+	// control joystick buttons and ports
 	public static final int CONTROL_JOYSTICK_PORT = 1,
 							LONG_ALIGNER_STATE_CHANGE_BUTTON = 3,
 							SHORT_ALIGNER_STATE_CHANGE_BUTTON = 4,
@@ -28,7 +28,7 @@ public class RobotMap {
 							LIFTER_LEVEL_THREE_BUTTON = 11; 
 							
 
-	//Talons
+	// Talons
 	public static final int TALON_FL_ID = 2,
 							TALON_FR_ID = 1,
 							TALON_BL_ID = 6, 
@@ -40,7 +40,7 @@ public class RobotMap {
 							LONG_ALIGNMENT_TALON_1_ID = 8,
 							LONG_ALIGNMENT_TALON_2_ID = 9;
 	
-	//Sensors
+	// sensor ports
 	public static final int LIFTER_ENCODER_PORT_1 = 1,
  							LIFTER_ENCODER_PORT_2 = 2,
 							LIFTER_LIMIT_SWITCH_TOP_PORT = 3,
@@ -48,8 +48,5 @@ public class RobotMap {
 							LIFTER_POTENTIOMETER_PORT = 5,
 							PROXIMITY_SENSOR_L = 0,
 							PROXIMITY_SENSOR_R = 1;
-	
-	
-
 }
 

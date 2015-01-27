@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MecanumPrecisionDriveCommand extends Command {
+public class MecanumPrecisionStrafeCommand extends Command {
 
-    public MecanumPrecisionDriveCommand() {
+    public MecanumPrecisionStrafeCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

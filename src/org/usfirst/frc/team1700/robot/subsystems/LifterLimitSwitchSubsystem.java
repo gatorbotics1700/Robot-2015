@@ -9,20 +9,23 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class LifterLimitSwitchSubsystem extends Subsystem {
-    
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	private DigitalInput topLimitSwitch = new DigitalInput(RobotMap.LIFTER_LIMIT_SWITCH_TOP_PORT);
 	private DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.LIFTER_LIMIT_SWITCH_BOTTOM_PORT);
+	
+	public LifterLimitSwitchSubsystem() {
+		super();
+	}
+	
 	public boolean wasTopSwitchHit(){
 		return topLimitSwitch.get();
 	}
+	
 	public boolean wasBottomSwitchHit(){
 		return bottomLimitSwitch.get();
 	}
+	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+    	
     }
 }
 

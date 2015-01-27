@@ -19,10 +19,7 @@ public class ManualLifterCommand extends Command {
 	public static final double JOY_SCALE = 1/(1-DEADBAND);
 
     public ManualLifterCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Subsystems.lifterMotor);
-    	
     }
 
     // Called just before this Command runs the first time
@@ -31,7 +28,8 @@ public class ManualLifterCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	lifterMotor.lifterMove(-deadband(oi.driveJoystick.getY())); //value is negative because value is negative. Negative joystick value should equal positive or vertical/upwards movement.
+    	//value is negative because value is negative. Negative joystick value should equal positive or vertical/upwards movement.
+    	lifterMotor.lifterMove(-deadband(oi.driveJoystick.getY())); 
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -49,6 +47,7 @@ public class ManualLifterCommand extends Command {
     protected void interrupted() {
     	lifterMotor.lifterStop();
     }
+    
     private double deadband(double value) {
 		return (value > DEADBAND || value < -DEADBAND) ? (value - DEADBAND)*JOY_SCALE : 0; // maps (0.1, 1) to (0,1)
 	}

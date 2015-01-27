@@ -6,6 +6,9 @@ import org.usfirst.frc.team1700.robot.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * This class manages an individual drive train motor and its movement.
+ */
 public class DriveMotorSubsystem {
 	private CANTalon driveTalon;
 	private static final double DEADBAND = 0.1;
@@ -15,6 +18,11 @@ public class DriveMotorSubsystem {
 		driveTalon = new CANTalon(ID);
 	}
 	
+	/**
+	 * Given a commanded speed from the operator joystick, enforces a deadband
+	 * and sends the scaled speed to the motor's Talon.
+	 * @param speed
+	 */
 	public void move(double speed) {
 		if(speed > DEADBAND || speed < -DEADBAND){ 
 			driveTalon.set(scale(speed));
