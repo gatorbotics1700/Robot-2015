@@ -2,6 +2,7 @@ package org.usfirst.frc.team1700.robot.commands;
 
 import org.usfirst.frc.team1700.robot.Subsystems;
 import org.usfirst.frc.team1700.robot.subsystems.AlignmentMotorsSubsystem;
+import org.usfirst.frc.team1700.robot.subsystems.AlignmentPotentiometerSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -14,6 +15,7 @@ public class ChangeAlignerStateCommand extends Command {
 	private boolean wasVertical = false;
 	private boolean wasHorizontal = false;
 	private AlignmentMotorsSubsystem motors;
+	private AlignmentPotentiometerSubsystem pot;
 	
 	/**
 	 * Requires the appropriate tote aligner motor subsystem (as decided by
@@ -23,12 +25,13 @@ public class ChangeAlignerStateCommand extends Command {
     public ChangeAlignerStateCommand(boolean isLong) {
     	if(isLong) { // choose which motor subsystem
         	motors = Subsystems.longAlignmentMotorsSubsystem;
+        	pot = Subsystems.longAlignmentPotentiometerSubystem;
     	} else {
     		motors = Subsystems.shortAlignmentMotorsSubsystem;
+    		pot = Subsystems.shortAlignmentPotentiometerSubsystem;
     	}
 		requires(motors);
-		
-    	requires(Subsystems.alignmentPotentiometerSubsystem);
+    	requires(pot);
     }
 
     // Called just before this Command runs the first time
@@ -36,10 +39,10 @@ public class ChangeAlignerStateCommand extends Command {
      * Checks and stores initial state of tote aligner.
      */
     protected void initialize() {
-    	if(Subsystems.alignmentPotentiometerSubsystem.isAlignerVertical()) {
+    	if(pot.isAlignerVertical()) {
     		wasVertical = true;
     	}
-    	else if(Subsystems.alignmentPotentiometerSubsystem.isAlignerHorizontal()) {
+    	else if(pot.isAlignerHorizontal()) {
     		wasHorizontal = true;
     	} 
     }
@@ -67,11 +70,11 @@ public class ChangeAlignerStateCommand extends Command {
      * new position.
      */
     protected boolean isFinished() {
-    	if(wasVertical && Subsystems.alignmentPotentiometerSubsystem.isAlignerHorizontal()) {
+    	if(wasVertical && pot.isAlignerHorizontal()) {
     		wasHorizontal = true;
     		wasVertical = false; 
     		return true;
-    	} else if (wasHorizontal && Subsystems.alignmentPotentiometerSubsystem.isAlignerVertical()) {
+    	} else if (wasHorizontal && pot.isAlignerVertical()) {
     		wasVertical = true;
     		wasHorizontal = false;
     		return true;

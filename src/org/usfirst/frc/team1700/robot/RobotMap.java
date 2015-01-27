@@ -1,4 +1,7 @@
 package org.usfirst.frc.team1700.robot;
+
+import edu.wpi.first.wpilibj.AnalogInput;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -47,6 +50,8 @@ public class RobotMap {
 							LIFTER_LIMIT_SWITCH_BOTTOM_PORT = 4,
 							LIFTER_POTENTIOMETER_PORT = 5,
 							PROXIMITY_SENSOR_L = 0,
-							PROXIMITY_SENSOR_R = 1;
+							PROXIMITY_SENSOR_R = 1,
+							LONG_ALIGNER_POT = 6,
+							SHORT_ALIGNER_POT = 7;
 }
 

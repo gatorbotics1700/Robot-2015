@@ -15,8 +15,10 @@ public class Subsystems {
 			new AlignmentMotorsSubsystem(true); // true = long
 	public static AlignmentMotorsSubsystem shortAlignmentMotorsSubsystem = 
 			new AlignmentMotorsSubsystem(false); // false = short
-	public static AlignmentPotentiometerSubsystem alignmentPotentiometerSubsystem = 
-			new AlignmentPotentiometerSubsystem();
+	public static AlignmentPotentiometerSubsystem longAlignmentPotentiometerSubystem = 
+			new AlignmentPotentiometerSubsystem(true);
+	public static AlignmentPotentiometerSubsystem shortAlignmentPotentiometerSubsystem = 
+			new AlignmentPotentiometerSubsystem(false);
 	// TODO: do we need another potentiometer, one for the long and another for the short?
 	
 	// chain lifter

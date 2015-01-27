@@ -1,6 +1,9 @@
 package org.usfirst.frc.team1700.robot.subsystems;
 
+import org.usfirst.frc.team1700.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -9,14 +12,19 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * the tote aligner motors are commanded to move.
  */
 public class AlignmentPotentiometerSubsystem extends Subsystem {
-	private AnalogPotentiometer pot = new AnalogPotentiometer(1);
+	private AnalogPotentiometer pot;
 	
 	// TODO: find these values experimentally
 	private double verticalValue = 1; // pot reading when tote aligner is vertical
 	private double horizontalValue = 0; // pot reading when tote aligner is horizontal
 	
-	public AlignmentPotentiometerSubsystem() {
+	public AlignmentPotentiometerSubsystem(boolean isLong) {
 		super();
+    	if(isLong){
+        	pot = new AnalogPotentiometer(RobotMap.LONG_ALIGNER_POT);
+    	} else {
+    		pot = new AnalogPotentiometer(RobotMap.SHORT_ALIGNER_POT);
+    	}
 	}
 	
 	/**
