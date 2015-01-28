@@ -16,7 +16,7 @@ public class DriveSubsystem extends Subsystem {
 	public final DriveMotorSubsystem driveMotorBL3 = new DriveMotorSubsystem(RobotMap.TALON_BL_ID);
 	public final DriveMotorSubsystem driveMotorBR4 = new DriveMotorSubsystem(RobotMap.TALON_BR_ID);
 	
-	private static final double ALIGN_SPEED = .1;
+	private static final double ALIGN_SPEED = 0.4; // needs to be pretty large (maybe even larger)
 		
 	public DriveSubsystem() {
 		super();

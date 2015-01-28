@@ -24,14 +24,19 @@ public class ProximitySensorSubsystem {
 		rollingAverage[index] = currVal; 
 		
 		sum += (currVal - oldVal);
+		
 		average = sum / rollingAverage.length;
+		//System.out.println(average);
 		
 		index = (index +1) % rollingAverage.length;
 	}
 	
 	// returns distance in centimeters
 	public double getDistance() {
-		return (2043 * Math.exp(-0.1231 * average) + 683.2);
+		//System.out.println(average); // average is fine!
+		return ((99.11*Math.exp(-0.002125*average))+0.977+7);
+				//((99.11*Math.exp(-0.002125*average))+0.977)//WORKS!!! //Subtracted 7 from the whole to offset by 7 cm 
+				
 	}
 	
 	public void printDistance() {

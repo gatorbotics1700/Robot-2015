@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveMotorSubsystem {
 	private CANTalon driveTalon;
 	private static final double DEADBAND = 0.1;
-	private static final double SCALE_FACTOR = .75;
+	private static final double SCALE_FACTOR = 0.75;
 	
 	public DriveMotorSubsystem(int ID) {
 		driveTalon = new CANTalon(ID);
@@ -25,10 +25,12 @@ public class DriveMotorSubsystem {
 	 */
 	public void move(double speed) {
 		if(speed > DEADBAND || speed < -DEADBAND){ 
+			System.out.println(speed);
 			driveTalon.set(scale(speed));
 //			SmartDashboard.putNumber("drive motor speed: ", scale(speed));
 			if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println(scale(speed));
 		} else {
+			System.out.println("set back to zero");
 			driveTalon.set(0);
 		}
 	}

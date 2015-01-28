@@ -18,27 +18,27 @@ public class OI {
 	Button alignToToteButton = new JoystickButton(driveJoystick, RobotMap.ALIGN_TO_TOTE_BUTTON);
 	
 	// control joystick and buttons
-	public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
-	Button longAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.LONG_ALIGNER_STATE_CHANGE_BUTTON);
-	Button shortAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.SHORT_ALIGNER_STATE_CHANGE_BUTTON);
-	Button lifterLevelZeroButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_ZERO_BUTTON);
-	Button lifterLevelOneButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_ONE_BUTTON);
-	Button lifterLevelTwoButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_TWO_BUTTON);
-	Button lifterLevelThreeButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_THREE_BUTTON);
+	//public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
+	//Button longAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.LONG_ALIGNER_STATE_CHANGE_BUTTON);
+	//Button shortAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.SHORT_ALIGNER_STATE_CHANGE_BUTTON);
+	//Button lifterLevelZeroButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_ZERO_BUTTON);
+	//Button lifterLevelOneButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_ONE_BUTTON);
+	//Button lifterLevelTwoButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_TWO_BUTTON);
+	//Button lifterLevelThreeButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_THREE_BUTTON);
 
 	public OI() {
 		// tote aligner button bindings
-		longAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(true)); // true = long
-		shortAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(false)); // false = short
+		//longAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(true)); // true = long
+		//shortAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(false)); // false = short
 		
 		// proximity sensor aligner button bindings
 		alignToToteButton.whileHeld(new AlignToToteCommand());
 
 		// chain lifter button bindings
-		lifterLevelZeroButton.whenPressed(new LifterToLevelCommand(0));
-		lifterLevelOneButton.whenPressed(new LifterToLevelCommand(1));
-		lifterLevelTwoButton.whenPressed(new LifterToLevelCommand(2));
-		lifterLevelThreeButton.whenPressed(new LifterToLevelCommand(3));
+		//lifterLevelZeroButton.whenPressed(new LifterToLevelCommand(0));
+		//lifterLevelOneButton.whenPressed(new LifterToLevelCommand(1));
+		//lifterLevelTwoButton.whenPressed(new LifterToLevelCommand(2));
+		//lifterLevelThreeButton.whenPressed(new LifterToLevelCommand(3));
 	}
 	
 }
