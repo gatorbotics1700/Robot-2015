@@ -11,8 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveMotorSubsystem {
 	private CANTalon driveTalon;
+<<<<<<< HEAD
 	private static final double DEADBAND = 0.1;
 	private static final double SCALE_FACTOR = 0.75;
+=======
+	private static final double JOYSTICK_DEADBAND = 0.1;
+	private static final double FILTER_CONSTANT = .4;
+	private double prevSpeed;
+>>>>>>> 1391c69f7909fdd820674be41ee04721cba88ea3
 	
 	public DriveMotorSubsystem(int ID) {
 		driveTalon = new CANTalon(ID);
@@ -24,22 +30,39 @@ public class DriveMotorSubsystem {
 	 * @param speed
 	 */
 	public void move(double speed) {
+<<<<<<< HEAD
 		if(speed > DEADBAND || speed < -DEADBAND){ 
 			System.out.println(speed);
+=======
+		if(speed > JOYSTICK_DEADBAND || speed < -JOYSTICK_DEADBAND){ 
+>>>>>>> 1391c69f7909fdd820674be41ee04721cba88ea3
 			driveTalon.set(scale(speed));
-//			SmartDashboard.putNumber("drive motor speed: ", scale(speed));
 			if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println(scale(speed));
 		} else {
+<<<<<<< HEAD
 			System.out.println("set back to zero");
 			driveTalon.set(0);
+=======
+			stop();
+>>>>>>> 1391c69f7909fdd820674be41ee04721cba88ea3
 		}
 	}
 	
 	public void stop() {
-		driveTalon.set(0);
+		driveTalon.set(scale(0));
 	}
 	
-	private double scale(double value) {
-		return (value * SCALE_FACTOR); // safety for driving w/o gearboxes
+	/**
+	 * Given a target speed, implements low pass filter for smoother acc/deceleration.
+	 * If the calculated output speed is close enough to the target speed, sets ouptut
+	 * speed directly to target.
+	 * @param targetSpeed - target speed from joystick (joystick deadband implemented)
+	 * @return - output speed to command to the motor
+	 */
+	private double scale(double targetSpeed) {
+		double outputSpeed = FILTER_CONSTANT * targetSpeed + (1 - FILTER_CONSTANT) * prevSpeed;
+		if (Math.abs(outputSpeed - targetSpeed) < .05) outputSpeed = targetSpeed; // close enough
+		prevSpeed = outputSpeed;
+		return outputSpeed;
 	}
 }
