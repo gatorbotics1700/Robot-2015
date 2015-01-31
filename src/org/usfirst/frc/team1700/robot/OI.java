@@ -18,7 +18,7 @@ public class OI {
 	Button alignToToteButton = new JoystickButton(driveJoystick, RobotMap.ALIGN_TO_TOTE_BUTTON);
 	
 	// control joystick and buttons
-	//public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
+	public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
 	//Button longAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.LONG_ALIGNER_STATE_CHANGE_BUTTON);
 	//Button shortAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.SHORT_ALIGNER_STATE_CHANGE_BUTTON);
 	//Button lifterLevelZeroButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_ZERO_BUTTON);

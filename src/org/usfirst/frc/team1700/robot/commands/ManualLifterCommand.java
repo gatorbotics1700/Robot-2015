@@ -13,23 +13,27 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ManualLifterCommand extends Command {
-	private LifterMotorSubsystem lifterMotor = new LifterMotorSubsystem();
+	private LifterMotorSubsystem lifterMotor;
 	private OI oi = Robot.oi;
 	public static final double DEADBAND = 0.1;
 	public static final double JOY_SCALE = 1/(1-DEADBAND);
+	private static final double SCALE = 1;
 
     public ManualLifterCommand() {
+    	super();
     	requires(Subsystems.lifterMotor);
+    	lifterMotor = Subsystems.lifterMotor;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	lifterMotor.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//value is negative because value is negative. Negative joystick value should equal positive or vertical/upwards movement.
-    	lifterMotor.lifterMove(-deadband(oi.driveJoystick.getY())); 
+    	// carrot on a stick
+    	lifterMotor.setTalons(deadband(oi.controlJoystick.getY()) * SCALE + lifterMotor.getPosition());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -39,13 +43,13 @@ public class ManualLifterCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	lifterMotor.lifterStop();
+    	lifterMotor.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	lifterMotor.lifterStop();
+    	lifterMotor.disable();
     }
     
     private double deadband(double value) {

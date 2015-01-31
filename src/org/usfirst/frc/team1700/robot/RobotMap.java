@@ -51,5 +51,11 @@ public class RobotMap {
 							PROXIMITY_SENSOR_R = 0,
 							LONG_ALIGNER_POT = 6,
 							SHORT_ALIGNER_POT = 7;
+	
+	//Lifter Levels
+	private static final int LEVEL_0 = 0,
+							 LEVEL_1 = 1,
+							 LEVEL_2 = 2,
+							 LEVEL_3 = 3;
 }
 
