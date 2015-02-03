@@ -19,7 +19,6 @@ public class LifterMotorSubsystem extends Subsystem {
 	private static final int TOP = 0, 
 							 BOTTOM = 0;
 	
-	private static final double LIFTER_SPEED = 0.2;
 	public static final double DEADBAND = 0.1;
 	
 	public LifterMotorSubsystem() {
@@ -29,21 +28,23 @@ public class LifterMotorSubsystem extends Subsystem {
 		limitSwitches = Subsystems.lifterLimitSwitch;
 	}
 
-    
-    public void lifterStop() {
+    private void stop() {
     	// sets Talon to current position (so doesn't move back to zero), then disables
-    	setTalons(getPosition());
-    	disable();
+    	lifterTalon1.set(getPosition());
+    	lifterTalon2.set(getPosition());
     }
     
+    // reads from only one Talon (readings should be the same for both b/c using the same encoder)
     public double getPosition() {
     	return lifterTalon1.getPosition();
     }
     
     public void setTalons(double setpoint) {
-    	if(safeToMove()){
+    	if (safeToMove()){
     		lifterTalon1.set(setpoint);
         	lifterTalon2.set(setpoint);
+    	} else { 
+    		stop();
     	}
     }
     
@@ -75,6 +76,7 @@ public class LifterMotorSubsystem extends Subsystem {
     }
     
     public void disable() {
+    	stop();
     	lifterTalon1.disableControl();
     	lifterTalon2.disableControl();
     }

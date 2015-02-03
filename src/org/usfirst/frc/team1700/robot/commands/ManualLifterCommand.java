@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class ManualLifterCommand extends Command {
-	private LifterMotorSubsystem lifterMotor;
+	private LifterMotorSubsystem lifter;
 	private OI oi = Robot.oi;
 	public static final double DEADBAND = 0.1;
 	public static final double JOY_SCALE = 1/(1-DEADBAND);
@@ -22,18 +22,18 @@ public class ManualLifterCommand extends Command {
     public ManualLifterCommand() {
     	super();
     	requires(Subsystems.lifterMotor);
-    	lifterMotor = Subsystems.lifterMotor;
+    	lifter = Subsystems.lifterMotor;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	lifterMotor.enable();
+    	lifter.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	// carrot on a stick
-    	lifterMotor.setTalons(deadband(oi.controlJoystick.getY()) * SCALE + lifterMotor.getPosition());
+    	lifter.setTalons(deadband(oi.controlJoystick.getY()) * SCALE + lifter.getPosition());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -43,13 +43,13 @@ public class ManualLifterCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	lifterMotor.disable();
+    	lifter.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	lifterMotor.disable();
+    	lifter.disable();
     }
     
     private double deadband(double value) {
