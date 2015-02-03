@@ -6,7 +6,7 @@ public class ProximitySensorSubsystem {
 	private AnalogInput sensor;
 	private static final int NUM_READINGS_TO_AVERAGE = 10;
 	private int[] rollingAverage;
-	private double sum, average = 0;
+	private double sum, average, distance = 0;
 	private int index = 0; 
 	
 	public ProximitySensorSubsystem(int port) {
@@ -24,9 +24,8 @@ public class ProximitySensorSubsystem {
 		rollingAverage[index] = currVal; 
 		
 		sum += (currVal - oldVal);
-		
 		average = sum / rollingAverage.length;
-		//System.out.println(average);
+		distance = ((99.11 * Math.exp(-0.002125 * average)) + 0.977 + 7);
 		
 		index = (index +1) % rollingAverage.length;
 	}
@@ -34,7 +33,7 @@ public class ProximitySensorSubsystem {
 	// returns distance in centimeters
 	public double getDistance() {
 		//System.out.println(average); // average is fine!
-		return ((99.11*Math.exp(-0.002125*average))+0.977+7);
+		return distance;
 				//((99.11*Math.exp(-0.002125*average))+0.977)//WORKS!!! //Subtracted 7 from the whole to offset by 7 cm 
 				
 	}
