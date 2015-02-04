@@ -30,16 +30,16 @@ public class RobotMap {
 							
 
 	// Talons
-	public static final int TALON_FL_ID = 2,
-							TALON_FR_ID = 1,
-							TALON_BL_ID = 6, 
-							TALON_BR_ID = 4, 
-							LIFTER_TALON_1_ID = 3,
-							LIFTER_TALON_2_ID = 0,
-							SHORT_ALIGNMENT_TALON_1_ID = 5,
-							SHORT_ALIGNMENT_TALON_2_ID = 7,
-							LONG_ALIGNMENT_TALON_1_ID = 8,
-							LONG_ALIGNMENT_TALON_2_ID = 9;
+	public static final int TALON_DRIVE_FL_ID = 2,
+							TALON_DRIVE_FR_ID = 3,
+							TALON_DRIVE_BL_ID = 1, 
+							TALON_DRIVE_BR_ID = 4, 
+							LIFTER_TALON_1_ID = 9, // TODO: not sure if id matters
+							LIFTER_TALON_2_ID = 10,
+							SHORT_ALIGNMENT_TALON_1_ID = 6, // TODO: not sure if id matters
+							SHORT_ALIGNMENT_TALON_2_ID = 5,
+							LONG_ALIGNMENT_TALON_1_ID = 7,
+							LONG_ALIGNMENT_TALON_2_ID = 8;
 	
 	// sensor ports
 	public static final int LIFTER_ENCODER_PORT_1 = 1,

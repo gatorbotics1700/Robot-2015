@@ -13,15 +13,10 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class MecanumDriveCommand extends Command {
 	
-//	private final double wheelRadius = 4; // inches
-	private final double wheelRadius = 1;
-	private final double L1 = 14.5;
-	private final double L2 = 15.5; //inches
-//	private final double rotationalConstant = L1 + L2;
+	private final double wheelRadius = 1; // inches
 	private final double rotationalConstant = 1;
 	private static final double DEADBAND = .15;
 	private static final double JOY_SCALE = 1/(1-DEADBAND);
-
 	
 	private DriveSubsystem driveSubsystem;
 	private OI oi;
@@ -43,7 +38,7 @@ public class MecanumDriveCommand extends Command {
     	double vy = - deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_Y));
     	double vx = 2 * deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_X));
     	double wz = -2 * deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
-    	if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println("x:"+vx+"\ty:"+vy+"\tr:"+wz);
+    	//if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println("x:"+vx+"\ty:"+vy+"\tr:"+wz);
     	
     	double FL = (1/wheelRadius)*(vy + vx - rotationalConstant * wz);
     	double FR = - (1/wheelRadius)*(vy - vx + rotationalConstant * wz);
@@ -71,6 +66,17 @@ public class MecanumDriveCommand extends Command {
     }
     
     private double deadband(double value) {
-		return (value > DEADBAND || value < -DEADBAND) ? (value - DEADBAND)*JOY_SCALE : 0; // maps (0.1, 1) to (0,1)
+		double output = 0;
+		if (value > DEADBAND || value < -DEADBAND) { // maps (0.1, 1) to (0,1)
+			if (value > DEADBAND){
+				output = (value - DEADBAND)*JOY_SCALE;
+			} else {
+				output = (value + DEADBAND)*JOY_SCALE;
+			}
+		} else { // outside of deadband
+			output = 0;
+		}
+		
+		return output;
 	}
 }
