@@ -2,7 +2,7 @@ package org.usfirst.frc.team1700.robot.commands;
 
 import org.usfirst.frc.team1700.robot.Subsystems;
 import org.usfirst.frc.team1700.robot.subsystems.AlignmentMotorsSubsystem;
-import org.usfirst.frc.team1700.robot.subsystems.AlignmentPotentiometerSubsystem;
+import org.usfirst.frc.team1700.robot.subsystems.AlignmentEncoderSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -15,7 +15,6 @@ public class ChangeAlignerStateCommand extends Command {
 	private boolean wasVertical = false;
 	private boolean wasHorizontal = false;
 	private AlignmentMotorsSubsystem motors;
-	private AlignmentPotentiometerSubsystem pot;
 	
 	/**
 	 * Requires the appropriate tote aligner motor subsystem (as decided by
@@ -25,13 +24,13 @@ public class ChangeAlignerStateCommand extends Command {
     public ChangeAlignerStateCommand(boolean isLong) {
     	if(isLong) { // choose which motor subsystem
         	motors = Subsystems.longAlignmentMotorsSubsystem;
-        	pot = Subsystems.longAlignmentPotentiometerSubystem;
+        	encoder = Subsystems.longAlignmentEncoderSubystem;
     	} else {
     		motors = Subsystems.shortAlignmentMotorsSubsystem;
-    		pot = Subsystems.shortAlignmentPotentiometerSubsystem;
+    		encoder = Subsystems.shortAlignmentEncoderSubsystem;
     	}
 		requires(motors);
-    	requires(pot);
+    	requires(encoder);
     }
 
     // Called just before this Command runs the first time
@@ -39,10 +38,10 @@ public class ChangeAlignerStateCommand extends Command {
      * Checks and stores initial state of tote aligner.
      */
     protected void initialize() {
-    	if(pot.isAlignerVertical()) {
+    	if(encoder.isAlignerVertical()) {
     		wasVertical = true;
     	}
-    	else if(pot.isAlignerHorizontal()) {
+    	else if(encoder.isAlignerHorizontal()) {
     		wasHorizontal = true;
     	} 
     }
@@ -61,6 +60,9 @@ public class ChangeAlignerStateCommand extends Command {
     		wasHorizontal = true;
     		motors.goBackward();
     	}
+    	System.out.println("Encoder: " + encoder.encoderValue());
+    	System.out.println("Encoder verticle: " + encoder.isAlignerVertical());
+    	System.out.println("Encoder horizontal: " + encoder.isAlignerHorizontal());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -70,13 +72,14 @@ public class ChangeAlignerStateCommand extends Command {
      * new position.
      */
     protected boolean isFinished() {
-    	if(wasVertical && pot.isAlignerHorizontal()) {
+    	if(wasVertical && encoder.isAlignerHorizontal()) {
     		wasHorizontal = true;
     		wasVertical = false; 
     		return true;
-    	} else if (wasHorizontal && pot.isAlignerVertical()) {
+    	} else if (wasHorizontal && encoder.isAlignerVertical()) {
     		wasVertical = true;
     		wasHorizontal = false;
+    		encoder.resetEncoder(); // set back to zero
     		return true;
     	} else {
     		return false;

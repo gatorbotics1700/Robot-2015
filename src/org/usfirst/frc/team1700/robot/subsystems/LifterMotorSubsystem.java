@@ -19,7 +19,8 @@ public class LifterMotorSubsystem extends Subsystem {
 	private static final int TOP = 0, 
 							 BOTTOM = 0;
 	
-	public static final double DEADBAND = 0.1;
+	private static final double DEADBAND = .15;
+	private static final double JOY_SCALE = 1/(1-DEADBAND);
 	
 	public LifterMotorSubsystem() {
 		super();

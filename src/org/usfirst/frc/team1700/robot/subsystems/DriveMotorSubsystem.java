@@ -28,13 +28,13 @@ public class DriveMotorSubsystem {
 	 */
 	public void move(double speed) {
 		if(speed > DEADBAND || speed < -DEADBAND){ 
-			System.out.println(speed);
+//			System.out.println(speed);
 		}
 		if(speed > JOYSTICK_DEADBAND || speed < -JOYSTICK_DEADBAND){ 
 			driveTalon.set(scale(speed));
 			if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println(scale(speed));
 		} else {
-			System.out.println("set back to zero");
+//			System.out.println("set back to zero");
 			driveTalon.set(0);
 			stop();
 		}

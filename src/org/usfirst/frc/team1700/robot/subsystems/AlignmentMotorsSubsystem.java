@@ -15,7 +15,7 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	private CANTalon alignmentTalon1; 
 	private CANTalon alignmentTalon2;
 	
-	private static final double TALON_SPEED = 0.2;
+	private static double TALON_SPEED = -0.2;
 	
 	/**
 	 * Initializes the two Talons for the appropriate gearbox (either the long
@@ -24,7 +24,6 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	 */
 	public AlignmentMotorsSubsystem(boolean isLong){
 		super();
-		
     	if(isLong){
         	alignmentTalon1 = new CANTalon(RobotMap.LONG_ALIGNMENT_TALON_1_ID);
         	alignmentTalon2 = new CANTalon(RobotMap.LONG_ALIGNMENT_TALON_2_ID);

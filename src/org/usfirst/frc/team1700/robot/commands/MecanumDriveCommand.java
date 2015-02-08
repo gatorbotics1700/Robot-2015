@@ -13,10 +13,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class MecanumDriveCommand extends Command {
 	
-	private final double wheelRadius = 1; // inches
+	private static final double SCALE_DOWN = .8; // scale down factor
 	private final double rotationalConstant = 1;
 	private static final double DEADBAND = .15;
 	private static final double JOY_SCALE = 1/(1-DEADBAND);
+	private static final double STRAFE_FRONT_SCALE = 1.05;
 	
 	private DriveSubsystem driveSubsystem;
 	private OI oi;
@@ -36,14 +37,16 @@ public class MecanumDriveCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double vy = - deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_Y));
-    	double vx = 2 * deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_X));
-    	double wz = -2 * deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
-    	//if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println("x:"+vx+"\ty:"+vy+"\tr:"+wz);
+    	double vx = deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_X));
+    	double wz = - deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
+    	if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println("x:"+vx+"\ty:"+vy+"\tr:"+wz);
     	
-    	double FL = (1/wheelRadius)*(vy + vx - rotationalConstant * wz);
-    	double FR = - (1/wheelRadius)*(vy - vx + rotationalConstant * wz);
-    	double BL = (1/wheelRadius)*(vy - vx - rotationalConstant * wz);
-    	double BR = - (1/wheelRadius)*(vy + vx + rotationalConstant * wz);
+    	double FL = (SCALE_DOWN)*(vy - STRAFE_FRONT_SCALE * vx - wz);
+    	double FR = - (SCALE_DOWN)*(vy + STRAFE_FRONT_SCALE* vx + wz);
+    	double BL = (SCALE_DOWN)*(vy + vx - wz);
+    	double BR = - (SCALE_DOWN)*(vy - vx + wz);
+    	
+    	//System.out.println("FL"+ FL + "\tFR" + FR + "\tBL" + BL + "\tBR" + BR);	
     	
     	driveSubsystem.move(FR, FL, BR, BL);
 

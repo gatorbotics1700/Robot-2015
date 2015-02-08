@@ -15,7 +15,7 @@ public class RobotMap {
 						    ROTATE_Y = 1, // left y
 						    DEBUGGING_BUTTON = 1, // A
 						    ALIGN_TO_TOTE_BUTTON = 2, // B
-						    X_BUTTON = 3, // X
+						    SENSOR_BUTTON = 3, // X
 						    Y_BUTTON = 4, // Y
 							DRIVE_JOYSTICK_PORT = 0;
 	
@@ -49,8 +49,15 @@ public class RobotMap {
 							LIFTER_POTENTIOMETER_PORT = 5,
 							PROXIMITY_SENSOR_L = 1,
 							PROXIMITY_SENSOR_R = 0,
-							LONG_ALIGNER_POT = 6,
-							SHORT_ALIGNER_POT = 7;
+							LONG_ALIGNER_ENCODER_A = 8,
+							LONG_ALIGNER_ENCODER_B = 9,
+							SHORT_ALIGNER_ENCODER_A = 6,
+							SHORT_ALIGNER_ENCODER_B = 7;
+		
+	// Aligner Encoder Values
+	public static final int ALIGNER_VERTICLE_STATE = 5,
+							LONG_ALIGNER_HORIZONTAL_STATE = 515, //????? ranges from 199 to 252 to 300 to 350 
+							SHORT_ALIGNER_HORIZONTAL_STATE = 493; 
 	
 	//Lifter Levels
 	private static final int LEVEL_0 = 0,

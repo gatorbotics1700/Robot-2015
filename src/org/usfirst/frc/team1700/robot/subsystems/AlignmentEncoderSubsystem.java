@@ -4,6 +4,7 @@ import org.usfirst.frc.team1700.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -11,19 +12,22 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * a potentiometer attached to the tote aligner. Used to control how much
  * the tote aligner motors are commanded to move.
  */
-public class AlignmentPotentiometerSubsystem extends Subsystem {
-	private AnalogPotentiometer pot;
+public class AlignmentEncoderSubsystem extends Subsystem {
+	private Encoder encoder;
+	private static final int ENCODER_TICK_DEADBAND = 7;
 	
 	// TODO: find these values experimentally
-	private double verticalValue = 1; // pot reading when tote aligner is vertical
-	private double horizontalValue = 0; // pot reading when tote aligner is horizontal
+	private int verticalValue = RobotMap.ALIGNER_VERTICLE_STATE; // encoder tick reading when tote aligner is vertical
+	private int horizontalValue; // encoder tick reading when tote aligner is horizontal
 	
-	public AlignmentPotentiometerSubsystem(boolean isLong) {
+	public AlignmentEncoderSubsystem(boolean isLong) {
 		super();
     	if(isLong){
-        	pot = new AnalogPotentiometer(RobotMap.LONG_ALIGNER_POT);
+        	encoder = new Encoder(RobotMap.LONG_ALIGNER_ENCODER_A, RobotMap.LONG_ALIGNER_ENCODER_B);
+        	horizontalValue = RobotMap.LONG_ALIGNER_HORIZONTAL_STATE;
     	} else {
-    		pot = new AnalogPotentiometer(RobotMap.SHORT_ALIGNER_POT);
+    		encoder = new Encoder(RobotMap.SHORT_ALIGNER_ENCODER_A, RobotMap.SHORT_ALIGNER_ENCODER_B);
+    		horizontalValue =  RobotMap.SHORT_ALIGNER_HORIZONTAL_STATE;
     	}
 	}
 	
@@ -32,7 +36,7 @@ public class AlignmentPotentiometerSubsystem extends Subsystem {
 	 * @return
 	 */
 	public boolean isAlignerVertical (){
-		return pot.get() >= verticalValue;
+		return encoder.get() <= verticalValue;
 	}
 	
 	/**
@@ -40,9 +44,17 @@ public class AlignmentPotentiometerSubsystem extends Subsystem {
 	 * @return
 	 */
 	public boolean isAlignerHorizontal (){
-		return pot.get() <= horizontalValue;
+		return encoder.get() >= horizontalValue;
 	}
 
+	public void resetEncoder(){
+		encoder.reset();
+	}
+	
+	public int encoderValue(){
+		return encoder.get();
+	}
+	
     public void initDefaultCommand() {
     	// no need to set default because command is already bound to a joystick button
     }

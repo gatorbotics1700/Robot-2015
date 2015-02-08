@@ -1,8 +1,7 @@
 package org.usfirst.frc.team1700.robot;
 
-import org.usfirst.frc.team1700.robot.commands.AlignToToteCommand;
 import org.usfirst.frc.team1700.robot.commands.ChangeAlignerStateCommand;
-import org.usfirst.frc.team1700.robot.commands.LifterToLevelCommand;
+import org.usfirst.frc.team1700.robot.commands.ReadProximitySensorCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -15,12 +14,13 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
     // drive joystick and buttons
 	public Joystick driveJoystick = new Joystick(RobotMap.DRIVE_JOYSTICK_PORT);
-	Button alignToToteButton = new JoystickButton(driveJoystick, RobotMap.ALIGN_TO_TOTE_BUTTON);
+	//Button alignToToteButton = new JoystickButton(driveJoystick, RobotMap.ALIGN_TO_TOTE_BUTTON);
+	//Button sensorButton = new JoystickButton(driveJoystick, RobotMap.SENSOR_BUTTON);
 	
 	// control joystick and buttons
 	public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
-	//Button longAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.LONG_ALIGNER_STATE_CHANGE_BUTTON);
-	//Button shortAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.SHORT_ALIGNER_STATE_CHANGE_BUTTON);
+	Button longAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.LONG_ALIGNER_STATE_CHANGE_BUTTON);
+	Button shortAlignerChangeStateButton = new JoystickButton(controlJoystick, RobotMap.SHORT_ALIGNER_STATE_CHANGE_BUTTON);
 	//Button lifterLevelZeroButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_ZERO_BUTTON);
 	//Button lifterLevelOneButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_ONE_BUTTON);
 	//Button lifterLevelTwoButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_TWO_BUTTON);
@@ -28,11 +28,12 @@ public class OI {
 
 	public OI() {
 		// tote aligner button bindings
-		//longAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(true)); // true = long
-		//shortAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(false)); // false = short
+		longAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(true)); // true = long
+		shortAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(false)); // false = short
 		
 		// proximity sensor aligner button bindings
-		alignToToteButton.whileHeld(new AlignToToteCommand());
+//		alignToToteButton.whileHeld(new AlignToToteCommand());
+		//sensorButton.whileHeld(new ReadProximitySensorCommand());
 
 		// chain lifter button bindings
 		//lifterLevelZeroButton.whenPressed(new LifterToLevelCommand(0));
