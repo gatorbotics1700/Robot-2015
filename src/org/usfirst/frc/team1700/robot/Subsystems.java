@@ -7,15 +7,13 @@ import org.usfirst.frc.team1700.robot.subsystems.*;
  * in the commands.  
  */
 public class Subsystems {
-	// mecanum drive
 	
 	public Subsystems(){
 		System.out.println("created subystems");
 	}
 	
-	
+	// mecanum drive
 	public static DriveSubsystem drive = new DriveSubsystem();
-	
 	
 	// tote aligner
 	public static AlignmentMotorsSubsystem longAlignmentMotorsSubsystem = 
@@ -31,4 +29,7 @@ public class Subsystems {
 	public static LifterMotorSubsystem lifterMotor = new LifterMotorSubsystem();
 	public static LifterLimitSwitchSubsystem lifterLimitSwitch = new LifterLimitSwitchSubsystem();
 	public static LifterSubsystemTest lifterTest = new LifterSubsystemTest();
+	
+	// camera
+	public static CameraSubsystem camera = new CameraSubsystem();
 }

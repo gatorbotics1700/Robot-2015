@@ -16,14 +16,35 @@ public class LifterSubsystemTest extends Subsystem {
 	private static final double SCALE_DOWN = 0.2;
 	
 	public LifterSubsystemTest() {
-		talon1 = new CANTalon(9);
-		talon2 = new CANTalon(10);
+		talon1 = initTalon(9);
+		talon2 = initTalon(10);
 	}
 	
-	public void move(double joyInput) {
+	public void unsafeMove(double joyInput) {
 		double speed = (SCALE_DOWN * deadband(joyInput));
 		talon1.set(speed);
 		talon2.set(speed);
+	}
+	
+	public void safeMove(double joyInput) {
+		double speed = (SCALE_DOWN * deadband(-joyInput)); //negative bc joystick is backwards
+		if ((speed >= 0 && safeToMoveUp()) || (speed < 0 && safeToMoveDown())) {
+			talon1.set(-speed); // negative bc of control preference
+			talon2.set(-speed);
+		} else {
+			talon1.set(0);
+			talon2.set(0);
+		}
+	}
+	
+	private boolean safeToMoveUp() {
+		int position = getPosition();
+		return (position < 150220);
+	}
+	
+	private boolean safeToMoveDown() {
+		int position = getPosition();
+		return (position > 0);
 	}
 	
 	private double deadband(double value) {
@@ -40,9 +61,35 @@ public class LifterSubsystemTest extends Subsystem {
 		
 		return output;
 	}
+	
+	public int getPosition() {
+		return talon1.getEncPosition();
+	}
 
     public void initDefaultCommand() {
         setDefaultCommand(new LifterCommand());
+    }
+    
+    private CANTalon initTalon(int address) {
+    	CANTalon talon = new CANTalon(address);
+    	talon.setPosition(0); // zero
+    	
+    	return talon;
+    }
+    
+    public void disableSoftLimits() {
+    	talon1.enableForwardSoftLimit(false);
+    	talon2.enableForwardSoftLimit(false);
+    }
+    
+    public void enableSoftLimits() {
+    	talon1.enableForwardSoftLimit(true);
+    	talon2.enableReverseSoftLimit(true);
+    }
+    
+    public void zeroEncoders() {
+    	talon1.setPosition(0);
+    	talon2.setPosition(0);
     }
 }
 

@@ -15,6 +15,7 @@ public class ChangeAlignerStateCommand extends Command {
 	private boolean wasVertical = false;
 	private boolean wasHorizontal = false;
 	private AlignmentMotorsSubsystem motors;
+	private AlignmentEncoderSubsystem encoder;
 	
 	/**
 	 * Requires the appropriate tote aligner motor subsystem (as decided by
@@ -60,9 +61,9 @@ public class ChangeAlignerStateCommand extends Command {
     		wasHorizontal = true;
     		motors.goBackward();
     	}
-    	System.out.println("Encoder: " + encoder.encoderValue());
-    	System.out.println("Encoder verticle: " + encoder.isAlignerVertical());
-    	System.out.println("Encoder horizontal: " + encoder.isAlignerHorizontal());
+//    	System.out.println("Encoder: " + encoder.encoderValue());
+//    	System.out.println("Encoder verticle: " + encoder.isAlignerVertical());
+//    	System.out.println("Encoder horizontal: " + encoder.isAlignerHorizontal());
     }
 
     // Make this return true when this Command no longer needs to run execute()
