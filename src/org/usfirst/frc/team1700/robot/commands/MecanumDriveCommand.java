@@ -17,7 +17,7 @@ public class MecanumDriveCommand extends Command {
 	private final double rotationalConstant = 1;
 	private static final double DEADBAND = .15;
 	private static final double JOY_SCALE = 1/(1-DEADBAND);
-	private static final double STRAFE_FRONT_SCALE = 1.05;
+	private static final double STRAFE_FRONT_SCALE = 1;
 	
 	private DriveSubsystem driveSubsystem;
 	private OI oi;
@@ -39,6 +39,8 @@ public class MecanumDriveCommand extends Command {
     	double vy = - deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_Y));
     	double vx = deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_X));
     	double wz = - deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
+//    	double vx = deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
+//    	double wz = 0;
     	if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println("x:"+vx+"\ty:"+vy+"\tr:"+wz);
     	
     	double FL = (SCALE_DOWN)*(vy - STRAFE_FRONT_SCALE * vx - wz);

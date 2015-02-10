@@ -23,10 +23,10 @@ public class RobotMap {
 	public static final int CONTROL_JOYSTICK_PORT = 1,
 							LONG_ALIGNER_STATE_CHANGE_BUTTON = 3,
 							SHORT_ALIGNER_STATE_CHANGE_BUTTON = 4,
-							LIFTER_LEVEL_ZERO_BUTTON = 8,
-							LIFTER_LEVEL_ONE_BUTTON = 9,
-							LIFTER_LEVEL_TWO_BUTTON = 10,
-							LIFTER_LEVEL_THREE_BUTTON = 11; 
+							LIFTER_LEVEL_ZERO_BUTTON = 6,
+							LIFTER_LEVEL_ONE_BUTTON = 7,
+							LIFTER_LEVEL_TWO_BUTTON = 11,
+							LIFTER_LEVEL_THREE_BUTTON = 12; 
 							
 
 	// Talons
@@ -60,9 +60,9 @@ public class RobotMap {
 							SHORT_ALIGNER_HORIZONTAL_STATE = 493; 
 	
 	//Lifter Levels
-	private static final int LEVEL_0 = 0,
-							 LEVEL_1 = 1,
-							 LEVEL_2 = 2,
-							 LEVEL_3 = 3;
+	public static final int LEVEL_0 = 0,
+							 LEVEL_1 = 10000,
+							 LEVEL_2 = 0,
+							 LEVEL_3 = 0;
 }
 

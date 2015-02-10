@@ -27,10 +27,10 @@ public class LifterSubsystemTest extends Subsystem {
 	}
 	
 	public void safeMove(double joyInput) {
-		double speed = (SCALE_DOWN * deadband(-joyInput)); //negative bc joystick is backwards
+		double speed = (SCALE_DOWN * deadband(joyInput)); //negative bc joystick is backwards
 		if ((speed >= 0 && safeToMoveUp()) || (speed < 0 && safeToMoveDown())) {
-			talon1.set(-speed); // negative bc of control preference
-			talon2.set(-speed);
+			talon1.set(speed); // negative bc of control preference
+			talon2.set(speed);
 		} else {
 			talon1.set(0);
 			talon2.set(0);
@@ -72,19 +72,14 @@ public class LifterSubsystemTest extends Subsystem {
     
     private CANTalon initTalon(int address) {
     	CANTalon talon = new CANTalon(address);
+    	talon.changeControlMode(CANTalon.ControlMode.PercentVbus);
+    	talon.enableForwardSoftLimit(false);
+    	talon.enableReverseSoftLimit(false);
     	talon.setPosition(0); // zero
+    	talon.enableControl();
+//    	talon.reverseOutput(true);
     	
     	return talon;
-    }
-    
-    public void disableSoftLimits() {
-    	talon1.enableForwardSoftLimit(false);
-    	talon2.enableForwardSoftLimit(false);
-    }
-    
-    public void enableSoftLimits() {
-    	talon1.enableForwardSoftLimit(true);
-    	talon2.enableReverseSoftLimit(true);
     }
     
     public void zeroEncoders() {

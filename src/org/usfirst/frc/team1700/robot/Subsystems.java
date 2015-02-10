@@ -27,9 +27,9 @@ public class Subsystems {
 	
 	// chain lifter
 	public static LifterMotorSubsystem lifterMotor = new LifterMotorSubsystem();
-	public static LifterLimitSwitchSubsystem lifterLimitSwitch = new LifterLimitSwitchSubsystem();
+//	public static LifterLimitSwitchSubsystem lifterLimitSwitch = new LifterLimitSwitchSubsystem();
 	public static LifterSubsystemTest lifterTest = new LifterSubsystemTest();
 	
 	// camera
-	public static CameraSubsystem camera = new CameraSubsystem();
+//	public static CameraSubsystem camera = new CameraSubsystem();
 }

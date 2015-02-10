@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1700.robot.commands;
 
+import org.usfirst.frc.team1700.robot.Robot;
 import org.usfirst.frc.team1700.robot.Subsystems;
 import org.usfirst.frc.team1700.robot.subsystems.LifterMotorSubsystem;
 
@@ -17,7 +18,7 @@ public class LifterToLevelCommand extends Command {
     	requires(Subsystems.lifterMotor);
     	lifter = Subsystems.lifterMotor;
 //    	requires(Subsystems.lifterEncoder);
-    	requires(Subsystems.lifterLimitSwitch);
+//    	requires(Subsystems.lifterLimitSwitch);
     	targetLevel = level;
     }
 
@@ -41,12 +42,12 @@ public class LifterToLevelCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	lifter.disable();
+    	lifter.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	lifter.disable();
+    	lifter.stop();
     }
 }

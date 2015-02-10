@@ -19,7 +19,7 @@ public class CameraSubsystem extends Subsystem {
 	
     public CameraSubsystem() {
     	frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-        camera = new AxisCamera("10.17.0.21"); // open the camera at the IP address assigned.
+        camera = new AxisCamera("10.17.0.22"); // open the camera at the IP address assigned.
     }
     
     public void update() {
@@ -32,7 +32,7 @@ public class CameraSubsystem extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new GetCameraCommand());
+//        setDefaultCommand(new GetCameraCommand());
     }
 }
 

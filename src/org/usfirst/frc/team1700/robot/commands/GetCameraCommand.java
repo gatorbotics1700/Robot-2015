@@ -12,7 +12,7 @@ public class GetCameraCommand extends Command {
 
     public GetCameraCommand() {
     	super();
-        requires(Subsystems.camera);
+//        requires(Subsystems.camera);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +21,7 @@ public class GetCameraCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Subsystems.camera.update();
+//    	Subsystems.camera.update();
     }
 
     // Make this return true when this Command no longer needs to run execute()

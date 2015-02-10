@@ -16,8 +16,6 @@ public class LifterMotorSubsystem extends Subsystem {
 	private static final double P = 0,
 							    I = 0,
 							    D = 0;
-	private static final int TOP = 0, 
-							 BOTTOM = 0;
 	
 	private static final double DEADBAND = .15;
 	private static final double JOY_SCALE = 1/(1-DEADBAND);
@@ -26,10 +24,10 @@ public class LifterMotorSubsystem extends Subsystem {
 		super();
 		lifterTalon1 = initTalon(RobotMap.LIFTER_TALON_1_ID);
 		lifterTalon2 = initTalon(RobotMap.LIFTER_TALON_2_ID);
-		limitSwitches = Subsystems.lifterLimitSwitch;
+//		limitSwitches = Subsystems.lifterLimitSwitch;
 	}
 
-    private void stop() {
+    public void stop() {
     	// sets Talon to current position (so doesn't move back to zero), then disables
     	lifterTalon1.set(getPosition());
     	lifterTalon2.set(getPosition());
@@ -41,12 +39,13 @@ public class LifterMotorSubsystem extends Subsystem {
     }
     
     public void setTalons(double setpoint) {
-    	if (safeToMove()){
+    	//if (safeToMove()){
     		lifterTalon1.set(setpoint);
         	lifterTalon2.set(setpoint);
-    	} else { 
-    		stop();
-    	}
+    	//} else { 
+    	//	stop();
+    	//}
+        	System.out.println(lifterTalon1.getEncPosition() + "\t" + lifterTalon1.getClosedLoopError() + "\t" + lifterTalon1.getSetpoint());
     }
     
     private boolean safeToMove() {
@@ -60,9 +59,10 @@ public class LifterMotorSubsystem extends Subsystem {
     	talon.changeControlMode(CANTalon.ControlMode.Position); // position mode
     	talon.enableBrakeMode(true); // set brake mode
     	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
-    	talon.setPID(P, I, D);
-    	talon.setForwardSoftLimit(TOP);
-    	talon.setReverseSoftLimit(BOTTOM);
+    	talon.setPID(0.04, 0, 0);
+    	talon.reverseOutput(true);
+    	talon.enableForwardSoftLimit(false);
+    	talon.enableReverseSoftLimit(false);
     	talon.set(talon.getPosition());
     	talon.enableControl();
     	

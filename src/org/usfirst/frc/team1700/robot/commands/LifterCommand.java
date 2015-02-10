@@ -25,16 +25,16 @@ public class LifterCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if (Robot.oi.controlJoystick.getRawButton(8)) {
-    		lifter.unsafeMove(Robot.oi.controlJoystick.getY());
+    		lifter.unsafeMove(-Robot.oi.controlJoystick.getY());//compensating for joystick orientation
     	} else {
-    		lifter.safeMove(Robot.oi.controlJoystick.getY());
+    		lifter.safeMove(-Robot.oi.controlJoystick.getY());
     	}
     	
     	if (Robot.oi.controlJoystick.getRawButton(9)) {
     		lifter.zeroEncoders();
     	}
     	
-    	System.out.println(lifter.getPosition());
+//    	System.out.println(lifter.getPosition());
     }
 
     // Make this return true when this Command no longer needs to run execute()
