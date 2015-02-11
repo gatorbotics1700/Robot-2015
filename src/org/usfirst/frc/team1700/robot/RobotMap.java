@@ -13,8 +13,8 @@ public class RobotMap {
 						    MOVE_Y = 5, // right y
 						    ROTATE_X = 0, // left x
 						    ROTATE_Y = 1, // left y
-						    STRAFE_RIGHT = 2,
-						    STRAFE_LEFT = 3,
+						    STRAFE_LEFT = 2,
+						    STRAFE_RIGHT = 3,
 						    DEBUGGING_BUTTON = 1, // A
 						    ALIGN_TO_TOTE_BUTTON = 2, // B
 						    SENSOR_BUTTON = 3, // X
@@ -28,7 +28,10 @@ public class RobotMap {
 							LIFTER_LEVEL_ZERO_BUTTON = 6,
 							LIFTER_LEVEL_ONE_BUTTON = 7,
 							LIFTER_LEVEL_TWO_BUTTON = 11,
-							LIFTER_LEVEL_THREE_BUTTON = 12; 
+							LIFTER_LEVEL_THREE_BUTTON = 10,
+							ZERO_LIFTER_BUTTON = 9,
+							LIFTER_UNSAFE_MOVE_BUTTON = 8;
+							
 							
 
 	// Talons
@@ -63,8 +66,8 @@ public class RobotMap {
 	
 	//Lifter Levels
 	public static final int LEVEL_0 = 0,
-							 LEVEL_1 = 10000,
-							 LEVEL_2 = 0,
-							 LEVEL_3 = 0;
+							 LEVEL_1 = 45000,
+							 LEVEL_2 = 75200,
+							 LEVEL_3 = 150200; // little bit less than soft limit
 }
 

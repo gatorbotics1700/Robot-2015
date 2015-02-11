@@ -16,9 +16,11 @@ public class DriveMotorSubsystem {
 	private double prevFilt2 = 0;
 	private static final double FILTER_CONSTANT_1 = 0.1;
 	private static final double FILTER_CONSTANT_2 = 0.1; // should probably be a little higher.
+	private int TalonID;
 	
 	public DriveMotorSubsystem(int ID) {
 		driveTalon = initTalon(ID);
+		TalonID = ID;
 	}
 	
 	/**
@@ -32,7 +34,10 @@ public class DriveMotorSubsystem {
 			//if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println(scale(speed));
 			//System.out.println("Speed: " + driveTalon.getSpeed());
 	    	//System.out.println("Error: " + driveTalon.getClosedLoopError());
-	    	System.out.println("Output Voltage: "+ driveTalon.getOutputVoltage());
+//	    	System.out.println("Output Voltage: "+ driveTalon.getOutputVoltage());
+			//System.out.println(TalonID + " " + speed);
+	    	
+
 		} else {
 //			System.out.println("set back to zero");
 			driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));
@@ -43,9 +48,9 @@ public class DriveMotorSubsystem {
      
 	}
 	
-	public void stop() {
-		driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));
-	}
+public void stop() {
+//		driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));
+}
 	
 	/**
 	 * Given a target speed, implements low pass filter for smoother acc/deceleration.
@@ -76,12 +81,14 @@ public class DriveMotorSubsystem {
     	talon.disableControl(); // disable before set up
     	talon.changeControlMode(CANTalon.ControlMode.Speed); // position mode
     	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
+
+    	talon.set(0);
+    	talon.enableControl();
     	talon.setPID(0.3,0.002,0); // 0.3,0.002,0.01
     	talon.setF(0.2);
     	talon.setIZone(0);
-    	talon.set(0);
-    	talon.enableControl();
-    	//talon.setCloseLoopRampRate(0.2);
+
+    	talon.setCloseLoopRampRate(0.2);
     	System.out.println("Ramp Rate: " + talon.getCloseLoopRampRate());
     	
     	return talon;

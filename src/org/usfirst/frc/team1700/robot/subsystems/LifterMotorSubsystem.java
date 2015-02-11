@@ -2,6 +2,7 @@ package org.usfirst.frc.team1700.robot.subsystems;
 
 import org.usfirst.frc.team1700.robot.RobotMap;
 import org.usfirst.frc.team1700.robot.Subsystems;
+import org.usfirst.frc.team1700.robot.commands.ManualLifterCommand;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -10,6 +11,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class LifterMotorSubsystem extends Subsystem {
+
+	private static final double DEADBAND = .15;
+	private static final double JOY_SCALE = 1/(1-DEADBAND);
+	private static final double SCALE_DOWN = 0.2;
+	
 	private CANTalon lifterTalon1;
 	private CANTalon lifterTalon2;
 	private LifterLimitSwitchSubsystem limitSwitches;
@@ -17,8 +23,7 @@ public class LifterMotorSubsystem extends Subsystem {
 							    I = 0,
 							    D = 0;
 	
-	private static final double DEADBAND = .15;
-	private static final double JOY_SCALE = 1/(1-DEADBAND);
+
 	
 	public LifterMotorSubsystem() {
 		super();
@@ -26,32 +31,90 @@ public class LifterMotorSubsystem extends Subsystem {
 		lifterTalon2 = initTalon(RobotMap.LIFTER_TALON_2_ID);
 //		limitSwitches = Subsystems.lifterLimitSwitch;
 	}
-
-    public void stop() {
+	
+	
+	//Lifter Methods
+    
+	//SetUp
+	 public void enable() {
+	    	// called if command is interrupted and restarted
+	    	safeMove(getPosition());
+	    	lifterTalon1.enableControl();
+	    	lifterTalon2.enableControl();
+	 }
+	    
+	 public void disable() {
+	    stop();
+	    lifterTalon1.disableControl();
+	    lifterTalon2.disableControl();
+	 }
+	
+	public void stop() {
     	// sets Talon to current position (so doesn't move back to zero), then disables
     	lifterTalon1.set(getPosition());
     	lifterTalon2.set(getPosition());
     }
+
     
-    // reads from only one Talon (readings should be the same for both b/c using the same encoder)
-    public double getPosition() {
-    	return lifterTalon1.getPosition();
-    }
-    
-    public void setTalons(double setpoint) {
-    	//if (safeToMove()){
-    		lifterTalon1.set(setpoint);
-        	lifterTalon2.set(setpoint);
-    	//} else { 
-    	//	stop();
-    	//}
-        	System.out.println(lifterTalon1.getEncPosition() + "\t" + lifterTalon1.getClosedLoopError() + "\t" + lifterTalon1.getSetpoint());
-    }
-    
+    //Checks
     private boolean safeToMove() {
     	return (!limitSwitches.wasTopSwitchHit() && !limitSwitches.wasBottomSwitchHit());
     }
     
+	private boolean safeToMoveUp() {
+		double position = getPosition();
+		return (position < 150220);
+	}
+	
+	private boolean safeToMoveDown() {
+		double position = getPosition();
+		return (position > 0);
+	}
+  
+	//Moving
+	public void unsafeMove(double position) {
+		lifterTalon1.set(position);
+		lifterTalon2.set(position);
+	}
+	
+	public void safeMove(double position) {
+		boolean goingUp = position >= getPosition();
+		if ((goingUp && safeToMoveUp()) || (!goingUp && safeToMoveDown())) {
+			lifterTalon1.set(position);
+			lifterTalon2.set(position);
+		} else {
+			lifterTalon1.set(0);
+			lifterTalon2.set(0);
+		}
+	}
+	
+	
+	//Encoder methods
+	public void zeroEncoders() {
+    	lifterTalon1.setPosition(0);
+    	lifterTalon2.setPosition(0);
+    }
+	
+	public double getPosition() {
+	    return lifterTalon1.getPosition();
+	}
+	
+	//Helper methods
+	private double deadband(double value) {
+		double output = 0;
+		if (value > DEADBAND || value < -DEADBAND) { // maps (0.1, 1) to (0,1)
+			if (value > DEADBAND){
+				output = (value - DEADBAND)*JOY_SCALE;
+			} else {
+				output = (value + DEADBAND)*JOY_SCALE;
+			}
+		} else { // outside of deadband
+			output = 0;
+		}
+		
+		return output;
+	}
+	
     private CANTalon initTalon(int address) {
     	CANTalon talon = new CANTalon(address);
     	
@@ -69,21 +132,10 @@ public class LifterMotorSubsystem extends Subsystem {
     	return talon;
     }
     
-    public void enable() {
-    	// called if command is interrupted and restarted
-    	setTalons(getPosition());
-    	lifterTalon1.enableControl();
-    	lifterTalon2.enableControl();
-    }
     
-    public void disable() {
-    	stop();
-    	lifterTalon1.disableControl();
-    	lifterTalon2.disableControl();
-    }
-    
+    //Default
     public void initDefaultCommand() {
-        
+    	setDefaultCommand(new ManualLifterCommand());
     }
 }
 

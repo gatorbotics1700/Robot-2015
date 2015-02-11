@@ -1,0 +1,42 @@
+﻿merging
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 1 different commit each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# Changes to be committed:
+#	modified:   bin/org/usfirst/frc/team1700/robot/OI.class
+#	modified:   bin/org/usfirst/frc/team1700/robot/RobotMap.class
+#	modified:   bin/org/usfirst/frc/team1700/robot/Subsystems.class
+#	modified:   bin/org/usfirst/frc/team1700/robot/commands/MecanumDriveCommand.class
+#	deleted:    bin/org/usfirst/frc/team1700/robot/commands/MecanumPrecisionDriveCommand.class
+#	deleted:    bin/org/usfirst/frc/team1700/robot/subsystems/DriveMotor.class
+#	modified:   bin/org/usfirst/frc/team1700/robot/subsystems/DriveSubsystem.class
+#	modified:   build/jars/NetworkTables.jar
+#	modified:   build/jars/WPILib.jar
+#	modified:   build/org/usfirst/frc/team1700/robot/OI.class
+#	modified:   build/org/usfirst/frc/team1700/robot/RobotMap.class
+#	modified:   build/org/usfirst/frc/team1700/robot/Subsystems.class
+#	modified:   build/org/usfirst/frc/team1700/robot/commands/MecanumDriveCommand.class
+#	deleted:    build/org/usfirst/frc/team1700/robot/commands/MecanumPrecisionDriveCommand.class
+#	deleted:    build/org/usfirst/frc/team1700/robot/subsystems/DriveMotor.class
+#	modified:   build/org/usfirst/frc/team1700/robot/subsystems/DriveSubsystem.class
+#	modified:   dist/FRCUserProgram.jar
+#	modified:   src/org/usfirst/frc/team1700/robot/OI.java
+#	modified:   src/org/usfirst/frc/team1700/robot/RobotMap.java
+#	modified:   src/org/usfirst/frc/team1700/robot/Subsystems.java
+#	modified:   src/org/usfirst/frc/team1700/robot/commands/LifterToLevelCommand.java
+#	modified:   src/org/usfirst/frc/team1700/robot/commands/ManualLifterCommand.java
+#	modified:   src/org/usfirst/frc/team1700/robot/subsystems/DriveMotorSubsystem.java
+#	modified:   src/org/usfirst/frc/team1700/robot/subsystems/LifterMotorSubsystem.java
+#	modified:   sysProps.xml
+#
+# Untracked files:
+#	lhowzf1a.3hz.txt
+#	src/org/usfirst/frc/team1700/robot/RobotMap.java.rej
+#	src/org/usfirst/frc/team1700/robot/commands/MecanumDriveCommand.java.rej
+#	src/org/usfirst/frc/team1700/robot/commands/MecanumPrecisionStrafeCommand.java
+#
+
