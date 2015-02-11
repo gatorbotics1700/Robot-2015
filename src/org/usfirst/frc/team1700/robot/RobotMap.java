@@ -13,6 +13,8 @@ public class RobotMap {
 						    MOVE_Y = 5, // right y
 						    ROTATE_X = 0, // left x
 						    ROTATE_Y = 1, // left y
+						    STRAFE_RIGHT = 2,
+						    STRAFE_LEFT = 3,
 						    DEBUGGING_BUTTON = 1, // A
 						    ALIGN_TO_TOTE_BUTTON = 2, // B
 						    SENSOR_BUTTON = 3, // X

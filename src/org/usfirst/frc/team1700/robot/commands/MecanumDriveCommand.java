@@ -18,6 +18,7 @@ public class MecanumDriveCommand extends Command {
 	private static final double DEADBAND = .15;
 	private static final double JOY_SCALE = 1/(1-DEADBAND);
 	private static final double STRAFE_FRONT_SCALE = 1;
+	private static final double PRECISION_STRAFE_SCALE_DOWN = .3;
 	
 	private DriveSubsystem driveSubsystem;
 	private OI oi;
@@ -36,17 +37,27 @@ public class MecanumDriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	double precisionStrafeRight = deadband(oi.driveJoystick.getRawAxis(RobotMap.STRAFE_RIGHT));
+    	double precisionStrafeLeft = -1 * deadband(oi.driveJoystick.getRawAxis(RobotMap.STRAFE_LEFT));
     	double vy = - deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_Y));
     	double vx = deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_X));
     	double wz = - deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
-//    	double vx = deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
-//    	double wz = 0;
-    	if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println("x:"+vx+"\ty:"+vy+"\tr:"+wz);
+    	double FL, FR, BL, BR;
     	
-    	double FL = (SCALE_DOWN)*(vy - STRAFE_FRONT_SCALE * vx - wz);
-    	double FR = - (SCALE_DOWN)*(vy + STRAFE_FRONT_SCALE* vx + wz);
-    	double BL = (SCALE_DOWN)*(vy + vx - wz);
-    	double BR = - (SCALE_DOWN)*(vy - vx + wz);
+    	if (precisionStrafeRight <= DEADBAND && precisionStrafeLeft <= DEADBAND) {
+	    	// normal drive
+	    	FL = (SCALE_DOWN)*(vy - STRAFE_FRONT_SCALE * vx - wz);
+	    	FR = - (SCALE_DOWN)*(vy + STRAFE_FRONT_SCALE* vx + wz);
+	    	BL = (SCALE_DOWN)*(vy + vx - wz);
+	    	BR = - (SCALE_DOWN)*(vy - vx + wz);
+    	}
+	    else {
+	    	vx = precisionStrafeRight + precisionStrafeLeft;
+	    	FL = (PRECISION_STRAFE_SCALE_DOWN)*(STRAFE_FRONT_SCALE * vx);
+	    	FR = - (PRECISION_STRAFE_SCALE_DOWN)*(STRAFE_FRONT_SCALE* vx);
+	    	BL = (PRECISION_STRAFE_SCALE_DOWN)*(vx);
+	    	BR = - (PRECISION_STRAFE_SCALE_DOWN)*(vx);
+	    }
     	
     	//System.out.println("FL"+ FL + "\tFR" + FR + "\tBL" + BL + "\tBR" + BR);	
     	

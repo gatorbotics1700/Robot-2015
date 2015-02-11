@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1700.robot;
 
 import org.usfirst.frc.team1700.robot.commands.ChangeAlignerStateCommand;
-import org.usfirst.frc.team1700.robot.commands.EmergencyStopLifter;
 import org.usfirst.frc.team1700.robot.commands.LifterToLevelCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
