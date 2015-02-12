@@ -44,7 +44,7 @@ public class MecanumDriveCommand extends Command {
     	double wz = - deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
     	double FL, FR, BL, BR;
     	
-    	if (precisionStrafeRight <= DEADBAND && precisionStrafeLeft <= DEADBAND) {
+    	if (precisionStrafeRight <= DEADBAND && precisionStrafeLeft >= -DEADBAND) {
 	    	// normal drive
 	    	FL = (SCALE_DOWN)*(vy - STRAFE_FRONT_SCALE * vx - wz);
 	    	FR = - (SCALE_DOWN)*(vy + STRAFE_FRONT_SCALE* vx + wz);
@@ -53,14 +53,12 @@ public class MecanumDriveCommand extends Command {
     	}
 	    else {
 	    	vx = precisionStrafeRight + precisionStrafeLeft;
-	    	FL = (PRECISION_STRAFE_SCALE_DOWN)*(STRAFE_FRONT_SCALE * vx);
+	    	FL = (PRECISION_STRAFE_SCALE_DOWN)*(- STRAFE_FRONT_SCALE * vx);
 	    	FR = - (PRECISION_STRAFE_SCALE_DOWN)*(STRAFE_FRONT_SCALE* vx);
 	    	BL = (PRECISION_STRAFE_SCALE_DOWN)*(vx);
-	    	BR = - (PRECISION_STRAFE_SCALE_DOWN)*(vx);
+	    	BR = - (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
 	    }
-    	
-    	//System.out.println("FL"+ FL + "\tFR" + FR + "\tBL" + BL + "\tBR" + BR);	
-    	
+    	    	
     	driveSubsystem.move(FR, FL, BR, BL);
 
     }
@@ -89,7 +87,7 @@ public class MecanumDriveCommand extends Command {
 			} else {
 				output = (value + DEADBAND)*JOY_SCALE;
 			}
-		} else { // outside of deadband
+		} else { // inside of deadband
 			output = 0;
 		}
 		
