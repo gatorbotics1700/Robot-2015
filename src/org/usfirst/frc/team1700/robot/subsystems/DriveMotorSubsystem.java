@@ -30,9 +30,11 @@ public class DriveMotorSubsystem {
 	 */
 	public void move(double speed) {
 		if(speed > JOYSTICK_DEADBAND || speed < -JOYSTICK_DEADBAND){ 
-			driveTalon.set(scale(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * 6000); //max speed
+			//double setpoint =  scale(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * 6000;
+			double setpoint =  speed * 500;
+			driveTalon.set(setpoint); //max speed
 			//if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println(scale(speed));
-			//System.out.println("Speed: " + driveTalon.getSpeed());
+			System.out.print(Math.abs(driveTalon.getSpeed()) + "\t");
 	    	//System.out.println("Error: " + driveTalon.getClosedLoopError());
 //	    	System.out.println("Output Voltage: "+ driveTalon.getOutputVoltage());
 			//System.out.println(TalonID + " " + speed);
@@ -75,17 +77,31 @@ public void stop() {
 		return filt2;
 	}
 	
-	private CANTalon initTalon(int address) {
-    	CANTalon talon = new CANTalon(address);
+	private CANTalon initTalon(int ID) {
+    	CANTalon talon = new CANTalon(ID);
     	
     	talon.disableControl(); // disable before set up
-    	talon.changeControlMode(CANTalon.ControlMode.Speed); // position mode
+    	talon.changeControlMode(CANTalon.ControlMode.Speed);
     	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
 
     	talon.set(0);
     	talon.enableControl();
-    	talon.setPID(0.3,0.002,0); // 0.3,0.002,0.01
-    	talon.setF(0.2);
+    	talon.setPID(0.4,0.002,0); // 0.4,0.002,0 (yay! good!)
+    	//talon.setF(1);
+    	
+    	switch(ID) {
+    		case 1: talon.setF(0.94/2); //BL
+    			break;
+    		case 2: talon.setF(1.044/2); //FL
+    			break;
+    		case 3: talon.setF(1.01/2); //FR
+    			break;
+    		case 4: talon.setF(0.977/2); //BR
+    			break;
+    	}
+    	
+    	
+    	
     	talon.setIZone(0);
 
     	talon.setCloseLoopRampRate(0.2);

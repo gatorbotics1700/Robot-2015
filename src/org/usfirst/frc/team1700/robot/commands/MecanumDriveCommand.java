@@ -52,13 +52,16 @@ public class MecanumDriveCommand extends Command {
 	    	BR = - (SCALE_DOWN)*(vy - vx + wz);
     	}
 	    else {
-	    	vx = precisionStrafeRight + precisionStrafeLeft;
+	    	vx = 1/PRECISION_STRAFE_SCALE_DOWN;//precisionStrafeRight + precisionStrafeLeft;
+	    	if (precisionStrafeLeft < 0) vx = -vx;
 	    	FL = (PRECISION_STRAFE_SCALE_DOWN)*(- STRAFE_FRONT_SCALE * vx);
 	    	FR = - (PRECISION_STRAFE_SCALE_DOWN)*(STRAFE_FRONT_SCALE* vx);
 	    	BL = (PRECISION_STRAFE_SCALE_DOWN)*(vx);
 	    	BR = - (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
 	    }
-    	    	
+    	
+    	//System.out.println("Setpoint: FR: " + FR + "  FL: " + FL + "  BR: " + BR + "  BL: " + BL);
+    	System.out.print("\n");
     	driveSubsystem.move(FR, FL, BR, BL);
 
     }
