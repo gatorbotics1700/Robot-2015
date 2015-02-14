@@ -2,7 +2,6 @@ package org.usfirst.frc.team1700.robot.commands;
 
 import org.usfirst.frc.team1700.robot.Subsystems;
 import org.usfirst.frc.team1700.robot.subsystems.AlignmentMotorsSubsystem;
-import org.usfirst.frc.team1700.robot.subsystems.AlignmentEncoderSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -15,7 +14,7 @@ public class ChangeAlignerStateCommand extends Command {
 	private boolean wasVertical = false;
 	private boolean wasHorizontal = false;
 	private AlignmentMotorsSubsystem motors;
-	private AlignmentEncoderSubsystem encoder;
+	private boolean isLong;
 	
 	/**
 	 * Requires the appropriate tote aligner motor subsystem (as decided by
@@ -25,13 +24,11 @@ public class ChangeAlignerStateCommand extends Command {
     public ChangeAlignerStateCommand(boolean isLong) {
     	if(isLong) { // choose which motor subsystem
         	motors = Subsystems.longAlignmentMotorsSubsystem;
-        	encoder = Subsystems.longAlignmentEncoderSubystem;
     	} else {
     		motors = Subsystems.shortAlignmentMotorsSubsystem;
-    		encoder = Subsystems.shortAlignmentEncoderSubsystem;
     	}
+    	this.isLong = isLong;
 		requires(motors);
-    	requires(encoder);
     }
 
     // Called just before this Command runs the first time
@@ -39,10 +36,10 @@ public class ChangeAlignerStateCommand extends Command {
      * Checks and stores initial state of tote aligner.
      */
     protected void initialize() {
-    	if(encoder.isAlignerVertical()) {
+    	if(motors.isVertical()) {
     		wasVertical = true;
     	}
-    	else if(encoder.isAlignerHorizontal()) {
+    	else if(motors.isHorizontal()) {
     		wasHorizontal = true;
     	} 
     }
@@ -53,14 +50,15 @@ public class ChangeAlignerStateCommand extends Command {
      */
     protected void execute() {
     	if(wasVertical == true) {
-    		motors.goForward();
+    		motors.goToHorizontal();
     	} else if(wasHorizontal == true) {
-    		motors.goBackward();
+    		motors.goToVertical();
     	} else { 
     		// default position = vertical (if tote aligner started in the middle or something went wrong)
     		wasHorizontal = true;
-    		motors.goBackward();
+    		motors.goToVertical();
     	}
+    	System.out.println("Long: " + isLong + "   POsition:" + motors.getPosition());
 //    	System.out.println("Encoder: " + encoder.encoderValue());
 //    	System.out.println("Encoder verticle: " + encoder.isAlignerVertical());
 //    	System.out.println("Encoder horizontal: " + encoder.isAlignerHorizontal());
@@ -73,14 +71,13 @@ public class ChangeAlignerStateCommand extends Command {
      * new position.
      */
     protected boolean isFinished() {
-    	if(wasVertical && encoder.isAlignerHorizontal()) {
+    	if(wasVertical && motors.isHorizontal()) {
     		wasHorizontal = true;
     		wasVertical = false; 
     		return true;
-    	} else if (wasHorizontal && encoder.isAlignerVertical()) {
+    	} else if (wasHorizontal && motors.isVertical()) {
     		wasVertical = true;
     		wasHorizontal = false;
-    		encoder.resetEncoder(); // set back to zero
     		return true;
     	} else {
     		return false;

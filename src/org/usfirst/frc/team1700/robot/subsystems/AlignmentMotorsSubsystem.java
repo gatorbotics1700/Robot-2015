@@ -15,7 +15,8 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	private CANTalon alignmentTalon1; 
 	private CANTalon alignmentTalon2;
 	
-	private static double TALON_SPEED = -0.2;
+	private double vertical = RobotMap.ALIGNER_VERTICAL_STATE;
+	private double horizontal;
 	
 	/**
 	 * Initializes the two Talons for the appropriate gearbox (either the long
@@ -25,11 +26,13 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	public AlignmentMotorsSubsystem(boolean isLong){
 		super();
     	if(isLong){
-        	alignmentTalon1 = new CANTalon(RobotMap.LONG_ALIGNMENT_TALON_1_ID);
-        	alignmentTalon2 = new CANTalon(RobotMap.LONG_ALIGNMENT_TALON_2_ID);
+        	alignmentTalon1 = initTalon(RobotMap.LONG_ALIGNMENT_TALON_1_ID);
+        	alignmentTalon2 = initTalon(RobotMap.LONG_ALIGNMENT_TALON_2_ID);
+        	horizontal = RobotMap.LONG_ALIGNER_HORIZONTAL_STATE;
     	} else {
-    		alignmentTalon1 = new CANTalon(RobotMap.SHORT_ALIGNMENT_TALON_1_ID);
-        	alignmentTalon2 = new CANTalon(RobotMap.SHORT_ALIGNMENT_TALON_2_ID);
+    		alignmentTalon1 = initTalon(RobotMap.SHORT_ALIGNMENT_TALON_1_ID);
+        	alignmentTalon2 = initTalon(RobotMap.SHORT_ALIGNMENT_TALON_2_ID);
+        	horizontal = RobotMap.SHORT_ALIGNER_HORIZONTAL_STATE;
     	}
 	}
 	
@@ -38,27 +41,50 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	 * (NOTE: in the tote aligner gearboxes (Vex VersaPlanetary Gearbox) the two motors
 	 * should move in the same direction.) 
 	 */
-	public void goForward() {
-		alignmentTalon1.set(TALON_SPEED);
-		alignmentTalon2.set(TALON_SPEED);
+	public void goToVertical() {
+		alignmentTalon1.set(vertical);
+		alignmentTalon2.set(vertical);
 	}
 	
 	/**
 	 * Moves motors backward at a constant speed.
 	 */
-	public void goBackward() {
-		alignmentTalon1.set(-TALON_SPEED);
-		alignmentTalon2.set(-TALON_SPEED);
-		
+	public void goToHorizontal() {
+		alignmentTalon1.set(horizontal);
+		alignmentTalon2.set(horizontal);
 	}
 	
-	/**
-	 * Stops motors.
-	 */
-	public void stop() {
-		alignmentTalon1.set(0);
-		alignmentTalon2.set(0);
+	public boolean isVertical(){
+		return Math.abs(alignmentTalon1.getPosition() - vertical) < 10;
 	}
+	
+	public boolean isHorizontal(){
+		return Math.abs(alignmentTalon1.getPosition() - horizontal) < 10;
+	}
+	
+	public void stop(){
+		alignmentTalon1.set(alignmentTalon1.getPosition());
+		alignmentTalon2.set(alignmentTalon2.getPosition());
+	}
+	
+	public double getPosition(){
+		return alignmentTalon1.getPosition();
+	}
+	
+	private CANTalon initTalon(int ID) {
+    	CANTalon talon = new CANTalon(ID);
+    	
+    	talon.disableControl(); // disable before set up
+    	talon.changeControlMode(CANTalon.ControlMode.Position);
+    	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
+
+    	talon.set(talon.getPosition());
+    	talon.enableControl();
+    	talon.setPID(0.2,0,0);
+    	//talon.setF(1);
+    	
+    	return talon;
+    }
 	
     public void initDefaultCommand() {
         // no need to set default because command is already bound to a joystick button

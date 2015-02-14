@@ -41,16 +41,18 @@ public class LifterMotorSubsystem extends Subsystem {
 	    	safeMove(getPosition());
 	    	lifterTalon1.enableControl();
 	    	lifterTalon2.enableControl();
+	    	System.out.println("ENABLING ----------------");
 	 }
 	    
 	 public void disable() {
 	    stop();
 	    lifterTalon1.disableControl();
 	    lifterTalon2.disableControl();
+	    System.out.println("DISABLING ----------------");
 	 }
 	
 	public void stop() {
-    	// sets Talon to current position (so doesn't move back to zero), then disables
+    	// sets Talon to current position (so doesn't move back to zero)
     	lifterTalon1.set(getPosition());
     	lifterTalon2.set(getPosition());
     }
@@ -63,7 +65,7 @@ public class LifterMotorSubsystem extends Subsystem {
     
 	private boolean safeToMoveUp() {
 		double position = getPosition();
-		return (position < 150220);
+		return (position < 155000);
 	}
 	
 	private boolean safeToMoveDown() {
@@ -75,6 +77,9 @@ public class LifterMotorSubsystem extends Subsystem {
 	public void unsafeMove(double position) {
 		lifterTalon1.set(position);
 		lifterTalon2.set(position);
+		System.out.println("unsafe");
+		System.out.println(lifterTalon1.getPosition() + "\t" + lifterTalon1.getSetpoint() + "\t" + position);
+//		System.out.println(lifterTalon1.getClosedLoopError());
 	}
 	
 	public void safeMove(double position) {
@@ -86,6 +91,9 @@ public class LifterMotorSubsystem extends Subsystem {
 			lifterTalon1.set(0);
 			lifterTalon2.set(0);
 		}
+		
+		System.out.println("safe");
+		System.out.println(lifterTalon1.getPosition() + "\t" + lifterTalon1.getSetpoint() + "\t" + position);
 	}
 	
 	

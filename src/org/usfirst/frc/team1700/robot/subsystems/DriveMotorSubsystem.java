@@ -14,8 +14,8 @@ public class DriveMotorSubsystem {
 	private static final double JOYSTICK_DEADBAND = 0.1;
 	private double prevFilt1 = 0;
 	private double prevFilt2 = 0;
-	private static final double FILTER_CONSTANT_1 = 0.1;
-	private static final double FILTER_CONSTANT_2 = 0.1; // should probably be a little higher.
+	private static final double FILTER_CONSTANT_1 = 0.2;
+	private static final double FILTER_CONSTANT_2 = 0.2; // should probably be a little higher.
 	private int TalonID;
 	
 	public DriveMotorSubsystem(int ID) {
@@ -30,8 +30,8 @@ public class DriveMotorSubsystem {
 	 */
 	public void move(double speed) {
 		if(speed > JOYSTICK_DEADBAND || speed < -JOYSTICK_DEADBAND){ 
-			//double setpoint =  scale(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * 6000;
-			double setpoint =  speed * 500;
+			double setpoint =  scale(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * 5000;
+//			double setpoint =  speed * 6000;
 			driveTalon.set(setpoint); //max speed
 			//if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println(scale(speed));
 			System.out.print(Math.abs(driveTalon.getSpeed()) + "\t");
@@ -42,7 +42,7 @@ public class DriveMotorSubsystem {
 
 		} else {
 //			System.out.println("set back to zero");
-			driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));
+			driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)*5000);
 			stop();
 		}
 		
@@ -86,7 +86,7 @@ public void stop() {
 
     	talon.set(0);
     	talon.enableControl();
-    	talon.setPID(0.4,0.002,0); // 0.4,0.002,0 (yay! good!)
+    	talon.setPID(0.4,0.001,0); // 0.4,0.002,0 (yay! good!)
     	//talon.setF(1);
     	
     	switch(ID) {

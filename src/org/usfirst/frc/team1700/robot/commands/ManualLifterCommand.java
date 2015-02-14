@@ -17,7 +17,7 @@ public class ManualLifterCommand extends Command {
 	private OI oi = Robot.oi;
 	public static final double DEADBAND = 0.1;
 	public static final double JOY_SCALE = 1/(1-DEADBAND);
-	private static final double SCALE = 450; // Will go from 0 to 45000 (first level) in 2 seconds
+	private static final double SCALE = 10000;
 
     public ManualLifterCommand() {
     	super();
@@ -34,9 +34,11 @@ public class ManualLifterCommand extends Command {
     protected void execute() {
     	// carrot on a stick;
     	if (Robot.oi.controlJoystick.getRawButton(RobotMap.LIFTER_UNSAFE_MOVE_BUTTON)) {
-    		lifter.unsafeMove(Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition());//compensating for joystick orientation
+    		lifter.unsafeMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition()); //compensating for joystick orientation   
+    		//never gets in here
     	} else {
-    		lifter.safeMove(Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition());
+    		lifter.safeMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition());
+    		//gets in this block fine
     	}
     	
     	if (Robot.oi.controlJoystick.getRawButton(RobotMap.ZERO_LIFTER_BUTTON)) {
@@ -57,7 +59,7 @@ public class ManualLifterCommand extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	lifter.disable();
+    	lifter.stop();
     }
     
     private double deadband(double value) {

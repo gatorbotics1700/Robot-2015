@@ -16,15 +16,11 @@ public class Subsystems {
 			new AlignmentMotorsSubsystem(true); // true = long
 	public static AlignmentMotorsSubsystem shortAlignmentMotorsSubsystem = 
 			new AlignmentMotorsSubsystem(false); // false = short
-	public static AlignmentEncoderSubsystem longAlignmentEncoderSubystem = 
-			new AlignmentEncoderSubsystem(true);
-	public static AlignmentEncoderSubsystem shortAlignmentEncoderSubsystem = 
-			new AlignmentEncoderSubsystem(false);
 	
 	// chain lifter
 	public static LifterMotorSubsystem lifterMotor = new LifterMotorSubsystem();
 //	public static LifterLimitSwitchSubsystem lifterLimitSwitch = new LifterLimitSwitchSubsystem();
 	
 	// camera
-//	public static CameraSubsystem camera = new CameraSubsystem();
+	//public static CameraSubsystem camera = new CameraSubsystem();
 }
