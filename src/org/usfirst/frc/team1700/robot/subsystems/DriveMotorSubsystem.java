@@ -46,13 +46,16 @@ public class DriveMotorSubsystem {
 			stop();
 		}
 		
-    	
-     
 	}
 	
-public void stop() {
+	public double getPosition() {
+		return driveTalon.getPosition();
+	}
+	
+	
+	public void stop() {
 //		driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));
-}
+	}
 	
 	/**
 	 * Given a target speed, implements low pass filter for smoother acc/deceleration.

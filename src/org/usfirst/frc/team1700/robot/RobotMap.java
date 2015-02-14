@@ -69,5 +69,9 @@ public class RobotMap {
 							 LEVEL_1 = 45000,
 							 LEVEL_2 = 75200,
 							 LEVEL_3 = 153500; // little bit less than soft limit 154727.0	
+
+	public static final double AUTONOMOUS_DISTANCE = 10000, //random value -> probably will be many times bigger
+							   AUTONOMOUS_QUARTER_TURN_DIST = 16000,
+							   AUTONOMOUS_HALF_TURN_DIST = 32000; //preliminary calculations, probably should be higher
 }
 

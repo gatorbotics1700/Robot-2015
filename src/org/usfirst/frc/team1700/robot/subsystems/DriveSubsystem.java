@@ -31,6 +31,26 @@ public class DriveSubsystem extends Subsystem {
 //		System.out.println(joyValueFR+"\t"+joyValueFL+"/t"+joyValueBR+"/t"+joyValueBL);
 	}
 	
+	public void autonomousMove(double speed){
+		driveMotorFR1.move(speed);
+		driveMotorFL2.move(speed);
+		driveMotorBR4.move(speed);
+		driveMotorBL3.move(speed);
+//		System.out.println("------ moving ------");
+//		System.out.println(joyValueFR+"\t"+joyValueFL+"/t"+joyValueBR+"/t"+joyValueBL);
+	}
+	
+	public void autonomousTurn(double speed){ //very low speed because we haven't scaled it down
+		driveMotorFR1.move(speed);
+		driveMotorFL2.move(-speed);
+		driveMotorBR4.move(speed);
+		driveMotorBL3.move(-speed);
+	}
+	
+	public double getPosition(){
+		return driveMotorFR1.getPosition();
+	}
+	
 	public void stop(){
 		driveMotorFR1.stop();
 		driveMotorFL2.stop();

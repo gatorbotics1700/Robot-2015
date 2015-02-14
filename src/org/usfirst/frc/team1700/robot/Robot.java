@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team1700.robot;
 
+import org.usfirst.frc.team1700.robot.commands.Autonomous;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -15,6 +17,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot {
 	private static Subsystems subsystems;
 	public static OI oi;
+	private static Autonomous autonomous;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -25,7 +28,7 @@ public class Robot extends IterativeRobot {
 		subsystems = new Subsystems();
 		oi = new OI();
         // instantiate the command used for the autonomous period
-//        autonomousCommand = new ExampleCommand();
+        autonomous = new Autonomous();
     }
 	
 	public void disabledPeriodic() {
@@ -34,7 +37,7 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
-//        if (autonomousCommand != null) autonomousCommand.start();
+        if (autonomous != null) autonomous.start();
     }
 
     /**
