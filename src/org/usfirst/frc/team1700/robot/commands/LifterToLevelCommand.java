@@ -15,8 +15,8 @@ public class LifterToLevelCommand extends Command {
 	private LifterMotorSubsystem lifter;
 	
     public LifterToLevelCommand(int level) {
-    	requires(Subsystems.lifterMotor);
-    	lifter = Subsystems.lifterMotor;
+    	requires(Subsystems.lifter);
+    	lifter = Subsystems.lifter;
 //    	requires(Subsystems.lifterEncoder);
 //    	requires(Subsystems.lifterLimitSwitch);
     	targetLevel = level;

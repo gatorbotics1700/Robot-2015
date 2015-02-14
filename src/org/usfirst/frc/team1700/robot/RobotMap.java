@@ -30,7 +30,8 @@ public class RobotMap {
 							LIFTER_LEVEL_TWO_BUTTON = 11,
 							LIFTER_LEVEL_THREE_BUTTON = 10,
 							ZERO_LIFTER_BUTTON = 9,
-							LIFTER_UNSAFE_MOVE_BUTTON = 8;
+							LIFTER_UNSAFE_MOVE_BUTTON = 8,
+							CALIBRATE_LIFTER_BUTTON = 2;
 							
 							
 
@@ -49,9 +50,8 @@ public class RobotMap {
 	// sensor ports
 	public static final int LIFTER_ENCODER_PORT_1 = 1,
  							LIFTER_ENCODER_PORT_2 = 2,
-							LIFTER_LIMIT_SWITCH_TOP_PORT = 3,
-							LIFTER_LIMIT_SWITCH_BOTTOM_PORT = 4,
-							LIFTER_POTENTIOMETER_PORT = 5,
+							LIFTER_LIMIT_SWITCH_LEFT = 5,
+							LIFTER_LIMIT_SWITCH_RIGHT = 0,
 							PROXIMITY_SENSOR_L = 1,
 							PROXIMITY_SENSOR_R = 0,
 							LONG_ALIGNER_ENCODER_A = 8,
@@ -60,9 +60,9 @@ public class RobotMap {
 							SHORT_ALIGNER_ENCODER_B = 7;
 		
 	// Aligner Encoder Values
-	public static final int ALIGNER_VERTICAL_STATE = 5,
-							LONG_ALIGNER_HORIZONTAL_STATE = -515, //????? ranges from 199 to 252 to 300 to 350 
-							SHORT_ALIGNER_HORIZONTAL_STATE = -493; 
+	public static final int ALIGNER_VERTICAL_STATE = 15,
+							LONG_ALIGNER_HORIZONTAL_STATE = -2050,
+							SHORT_ALIGNER_HORIZONTAL_STATE = -1970; //look at this closer
 	
 	//Lifter Levels
 	public static final int LEVEL_0 = 0,
@@ -70,8 +70,8 @@ public class RobotMap {
 							 LEVEL_2 = 75200,
 							 LEVEL_3 = 153500; // little bit less than soft limit 154727.0	
 
-	public static final double AUTONOMOUS_DISTANCE = 10000, //random value -> probably will be many times bigger
-							   AUTONOMOUS_QUARTER_TURN_DIST = 16000,
-							   AUTONOMOUS_HALF_TURN_DIST = 32000; //preliminary calculations, probably should be higher
+	public static final double AUTONOMOUS_QUARTER_TURN_DIST = -16000,
+							   AUTONOMOUS_HALF_TURN_DIST = -32000, //preliminary calculations, probably should be higher
+							   AUTONOMOUS_DISTANCE = 10000; //random value -> probably will be many times bigger
 }
 

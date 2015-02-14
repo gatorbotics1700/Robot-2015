@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1700.robot;
 
 import org.usfirst.frc.team1700.robot.commands.Autonomous;
+import org.usfirst.frc.team1700.robot.commands.CalibrateLifterCommand;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -18,6 +19,7 @@ public class Robot extends IterativeRobot {
 	private static Subsystems subsystems;
 	public static OI oi;
 	private static Autonomous autonomous;
+	private static CalibrateLifterCommand calibrateLifter;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -29,6 +31,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         // instantiate the command used for the autonomous period
         autonomous = new Autonomous();
+        calibrateLifter = new CalibrateLifterCommand();
     }
 	
 	public void disabledPeriodic() {
@@ -52,7 +55,7 @@ public class Robot extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-//        if (autonomousCommand != null) autonomousCommand.cancel();
+        if (autonomous != null) autonomous.cancel();
     }
 
     /**
@@ -69,11 +72,12 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
     }
-    
+
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+    	oi.calibrateLifterButton.whenPressed(calibrateLifter);
         LiveWindow.run();
     }
     

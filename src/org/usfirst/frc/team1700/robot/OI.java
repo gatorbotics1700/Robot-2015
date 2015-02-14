@@ -25,6 +25,7 @@ public class OI {
 	Button lifterLevelOneButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_ONE_BUTTON);
 	Button lifterLevelTwoButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_TWO_BUTTON);
 	Button lifterLevelThreeButton = new JoystickButton(controlJoystick, RobotMap.LIFTER_LEVEL_THREE_BUTTON);
+	Button calibrateLifterButton = new JoystickButton(controlJoystick, RobotMap.CALIBRATE_LIFTER_BUTTON);
 
 	public OI() {
 		// tote aligner button bindings

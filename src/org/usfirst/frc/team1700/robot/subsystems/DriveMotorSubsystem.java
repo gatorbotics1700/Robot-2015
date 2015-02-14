@@ -52,6 +52,10 @@ public class DriveMotorSubsystem {
 		return driveTalon.getPosition();
 	}
 	
+	public void zeroEncoder() {
+		driveTalon.setPosition(0); //beware! not sure if this is the right one to use
+	}
+	
 	
 	public void stop() {
 //		driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));

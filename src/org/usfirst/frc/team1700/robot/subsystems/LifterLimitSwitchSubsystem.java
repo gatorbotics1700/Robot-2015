@@ -9,19 +9,17 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class LifterLimitSwitchSubsystem extends Subsystem {
-	private DigitalInput topLimitSwitch = new DigitalInput(RobotMap.LIFTER_LIMIT_SWITCH_TOP_PORT);
-	private DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.LIFTER_LIMIT_SWITCH_BOTTOM_PORT);
+	private DigitalInput leftLS, rightLS;
 	
 	public LifterLimitSwitchSubsystem() {
 		super();
+		leftLS = new DigitalInput(RobotMap.LIFTER_LIMIT_SWITCH_LEFT);
+		rightLS = new DigitalInput(RobotMap.LIFTER_LIMIT_SWITCH_RIGHT);
 	}
 	
-	public boolean wasTopSwitchHit(){
-		return topLimitSwitch.get();
-	}
-	
-	public boolean wasBottomSwitchHit(){
-		return bottomLimitSwitch.get();
+	public boolean isHit() {
+		// false is pressed, true is not pressed
+		return (!leftLS.get() || !rightLS.get());
 	}
 	
     public void initDefaultCommand() {

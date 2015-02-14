@@ -21,8 +21,8 @@ public class ManualLifterCommand extends Command {
 
     public ManualLifterCommand() {
     	super();
-    	requires(Subsystems.lifterMotor);
-    	lifter = Subsystems.lifterMotor;
+    	requires(Subsystems.lifter);
+    	lifter = Subsystems.lifter;
     }
 
     // Called just before this Command runs the first time

@@ -14,26 +14,23 @@ public class LifterMotorSubsystem extends Subsystem {
 
 	private static final double DEADBAND = .15;
 	private static final double JOY_SCALE = 1/(1-DEADBAND);
-	private static final double SCALE_DOWN = 0.2;
 	
 	private CANTalon lifterTalon1;
 	private CANTalon lifterTalon2;
 	private LifterLimitSwitchSubsystem limitSwitches;
-	private static final double P = 0,
-							    I = 0,
-							    D = 0;
-	
-
 	
 	public LifterMotorSubsystem() {
 		super();
 		lifterTalon1 = initTalon(RobotMap.LIFTER_TALON_1_ID);
 		lifterTalon2 = initTalon(RobotMap.LIFTER_TALON_2_ID);
-//		limitSwitches = Subsystems.lifterLimitSwitch;
+		limitSwitches = Subsystems.lifterLS;
 	}
 	
 	
 	//Lifter Methods
+	public boolean limitSwitchHit() {
+		return limitSwitches.isHit();
+	}
     
 	//SetUp
 	 public void enable() {
@@ -56,12 +53,6 @@ public class LifterMotorSubsystem extends Subsystem {
     	lifterTalon1.set(getPosition());
     	lifterTalon2.set(getPosition());
     }
-
-    
-    //Checks
-    private boolean safeToMove() {
-    	return (!limitSwitches.wasTopSwitchHit() && !limitSwitches.wasBottomSwitchHit());
-    }
     
 	private boolean safeToMoveUp() {
 		double position = getPosition();
@@ -70,16 +61,20 @@ public class LifterMotorSubsystem extends Subsystem {
 	
 	private boolean safeToMoveDown() {
 		double position = getPosition();
-		return (position > 0);
+		return (position > 0 && !limitSwitches.isHit());
 	}
   
 	//Moving
 	public void unsafeMove(double position) {
-		lifterTalon1.set(position);
-		lifterTalon2.set(position);
-		System.out.println("unsafe");
-		System.out.println(lifterTalon1.getPosition() + "\t" + lifterTalon1.getSetpoint() + "\t" + position);
-//		System.out.println(lifterTalon1.getClosedLoopError());
+		boolean goingUp = position >= getPosition();
+		if ((!goingUp && !limitSwitches.isHit()) || (goingUp)) {
+			lifterTalon1.set(position);
+			lifterTalon2.set(position);
+		} else {
+			lifterTalon1.set(0);
+			lifterTalon2.set(0);
+		}
+		
 	}
 	
 	public void safeMove(double position) {
@@ -91,9 +86,6 @@ public class LifterMotorSubsystem extends Subsystem {
 			lifterTalon1.set(0);
 			lifterTalon2.set(0);
 		}
-		
-		System.out.println("safe");
-		System.out.println(lifterTalon1.getPosition() + "\t" + lifterTalon1.getSetpoint() + "\t" + position);
 	}
 	
 	
@@ -108,21 +100,6 @@ public class LifterMotorSubsystem extends Subsystem {
 	}
 	
 	//Helper methods
-	private double deadband(double value) {
-		double output = 0;
-		if (value > DEADBAND || value < -DEADBAND) { // maps (0.1, 1) to (0,1)
-			if (value > DEADBAND){
-				output = (value - DEADBAND)*JOY_SCALE;
-			} else {
-				output = (value + DEADBAND)*JOY_SCALE;
-			}
-		} else { // outside of deadband
-			output = 0;
-		}
-		
-		return output;
-	}
-	
     private CANTalon initTalon(int address) {
     	CANTalon talon = new CANTalon(address);
     	
@@ -139,7 +116,6 @@ public class LifterMotorSubsystem extends Subsystem {
     	
     	return talon;
     }
-    
     
     //Default
     public void initDefaultCommand() {

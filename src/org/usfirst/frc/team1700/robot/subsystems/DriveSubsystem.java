@@ -21,6 +21,13 @@ public class DriveSubsystem extends Subsystem {
 	public DriveSubsystem() {
 		super();
 	}
+	
+	public void zeroEncoders() {
+		driveMotorFR1.zeroEncoder();
+		driveMotorFL2.zeroEncoder();
+		driveMotorBL3.zeroEncoder();
+		driveMotorBR4.zeroEncoder();
+	}
 
 	public void move(double joyValueFR, double joyValueFL, double joyValueBR, double joyValueBL){
 		driveMotorFR1.move(joyValueFR);
@@ -31,24 +38,16 @@ public class DriveSubsystem extends Subsystem {
 //		System.out.println(joyValueFR+"\t"+joyValueFL+"/t"+joyValueBR+"/t"+joyValueBL);
 	}
 	
-	public void autonomousMove(double speed){
-		driveMotorFR1.move(speed);
-		driveMotorFL2.move(speed);
-		driveMotorBR4.move(speed);
-		driveMotorBL3.move(speed);
-//		System.out.println("------ moving ------");
-//		System.out.println(joyValueFR+"\t"+joyValueFL+"/t"+joyValueBR+"/t"+joyValueBL);
+	public void autonomousMove(double speed) {
+		move(-speed, speed, -speed, speed); // moving forward, right side is reversed
 	}
 	
-	public void autonomousTurn(double speed){ //very low speed because we haven't scaled it down
-		driveMotorFR1.move(speed);
-		driveMotorFL2.move(-speed);
-		driveMotorBR4.move(speed);
-		driveMotorBL3.move(-speed);
+	public void autonomousTurn(double speed) { //very low speed because we haven't scaled it down
+		move(speed, speed, speed, speed); // turning right (clockwise), right side is reversed
 	}
 	
 	public double getPosition(){
-		return driveMotorFR1.getPosition();
+		return driveMotorFL2.getPosition();
 	}
 	
 	public void stop(){

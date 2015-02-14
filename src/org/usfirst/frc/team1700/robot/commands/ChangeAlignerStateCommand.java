@@ -38,6 +38,7 @@ public class ChangeAlignerStateCommand extends Command {
     protected void initialize() {
     	if(motors.isVertical()) {
     		wasVertical = true;
+    		motors.zeroEncoder();
     	}
     	else if(motors.isHorizontal()) {
     		wasHorizontal = true;
@@ -78,6 +79,7 @@ public class ChangeAlignerStateCommand extends Command {
     	} else if (wasHorizontal && motors.isVertical()) {
     		wasVertical = true;
     		wasHorizontal = false;
+    		motors.zeroEncoder();
     		return true;
     	} else {
     		return false;

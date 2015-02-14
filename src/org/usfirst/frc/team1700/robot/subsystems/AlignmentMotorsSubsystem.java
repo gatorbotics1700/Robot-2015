@@ -55,11 +55,11 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	}
 	
 	public boolean isVertical(){
-		return Math.abs(alignmentTalon1.getPosition() - vertical) < 10;
+		return Math.abs(alignmentTalon1.getPosition() - vertical) < 100;
 	}
 	
 	public boolean isHorizontal(){
-		return Math.abs(alignmentTalon1.getPosition() - horizontal) < 10;
+		return Math.abs(alignmentTalon1.getPosition() - horizontal) < 100;
 	}
 	
 	public void stop(){
@@ -69,6 +69,12 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	
 	public double getPosition(){
 		return alignmentTalon1.getPosition();
+	}
+	
+	public void zeroEncoder() {
+		alignmentTalon1.setPosition(0);
+		alignmentTalon2.setPosition(0);
+		System.out.println(alignmentTalon1.getPosition());
 	}
 	
 	private CANTalon initTalon(int ID) {
