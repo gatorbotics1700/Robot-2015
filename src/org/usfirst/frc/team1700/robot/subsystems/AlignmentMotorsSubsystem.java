@@ -14,8 +14,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class AlignmentMotorsSubsystem extends Subsystem {
 	private CANTalon alignmentTalon1; 
 	private CANTalon alignmentTalon2;
-	
-	private double vertical = RobotMap.ALIGNER_VERTICAL_STATE;
+	private boolean isLong;
+	private boolean debug = true;
+	private double vertical = RobotMap.ALIGNER_VERTICAL_STATE + 20; // try to go a little further
 	private double horizontal;
 	
 	/**
@@ -25,6 +26,7 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	 */
 	public AlignmentMotorsSubsystem(boolean isLong){
 		super();
+		this.isLong = isLong;
     	if(isLong){
         	alignmentTalon1 = initTalon(RobotMap.LONG_ALIGNMENT_TALON_1_ID);
         	alignmentTalon2 = initTalon(RobotMap.LONG_ALIGNMENT_TALON_2_ID);
@@ -34,6 +36,7 @@ public class AlignmentMotorsSubsystem extends Subsystem {
         	alignmentTalon2 = initTalon(RobotMap.SHORT_ALIGNMENT_TALON_2_ID);
         	horizontal = RobotMap.SHORT_ALIGNER_HORIZONTAL_STATE;
     	}
+    	horizontal -= 20; // try to go a little further
 	}
 	
 	/**
@@ -42,24 +45,28 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	 * should move in the same direction.) 
 	 */
 	public void goToVertical() {
+		if (isLong) System.out.println("going to vertical " + getPosition());
 		alignmentTalon1.set(vertical);
 		alignmentTalon2.set(vertical);
+		System.out.println("setpoint: " + alignmentTalon1.getSetpoint());
 	}
 	
 	/**
 	 * Moves motors backward at a constant speed.
 	 */
 	public void goToHorizontal() {
+		if (isLong) System.out.println("going to horizontal " + getPosition());
 		alignmentTalon1.set(horizontal);
 		alignmentTalon2.set(horizontal);
+		System.out.println("setpoint: " + alignmentTalon1.getSetpoint());
 	}
 	
 	public boolean isVertical(){
-		return Math.abs(alignmentTalon1.getPosition() - vertical) < 100;
+		return (alignmentTalon1.getPosition() >= RobotMap.ALIGNER_VERTICAL_STATE);
 	}
 	
 	public boolean isHorizontal(){
-		return Math.abs(alignmentTalon1.getPosition() - horizontal) < 100;
+		return (alignmentTalon1.getPosition() <= horizontal + 20);
 	}
 	
 	public void stop(){
@@ -76,19 +83,21 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 		alignmentTalon2.setPosition(0);
 		System.out.println(alignmentTalon1.getPosition());
 	}
-	
+	// -12, -60
+	// long, short
+	// 
 	private CANTalon initTalon(int ID) {
     	CANTalon talon = new CANTalon(ID);
     	
     	talon.disableControl(); // disable before set up
     	talon.changeControlMode(CANTalon.ControlMode.Position);
     	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
-
     	talon.set(talon.getPosition());
     	talon.enableControl();
+    	if (debug) talon.setPosition(0);
     	talon.setPID(0.2,0,0);
     	//talon.setF(1);
-    	
+    	    	
     	return talon;
     }
 	

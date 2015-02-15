@@ -43,6 +43,7 @@ public class ChangeAlignerStateCommand extends Command {
     	else if(motors.isHorizontal()) {
     		wasHorizontal = true;
     	} 
+    	System.out.println("is vertical? " + motors.isVertical());
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -59,7 +60,7 @@ public class ChangeAlignerStateCommand extends Command {
     		wasHorizontal = true;
     		motors.goToVertical();
     	}
-    	System.out.println("Long: " + isLong + "   POsition:" + motors.getPosition());
+//    	System.out.println("Long: " + isLong + "   Position:" + motors.getPosition());
 //    	System.out.println("Encoder: " + encoder.encoderValue());
 //    	System.out.println("Encoder verticle: " + encoder.isAlignerVertical());
 //    	System.out.println("Encoder horizontal: " + encoder.isAlignerHorizontal());
@@ -75,15 +76,18 @@ public class ChangeAlignerStateCommand extends Command {
     	if(wasVertical && motors.isHorizontal()) {
     		wasHorizontal = true;
     		wasVertical = false; 
+    		System.out.println("DONE MOVING TO HORIZONTAL");
     		return true;
     	} else if (wasHorizontal && motors.isVertical()) {
     		wasVertical = true;
     		wasHorizontal = false;
     		motors.zeroEncoder();
+    		System.out.println("DONE MOVING TO VERTICAL");
     		return true;
     	} else {
     		return false;
     	}
+//    	return false;
     }
 
     // Called once after isFinished returns true

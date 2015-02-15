@@ -60,18 +60,18 @@ public class RobotMap {
 							SHORT_ALIGNER_ENCODER_B = 7;
 		
 	// Aligner Encoder Values
-	public static final int ALIGNER_VERTICAL_STATE = 15,
-							LONG_ALIGNER_HORIZONTAL_STATE = -2050,
-							SHORT_ALIGNER_HORIZONTAL_STATE = -1970; //look at this closer
+	public static final int ALIGNER_VERTICAL_STATE = -100,
+							LONG_ALIGNER_HORIZONTAL_STATE = -1920,
+							SHORT_ALIGNER_HORIZONTAL_STATE = -2000; //look at this closer
 	
 	//Lifter Levels
-	public static final int LEVEL_0 = 0,
+	public static final int LEVEL_0 = -50,
 							 LEVEL_1 = 45000,
 							 LEVEL_2 = 75200,
-							 LEVEL_3 = 153500; // little bit less than soft limit 154727.0	
+							 LEVEL_3 = 155850; // little bit less than soft limit 154946.0
 
-	public static final double AUTONOMOUS_QUARTER_TURN_DIST = -16000,
-							   AUTONOMOUS_HALF_TURN_DIST = -32000, //preliminary calculations, probably should be higher
-							   AUTONOMOUS_DISTANCE = 10000; //random value -> probably will be many times bigger
+	public static final double AUTONOMOUS_QUARTER_TURN_DIST = 32000 * 3 / 16,
+							   AUTONOMOUS_HALF_TURN_DIST = 64000 * 3 / 16,
+							   AUTONOMOUS_DISTANCE = 30000; //45000
 }
 

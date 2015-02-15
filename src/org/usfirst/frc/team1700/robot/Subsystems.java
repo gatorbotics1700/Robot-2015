@@ -18,8 +18,8 @@ public class Subsystems {
 			new AlignmentMotorsSubsystem(false); // false = short
 	
 	// chain lifter
-	public static LifterMotorSubsystem lifter = new LifterMotorSubsystem();
 	public static LifterLimitSwitchSubsystem lifterLS = new LifterLimitSwitchSubsystem();
+	public static LifterMotorSubsystem lifter = new LifterMotorSubsystem();
 	
 	// camera
 	//public static CameraSubsystem camera = new CameraSubsystem();

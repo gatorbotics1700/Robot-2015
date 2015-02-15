@@ -14,6 +14,7 @@ public class LifterMotorSubsystem extends Subsystem {
 
 	private static final double DEADBAND = .15;
 	private static final double JOY_SCALE = 1/(1-DEADBAND);
+	private double offset = 0;
 	
 	private CANTalon lifterTalon1;
 	private CANTalon lifterTalon2;
@@ -38,14 +39,14 @@ public class LifterMotorSubsystem extends Subsystem {
 	    	safeMove(getPosition());
 	    	lifterTalon1.enableControl();
 	    	lifterTalon2.enableControl();
-	    	System.out.println("ENABLING ----------------");
+//	    	System.out.println("ENABLING ----------------");
 	 }
 	    
 	 public void disable() {
 	    stop();
 	    lifterTalon1.disableControl();
 	    lifterTalon2.disableControl();
-	    System.out.println("DISABLING ----------------");
+//	    System.out.println("DISABLING ----------------");
 	 }
 	
 	public void stop() {
@@ -71,10 +72,9 @@ public class LifterMotorSubsystem extends Subsystem {
 			lifterTalon1.set(position);
 			lifterTalon2.set(position);
 		} else {
-			lifterTalon1.set(0);
-			lifterTalon2.set(0);
+			lifterTalon1.set(getPosition());
+			lifterTalon2.set(getPosition());
 		}
-		
 	}
 	
 	public void safeMove(double position) {
@@ -83,8 +83,8 @@ public class LifterMotorSubsystem extends Subsystem {
 			lifterTalon1.set(position);
 			lifterTalon2.set(position);
 		} else {
-			lifterTalon1.set(0);
-			lifterTalon2.set(0);
+			lifterTalon1.set(getPosition());
+			lifterTalon2.set(getPosition());
 		}
 	}
 	
@@ -93,10 +93,11 @@ public class LifterMotorSubsystem extends Subsystem {
 	public void zeroEncoders() {
     	lifterTalon1.setPosition(0);
     	lifterTalon2.setPosition(0);
+    	System.out.println("ZEROED " + getPosition());
     }
 	
 	public double getPosition() {
-	    return lifterTalon1.getPosition();
+	    return lifterTalon1.getPosition() - offset;
 	}
 	
 	//Helper methods
@@ -107,7 +108,7 @@ public class LifterMotorSubsystem extends Subsystem {
     	talon.changeControlMode(CANTalon.ControlMode.Position); // position mode
     	talon.enableBrakeMode(true); // set brake mode
     	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
-    	talon.setPID(0.04, 0, 0);
+    	talon.setPID(0.05, 0, 0);
     	talon.reverseOutput(true);
     	talon.enableForwardSoftLimit(false);
     	talon.enableReverseSoftLimit(false);
@@ -120,6 +121,11 @@ public class LifterMotorSubsystem extends Subsystem {
     //Default
     public void initDefaultCommand() {
     	setDefaultCommand(new ManualLifterCommand());
+    }
+    
+    public void setOffset() {
+    	offset = getPosition();
+    	System.out.println("OFFSET: " + offset);
     }
 }
 

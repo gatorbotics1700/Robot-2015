@@ -34,9 +34,11 @@ public class ManualLifterCommand extends Command {
     protected void execute() {
     	// carrot on a stick;
     	if (Robot.oi.controlJoystick.getRawButton(RobotMap.LIFTER_UNSAFE_MOVE_BUTTON)) {
-    		lifter.unsafeMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition()); //compensating for joystick orientation   
+    		lifter.unsafeMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition()); //compensating for joystick orientation  
+    		System.out.println(lifter.getPosition());
     		//never gets in here
     	} else {
+    		double position = lifter.getPosition();
     		lifter.safeMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition());
     		//gets in this block fine
     	}

@@ -23,7 +23,7 @@ public class AutonomousDriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Subsystems.drive.autonomousMove(0.2);
+    	Subsystems.drive.autonomousMove(RobotMap.AUTONOMOUS_DISTANCE);
     	// Joystick value equivalent
     }
 

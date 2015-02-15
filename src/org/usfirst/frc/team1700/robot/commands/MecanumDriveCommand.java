@@ -60,8 +60,7 @@ public class MecanumDriveCommand extends Command {
 	    }
     	
     	//System.out.println("Setpoint: FR: " + FR + "  FL: " + FL + "  BR: " + BR + "  BL: " + BL);
-//    	System.out.print("\n");
-    	driveSubsystem.move(FR, FL, BR, BL);
+    	driveSubsystem.teleopMove(FR, FL, BR, BL);
 
     }
 

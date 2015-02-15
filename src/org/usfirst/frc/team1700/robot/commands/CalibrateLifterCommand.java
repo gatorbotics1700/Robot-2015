@@ -23,7 +23,7 @@ public class CalibrateLifterCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	lifter.unsafeMove(-5000 + lifter.getPosition());
+    	lifter.unsafeMove(-4000 + lifter.getPosition());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,7 +33,8 @@ public class CalibrateLifterCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	lifter.zeroEncoders();
+//    	lifter.zeroEncoders();
+    	lifter.setOffset();
     	lifter.stop();
     }
 

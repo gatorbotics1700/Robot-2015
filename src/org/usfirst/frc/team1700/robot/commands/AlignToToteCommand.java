@@ -37,10 +37,10 @@ public class AlignToToteCommand extends Command {
     	
     	if ((sensorR.getDistance() - sensorL.getDistance()) > DEADBAND) {
     		//Left should move forward
-    		Subsystems.drive.alignLeft();
+//    		Subsystems.drive.alignLeft();
     	} else if ((sensorR.getDistance() - sensorL.getDistance()) < -DEADBAND) {
     		//Right should move forward
-    		Subsystems.drive.alignRight();
+//    		Subsystems.drive.alignRight();
     	}
     }
 

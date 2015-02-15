@@ -34,6 +34,7 @@ public class AutonomousLiftCommand extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Subsystems.lifter.stop();
+    	System.out.println("Finished Lifting ---------------");
     }
 
     // Called when another command which requires one or more of the same

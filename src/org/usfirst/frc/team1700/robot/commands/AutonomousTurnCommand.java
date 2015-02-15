@@ -23,11 +23,12 @@ public class AutonomousTurnCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Subsystems.drive.autonomousTurn(0.2); //very low because not scaled down, also a guess
+    	Subsystems.drive.autonomousTurn(RobotMap.AUTONOMOUS_QUARTER_TURN_DIST);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	System.out.println("DONE  " + isQuarterTurn());
         return isQuarterTurn(); // isHalfTurn();
     }
 
@@ -47,6 +48,7 @@ public class AutonomousTurnCommand extends Command {
     }
     
     private boolean isQuarterTurn(){
+    	System.out.println(Subsystems.drive.getPosition());
     	return Subsystems.drive.getPosition() > RobotMap.AUTONOMOUS_QUARTER_TURN_DIST;
     }
 }

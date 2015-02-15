@@ -19,8 +19,8 @@ public class DriveMotorSubsystem {
 	private int TalonID;
 	
 	public DriveMotorSubsystem(int ID) {
-		driveTalon = initTalon(ID);
 		TalonID = ID;
+		initTalon();
 	}
 	
 	/**
@@ -28,24 +28,23 @@ public class DriveMotorSubsystem {
 	 * and sends the scaled speed to the motor's Talon.
 	 * @param speed
 	 */
-	public void move(double speed) {
+	public void speedModeMove(double speed) {
 		if(speed > JOYSTICK_DEADBAND || speed < -JOYSTICK_DEADBAND){ 
 			double setpoint =  scale(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * 5000;
 //			double setpoint =  speed * 6000;
 			driveTalon.set(setpoint); //max speed
-			//if (Robot.oi.driveJoystick.getRawButton(RobotMap.DEBUGGING_BUTTON)) System.out.println(scale(speed));
-			System.out.print(Math.abs(driveTalon.getSpeed()) + "\t");
+//			System.out.print(Math.abs(driveTalon.getSpeed()) + "\t");
 	    	//System.out.println("Error: " + driveTalon.getClosedLoopError());
-//	    	System.out.println("Output Voltage: "+ driveTalon.getOutputVoltage());
-			//System.out.println(TalonID + " " + speed);
-	    	
-
+//			System.out.println("Setpoint: " + driveTalon.getSetpoint());
 		} else {
 //			System.out.println("set back to zero");
 			driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)*5000);
-			stop();
 		}
-		
+	}
+	
+	public void positionModeMove(double position) {
+		driveTalon.set(position);
+//		System.out.println("Setpoint: " + driveTalon.getSetpoint());
 	}
 	
 	public double getPosition() {
@@ -57,8 +56,12 @@ public class DriveMotorSubsystem {
 	}
 	
 	
-	public void stop() {
-//		driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));
+	public void speedModeStop() {
+		driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));
+	}
+	
+	public void positionModeStop() {
+		driveTalon.set(getPosition());
 	}
 	
 	/**
@@ -84,36 +87,42 @@ public class DriveMotorSubsystem {
 		return filt2;
 	}
 	
-	private CANTalon initTalon(int ID) {
-    	CANTalon talon = new CANTalon(ID);
+	private CANTalon initTalon() {
+    	driveTalon = new CANTalon(TalonID);
     	
-    	talon.disableControl(); // disable before set up
-    	talon.changeControlMode(CANTalon.ControlMode.Speed);
-    	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
+    	driveTalon.disableControl(); // disable before set up
+    	driveTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
+    	setToPositionMode();
+    	
+    	
+    	driveTalon.set(0);
+    	driveTalon.enableControl();
 
-    	talon.set(0);
-    	talon.enableControl();
-    	talon.setPID(0.4,0.001,0); // 0.4,0.002,0 (yay! good!)
-    	//talon.setF(1);
+    	driveTalon.setCloseLoopRampRate(12);
+//    	System.out.println("Ramp Rate: " + driveTalon.getCloseLoopRampRate());
     	
-    	switch(ID) {
-    		case 1: talon.setF(0.94/2); //BL
+    	return driveTalon;
+    }
+	
+	public void setToSpeedMode(){
+		driveTalon.changeControlMode(CANTalon.ControlMode.Speed);
+		driveTalon.setPID(0.4,0.001,0); // 0.4,0.002,0 (yay! good!)
+    	
+    	switch(TalonID) {
+    		case 1: driveTalon.setF(0.94/2); //BL
     			break;
-    		case 2: talon.setF(1.044/2); //FL
+    		case 2: driveTalon.setF(1.044/2); //FL
     			break;
-    		case 3: talon.setF(1.01/2); //FR
+    		case 3: driveTalon.setF(1.01/2); //FR
     			break;
-    		case 4: talon.setF(0.977/2); //BR
+    		case 4: driveTalon.setF(0.977/2); //BR
     			break;
     	}
-    	
-    	
-    	
-    	talon.setIZone(0);
-
-    	talon.setCloseLoopRampRate(0.2);
-    	System.out.println("Ramp Rate: " + talon.getCloseLoopRampRate());
-    	
-    	return talon;
-    }
+	}
+	
+	public void setToPositionMode(){
+		driveTalon.changeControlMode(CANTalon.ControlMode.Position);
+		driveTalon.setPID(0.05, 0, 0); //test
+		driveTalon.setF(0);
+	}
 }
