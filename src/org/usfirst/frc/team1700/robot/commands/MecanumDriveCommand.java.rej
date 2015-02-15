@@ -1,9 +1,0 @@
-diff a/src/org/usfirst/frc/team1700/robot/commands/MecanumDriveCommand.java b/src/org/usfirst/frc/team1700/robot/commands/MecanumDriveCommand.java	(rejected hunks)
-@@ -44,7 +44,6 @@
-     	double wz = - deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
-     	double FL, FR, BL, BR;
-     	
--    	double FL = (SCALE_DOWN)*(vy - STRAFE_FRONT_SCALE * vx - wz);
-     	if (precisionStrafeRight <= DEADBAND && precisionStrafeLeft <= DEADBAND) {
- 	    	// normal drive
- 	    	FL = (SCALE_DOWN)*(vy - STRAFE_FRONT_SCALE * vx - wz);
