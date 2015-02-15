@@ -86,6 +86,7 @@ public class LifterMotorSubsystem extends Subsystem {
 			lifterTalon1.set(getPosition());
 			lifterTalon2.set(getPosition());
 		}
+//		System.out.println("lifter position: " + getPosition() + "\t setpoint: " + lifterTalon1.getSetpoint() + "\t error: " + lifterTalon1.getClosedLoopError());
 	}
 	
 	
@@ -97,7 +98,7 @@ public class LifterMotorSubsystem extends Subsystem {
     }
 	
 	public double getPosition() {
-	    return lifterTalon1.getPosition() - offset;
+	    return lifterTalon1.getPosition(); //- offset;
 	}
 	
 	//Helper methods
@@ -108,7 +109,7 @@ public class LifterMotorSubsystem extends Subsystem {
     	talon.changeControlMode(CANTalon.ControlMode.Position); // position mode
     	talon.enableBrakeMode(true); // set brake mode
     	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
-    	talon.setPID(0.05, 0, 0);
+    	talon.setPID(0.055, 0, 0);
     	talon.reverseOutput(true);
     	talon.enableForwardSoftLimit(false);
     	talon.enableReverseSoftLimit(false);
@@ -124,8 +125,11 @@ public class LifterMotorSubsystem extends Subsystem {
     }
     
     public void setOffset() {
-    	offset = getPosition();
-    	System.out.println("OFFSET: " + offset);
+//    	offset = getPosition();
+    	lifterTalon1.setPosition(0);
+    	lifterTalon2.setPosition(0);
+//    	System.out.println("OFFSET: " + offset);
+    	System.out.println("ZEROED: " + getPosition());
     }
 }
 

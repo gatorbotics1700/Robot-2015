@@ -37,39 +37,22 @@ public class DriveSubsystem extends Subsystem {
 		driveMotorBR4.zeroEncoder();
 	}
 
-	//Teleop Moving Methods
+	//Moving Methods
 	public void teleopMove(double joyValueFR, double joyValueFL, double joyValueBR, double joyValueBL){
-		if(autonomous) {
-			autonomous = false;
-			setToTeleop();
-		}
 //		move(joyValueFR, joyValueFL, joyValueBR, joyValueBL);
-		driveMotorFR1.speedModeMove(joyValueFR);
-		driveMotorFL2.speedModeMove(joyValueFL);
-		driveMotorBR4.speedModeMove(joyValueBR);
-		driveMotorBL3.speedModeMove(joyValueBL);
+		driveMotorFR1.move(joyValueFR);
+		driveMotorFL2.move(joyValueFL);
+		driveMotorBR4.move(joyValueBR);
+		driveMotorBL3.move(joyValueBL);
 //		System.out.println(driveMotorFR1.getPosition());
 	}
 	
-	private void setToTeleop(){
-		driveMotorFR1.setToSpeedMode();
-		driveMotorFL2.setToSpeedMode();
-		driveMotorBR4.setToSpeedMode();
-		driveMotorBL3.setToSpeedMode();
-	}
 	
 	public void stop(){
-		if (autonomous) {
-			driveMotorFR1.positionModeStop();
-			driveMotorFL2.positionModeStop();
-			driveMotorBR4.positionModeStop();
-			driveMotorBL3.positionModeStop();
-		} else {
-			driveMotorFR1.speedModeStop();
-			driveMotorFL2.speedModeStop();
-			driveMotorBR4.speedModeStop();
-			driveMotorBL3.speedModeStop();
-		}
+		driveMotorFR1.stop();
+		driveMotorFL2.stop();
+		driveMotorBR4.stop();
+		driveMotorBL3.stop();
 	}
 	
 
@@ -77,53 +60,13 @@ public class DriveSubsystem extends Subsystem {
 	public void autonomousMove(double speed) {
 		//starts in autonomous mode, so no need to explicitly set it
 //		move(-speed, speed, -speed, speed); // moving forward, right side is reversed
-		driveMotorFR1.positionModeMove(-speed);
-		driveMotorFL2.positionModeMove(speed);
-		driveMotorBR4.positionModeMove(-speed);
-		driveMotorBL3.positionModeMove(speed);
+		driveMotorFR1.move(-speed);
+		driveMotorFL2.move(speed);
+		driveMotorBR4.move(-speed);
+		driveMotorBL3.move(speed);
 	}
 	
-	public void autonomousTurn(double speed) { //very low speed because we haven't scaled it down
-//		move(speed, speed, speed, speed); // turning right (clockwise), right side is reversed
-		driveMotorFR1.positionModeMove(speed);
-		driveMotorFL2.positionModeMove(speed);
-		driveMotorBR4.positionModeMove(speed);
-		driveMotorBL3.positionModeMove(speed);
-		System.out.println("drive pos: " + getPosition());
-	}
-	
-	//Set Motors
-//	private void move(double joyValueFR, double joyValueFL, double joyValueBR, double joyValueBL){
-//		driveMotorFR1.moveSpeed(joyValueFR);
-//		driveMotorFL2.moveSpeed(joyValueFL);
-//		driveMotorBR4.moveSpeed(joyValueBR);
-//		driveMotorBL3.moveSpeed(joyValueBL);
-//	}
-	
-	//Aligning Methods
-	/**
-	 * Moves the right side of the robot forward at a constant speed. 
-	 * For use when aligning with the tote with proximity sensors 
-	 * (see AlignToToteCommand).
-	 * TODO: be able to move forward or backwards when aligning based on
-	 * distance from tote. 
-	 */
-//	public void alignRight() {
-//		driveMotorFR1.moveSpeed(ALIGN_SPEED);
-//		driveMotorBR4.moveSpeed(ALIGN_SPEED);
-//	}
-	
-	/**
-	 * Moves the left side of the robot forward at a constant speed. 
-	 * For use when aligning with the tote with proximity sensors 
-	 * (see AlignToToteCommand).
-	 * TODO: be able to move forward or backwards when aligning based on
-	 * distance from tote. 
-	 */
-//	public void alignLeft() {
-//		driveMotorFL2.moveSpeed(-ALIGN_SPEED);
-//		driveMotorBL3.moveSpeed(-ALIGN_SPEED);
-//	}
+
 	
     public void initDefaultCommand() {
     	setDefaultCommand(new MecanumDriveCommand()); // drive command is always active

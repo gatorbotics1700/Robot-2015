@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1700.robot.commands;
 
+import org.usfirst.frc.team1700.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -26,8 +28,8 @@ public class Autonomous extends CommandGroup {
         // arm.
     	
     	addSequential(new CalibrateLifterCommand());
-    	addSequential(new AutonomousLiftCommand());
+//    	addSequential(new AutonomousLiftCommand());
 //    	addSequential(new AutonomousTurnCommand());
-    	addSequential(new AutonomousDriveCommand());
+//    	addSequential(new AutonomousDriveCommand());
     }
 }

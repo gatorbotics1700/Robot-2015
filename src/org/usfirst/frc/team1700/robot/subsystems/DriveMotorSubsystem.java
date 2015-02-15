@@ -23,12 +23,14 @@ public class DriveMotorSubsystem {
 		initTalon();
 	}
 	
+	
+	//Moving Methods
 	/**
 	 * Given a commanded speed from the operator joystick, enforces a deadband
 	 * and sends the scaled speed to the motor's Talon.
 	 * @param speed
 	 */
-	public void speedModeMove(double speed) {
+	public void move(double speed) {
 		if(speed > JOYSTICK_DEADBAND || speed < -JOYSTICK_DEADBAND){ 
 			double setpoint =  scale(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * 5000;
 //			double setpoint =  speed * 6000;
@@ -42,26 +44,18 @@ public class DriveMotorSubsystem {
 		}
 	}
 	
-	public void positionModeMove(double position) {
-		driveTalon.set(position);
-//		System.out.println("Setpoint: " + driveTalon.getSetpoint());
+	public void stop() {
+		driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));
 	}
 	
+	
+	//Encoder Methods
 	public double getPosition() {
 		return driveTalon.getPosition();
 	}
 	
 	public void zeroEncoder() {
 		driveTalon.setPosition(0); //beware! not sure if this is the right one to use
-	}
-	
-	
-	public void speedModeStop() {
-		driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));
-	}
-	
-	public void positionModeStop() {
-		driveTalon.set(getPosition());
 	}
 	
 	/**
@@ -72,6 +66,8 @@ public class DriveMotorSubsystem {
 	 * @return - output speed to command to the motor
 	 */
 	
+	
+	//Helper Methods
 	private double scale(double input, double filterConstant1, double filterConstant2) {
 		double maxDelta = 0.03;
 		double filt1 = filterConstant1 * input + (1 - filterConstant1) * prevFilt1;
@@ -92,19 +88,7 @@ public class DriveMotorSubsystem {
     	
     	driveTalon.disableControl(); // disable before set up
     	driveTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
-    	setToPositionMode();
     	
-    	
-    	driveTalon.set(0);
-    	driveTalon.enableControl();
-
-    	driveTalon.setCloseLoopRampRate(12);
-//    	System.out.println("Ramp Rate: " + driveTalon.getCloseLoopRampRate());
-    	
-    	return driveTalon;
-    }
-	
-	public void setToSpeedMode(){
 		driveTalon.changeControlMode(CANTalon.ControlMode.Speed);
 		driveTalon.setPID(0.4,0.001,0); // 0.4,0.002,0 (yay! good!)
     	
@@ -118,11 +102,13 @@ public class DriveMotorSubsystem {
     		case 4: driveTalon.setF(0.977/2); //BR
     			break;
     	}
-	}
+    	
+    	driveTalon.set(0);
+    	driveTalon.enableControl();
+
+    	//Note: RampRate doesn't work!
+    	
+    	return driveTalon;
+    }
 	
-	public void setToPositionMode(){
-		driveTalon.changeControlMode(CANTalon.ControlMode.Position);
-		driveTalon.setPID(0.05, 0, 0); //test
-		driveTalon.setF(0);
-	}
 }

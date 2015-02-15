@@ -22,5 +22,5 @@ public class Subsystems {
 	public static LifterMotorSubsystem lifter = new LifterMotorSubsystem();
 	
 	// camera
-	//public static CameraSubsystem camera = new CameraSubsystem();
+	public static CameraSubsystem camera = new CameraSubsystem();
 }

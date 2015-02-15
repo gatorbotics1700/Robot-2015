@@ -19,22 +19,25 @@ public class AutonomousDriveCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Subsystems.drive.zeroEncoders();
+    	System.out.println("STARTED DRIVING ------------");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Subsystems.drive.autonomousMove(RobotMap.AUTONOMOUS_DISTANCE);
+    	Subsystems.drive.autonomousMove(-0.2);
     	// Joystick value equivalent
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Subsystems.drive.getPosition() >= RobotMap.AUTONOMOUS_DISTANCE;
+    	System.out.println("Position: " + Subsystems.drive.getPosition());
+    	return Subsystems.drive.getPosition() <= RobotMap.AUTONOMOUS_BACKWARD_FLAT_DISTANCE;
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	Subsystems.drive.stop();
+    	System.out.println("FINISHED DRIVING --------------");
     }
 
     // Called when another command which requires one or more of the same

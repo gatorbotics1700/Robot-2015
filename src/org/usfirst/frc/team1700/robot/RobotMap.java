@@ -9,22 +9,29 @@ package org.usfirst.frc.team1700.robot;
 public class RobotMap {
 	
 	// drive joystick axes and buttons
-	public static final int MOVE_X = 4, // right x
+	public static final int DRIVE_JOYSTICK_PORT = 0,
+						    // axes
+						    MOVE_X = 4, // right x
 						    MOVE_Y = 5, // right y
 						    ROTATE_X = 0, // left x
 						    ROTATE_Y = 1, // left y
+						    
+						    // strafing triggers
 						    STRAFE_LEFT = 2,
 						    STRAFE_RIGHT = 3,
+						    
+						    // buttons
 						    DEBUGGING_BUTTON = 1, // A
 						    ALIGN_TO_TOTE_BUTTON = 2, // B
 						    SENSOR_BUTTON = 3, // X
 						    Y_BUTTON = 4, // Y
-							DRIVE_JOYSTICK_PORT = 0;
+						    SHORT_ALIGNER_STATE_CHANGE_BUTTON = 5,
+						    LONG_ALIGNER_STATE_CHANGE_BUTTON = 6;
+							
+							
 	
 	// control joystick buttons and ports
 	public static final int CONTROL_JOYSTICK_PORT = 1,
-							LONG_ALIGNER_STATE_CHANGE_BUTTON = 3,
-							SHORT_ALIGNER_STATE_CHANGE_BUTTON = 4,
 							LIFTER_LEVEL_ZERO_BUTTON = 6,
 							LIFTER_LEVEL_ONE_BUTTON = 7,
 							LIFTER_LEVEL_TWO_BUTTON = 11,
@@ -68,10 +75,12 @@ public class RobotMap {
 	public static final int LEVEL_0 = -50,
 							 LEVEL_1 = 45000,
 							 LEVEL_2 = 75200,
-							 LEVEL_3 = 155850; // little bit less than soft limit 154946.0
+							 LEVEL_3 = 155900; // little bit less than soft limit 154946.0
 
 	public static final double AUTONOMOUS_QUARTER_TURN_DIST = 32000 * 3 / 16,
 							   AUTONOMOUS_HALF_TURN_DIST = 64000 * 3 / 16,
-							   AUTONOMOUS_DISTANCE = 30000; //45000
+							   AUTONOMOUS_FORWARD_FLAT_DISTANCE = 70000,
+							   AUTONOMOUS_FORWARD_PLATFORM_DISTANCE = 71000,
+							   AUTONOMOUS_BACKWARD_FLAT_DISTANCE = -50000; // same for platform distance
 }
 

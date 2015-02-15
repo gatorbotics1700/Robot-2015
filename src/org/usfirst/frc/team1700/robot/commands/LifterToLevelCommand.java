@@ -32,13 +32,13 @@ public class LifterToLevelCommand extends Command {
     protected void execute() {
     	currentLevel = lifter.getPosition();
     	lifter.safeMove(targetLevel);
-    	System.out.println("Position: " + currentLevel);
+    	System.out.println("setpoint: " + targetLevel + " \t position: " + currentLevel);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	boolean done = (Math.abs(currentLevel - targetLevel) < 100); // maybe even bigger deadband?
-    	//System.out.println(" DONE " + done);
+    	boolean done = (Math.abs(currentLevel - targetLevel) < 925); // maybe even bigger deadband?
+    	System.out.println(" DONE " + done);
     	return done;
     	// TODO: check tick deadband and change as needed
     }

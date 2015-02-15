@@ -45,10 +45,10 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	 * should move in the same direction.) 
 	 */
 	public void goToVertical() {
-		if (isLong) System.out.println("going to vertical " + getPosition());
+//		if (isLong) System.out.println("going to vertical " + getPosition());
 		alignmentTalon1.set(vertical);
 		alignmentTalon2.set(vertical);
-		System.out.println("setpoint: " + alignmentTalon1.getSetpoint());
+//		System.out.println("setpoint: " + alignmentTalon1.getSetpoint());
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 		if (isLong) System.out.println("going to horizontal " + getPosition());
 		alignmentTalon1.set(horizontal);
 		alignmentTalon2.set(horizontal);
-		System.out.println("setpoint: " + alignmentTalon1.getSetpoint());
+//		System.out.println("setpoint: " + alignmentTalon1.getSetpoint());
 	}
 	
 	public boolean isVertical(){
@@ -91,6 +91,7 @@ public class AlignmentMotorsSubsystem extends Subsystem {
     	
     	talon.disableControl(); // disable before set up
     	talon.changeControlMode(CANTalon.ControlMode.Position);
+//    	talon.changeControlMode(CANTalon.ControlMode.PercentVbus);
     	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
     	talon.set(talon.getPosition());
     	talon.enableControl();

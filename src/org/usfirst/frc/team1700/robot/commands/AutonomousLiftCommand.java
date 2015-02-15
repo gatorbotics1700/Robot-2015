@@ -19,16 +19,18 @@ public class AutonomousLiftCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Subsystems.lifter.enable();
+    	Subsystems.lifter.zeroEncoders();
+    	System.out.println("LIFTER STARTED -------------");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Subsystems.lifter.safeMove(RobotMap.LEVEL_1);
+    	Subsystems.lifter.safeMove(20000);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Subsystems.lifter.getPosition() - RobotMap.LEVEL_1) < 1000; // check deadband
+        return Math.abs(Subsystems.lifter.getPosition() - 20000) < 1500; // check deadband
     }
 
     // Called once after isFinished returns true
