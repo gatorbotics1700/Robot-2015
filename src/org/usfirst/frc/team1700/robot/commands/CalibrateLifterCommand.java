@@ -24,7 +24,7 @@ public class CalibrateLifterCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	lifter.unsafeMove(-4000 + lifter.getPosition());
+    	lifter.uncheckedMove(-4000 + lifter.getPosition());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -34,13 +34,11 @@ public class CalibrateLifterCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	lifter.zeroEncoders();
     	lifter.stop();
-    	System.out.println("CALIBRATE FINISHED ----------------");
+    	lifter.zeroEncoders();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    // Called when another command which requires one or more of the same subsystems is scheduled to run
     protected void interrupted() {
     	lifter.stop();
     }

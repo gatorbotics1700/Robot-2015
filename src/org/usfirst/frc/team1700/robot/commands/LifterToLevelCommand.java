@@ -17,8 +17,6 @@ public class LifterToLevelCommand extends Command {
     public LifterToLevelCommand(int level) {
     	requires(Subsystems.lifter);
     	lifter = Subsystems.lifter;
-//    	requires(Subsystems.lifterEncoder);
-//    	requires(Subsystems.lifterLimitSwitch);
     	targetLevel = level;
     }
 
@@ -32,15 +30,11 @@ public class LifterToLevelCommand extends Command {
     protected void execute() {
     	currentLevel = lifter.getPosition();
     	lifter.safeMove(targetLevel);
-    	System.out.println("setpoint: " + targetLevel + " \t position: " + currentLevel);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	boolean done = (Math.abs(currentLevel - targetLevel) < 925); // maybe even bigger deadband?
-    	System.out.println(" DONE " + done);
-    	return done;
-    	// TODO: check tick deadband and change as needed
+    	return (Math.abs(currentLevel - targetLevel) < 925);
     }
 
     // Called once after isFinished returns true

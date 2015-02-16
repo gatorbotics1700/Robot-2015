@@ -21,6 +21,7 @@ public class RobotMap {
 						    STRAFE_RIGHT = 3,
 						    
 						    // buttons
+						    POV_INIT_NUMBER = 0,
 						    DEBUGGING_BUTTON = 1, // A
 						    ALIGN_TO_TOTE_BUTTON = 2, // B
 						    SENSOR_BUTTON = 3, // X
@@ -32,10 +33,10 @@ public class RobotMap {
 	
 	// control joystick buttons and ports
 	public static final int CONTROL_JOYSTICK_PORT = 1,
-							LIFTER_LEVEL_ZERO_BUTTON = 6,
-							LIFTER_LEVEL_ONE_BUTTON = 7,
-							LIFTER_LEVEL_TWO_BUTTON = 11,
-							LIFTER_LEVEL_THREE_BUTTON = 10,
+							LIFTER_LEVEL_ZERO_BUTTON = 7,
+							LIFTER_LEVEL_ONE_BUTTON = 6,
+							LIFTER_LEVEL_TWO_BUTTON = 10,
+							LIFTER_LEVEL_THREE_BUTTON = 11,
 							ZERO_LIFTER_BUTTON = 9,
 							LIFTER_UNSAFE_MOVE_BUTTON = 8,
 							CALIBRATE_LIFTER_BUTTON = 2;
@@ -57,8 +58,8 @@ public class RobotMap {
 	// sensor ports
 	public static final int LIFTER_ENCODER_PORT_1 = 1,
  							LIFTER_ENCODER_PORT_2 = 2,
-							LIFTER_LIMIT_SWITCH_LEFT = 5,
-							LIFTER_LIMIT_SWITCH_RIGHT = 0,
+							LIFTER_LIMIT_SWITCH_LEFT = 0,
+							LIFTER_LIMIT_SWITCH_RIGHT = 5,
 							PROXIMITY_SENSOR_L = 1,
 							PROXIMITY_SENSOR_R = 0,
 							LONG_ALIGNER_ENCODER_A = 8,
@@ -67,7 +68,7 @@ public class RobotMap {
 							SHORT_ALIGNER_ENCODER_B = 7;
 		
 	// Aligner Encoder Values
-	public static final int ALIGNER_VERTICAL_STATE = -100,
+	public static final int ALIGNER_VERTICAL_STATE = -150,
 							LONG_ALIGNER_HORIZONTAL_STATE = -1920,
 							SHORT_ALIGNER_HORIZONTAL_STATE = -2000; //look at this closer
 	
@@ -77,10 +78,13 @@ public class RobotMap {
 							 LEVEL_2 = 75200,
 							 LEVEL_3 = 155900; // little bit less than soft limit 154946.0
 
-	public static final double AUTONOMOUS_QUARTER_TURN_DIST = 32000 * 3 / 16,
-							   AUTONOMOUS_HALF_TURN_DIST = 64000 * 3 / 16,
+	public static final double AUTONOMOUS_DRIVE_SPEED = 0.2,
+							   AUTONOMOUS_QUARTER_TURN_DIST = 6000,
+							   AUTONOMOUS_HALF_TURN_DIST = 12000,
 							   AUTONOMOUS_FORWARD_FLAT_DISTANCE = 70000,
 							   AUTONOMOUS_FORWARD_PLATFORM_DISTANCE = 71000,
 							   AUTONOMOUS_BACKWARD_FLAT_DISTANCE = -50000; // same for platform distance
+
+
 }
 

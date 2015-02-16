@@ -18,8 +18,8 @@ public class LifterLimitSwitchSubsystem extends Subsystem {
 	}
 	
 	public boolean isHit() {
-		// false is pressed, true is not pressed
-		return (!leftLS.get() || !rightLS.get());
+		// LEFT: false is open, true is pressed  |  RIGHT: false is pressed, true is open
+		return (leftLS.get() || !rightLS.get());
 	}
 	
     public void initDefaultCommand() {

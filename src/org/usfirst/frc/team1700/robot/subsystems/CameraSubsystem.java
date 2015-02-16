@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1700.robot.subsystems;
 
-import org.usfirst.frc.team1700.robot.commands.GetCameraCommand;
-
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 
@@ -17,22 +15,17 @@ public class CameraSubsystem extends Subsystem {
     Image frame;
     AxisCamera camera;
 	
-    public CameraSubsystem() {
+    public CameraSubsystem(String IPAddress) {
     	frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-        camera = new AxisCamera("10.17.0.22"); // open the camera at the IP address assigned.
+        camera = new AxisCamera(IPAddress); // open the camera at the IP address assigned.
     }
     
     public void update() {
-//    	NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
     	camera.getImage(frame);
-//        NIVision.imaqDrawShapeOnImage(frame, frame, rect,
-//                DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-
         CameraServer.getInstance().setImage(frame);
     }
 
     public void initDefaultCommand() {
-//        setDefaultCommand(new GetCameraCommand());
     }
 }
 

@@ -1,10 +1,6 @@
 package org.usfirst.frc.team1700.robot.subsystems;
 
-import org.usfirst.frc.team1700.robot.Robot;
-import org.usfirst.frc.team1700.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class manages an individual drive train motor and its movement.
@@ -12,17 +8,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveMotorSubsystem {
 	private CANTalon driveTalon;
 	private static final double JOYSTICK_DEADBAND = 0.1;
-	private double prevFilt1 = 0;
-	private double prevFilt2 = 0;
+	private double prevFilt1 = 0, prevFilt2 = 0;
 	private static final double FILTER_CONSTANT_1 = 0.2;
-	private static final double FILTER_CONSTANT_2 = 0.2; // should probably be a little higher.
+	private static final double FILTER_CONSTANT_2 = 0.2;
 	private int TalonID;
 	
 	public DriveMotorSubsystem(int ID) {
 		TalonID = ID;
 		initTalon();
 	}
-	
 	
 	//Moving Methods
 	/**
@@ -33,13 +27,8 @@ public class DriveMotorSubsystem {
 	public void move(double speed) {
 		if(speed > JOYSTICK_DEADBAND || speed < -JOYSTICK_DEADBAND){ 
 			double setpoint =  scale(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * 5000;
-//			double setpoint =  speed * 6000;
-			driveTalon.set(setpoint); //max speed
-//			System.out.print(Math.abs(driveTalon.getSpeed()) + "\t");
-	    	//System.out.println("Error: " + driveTalon.getClosedLoopError());
-//			System.out.println("Setpoint: " + driveTalon.getSetpoint());
+			driveTalon.set(setpoint); 
 		} else {
-//			System.out.println("set back to zero");
 			driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)*5000);
 		}
 	}
@@ -73,7 +62,6 @@ public class DriveMotorSubsystem {
 		double filt1 = filterConstant1 * input + (1 - filterConstant1) * prevFilt1;
 		double filt2 = filterConstant2 * filt1 + (1 - filterConstant2) * prevFilt2;
 		
-		//if (Math.abs(outputSpeed - targetSpeed) < .0005) outputSpeed = targetSpeed; // close enough
 		if (Math.abs(filt2 - prevFilt2) > maxDelta) {
 			filt2 = prevFilt2 + Math.signum(filt2 - prevFilt2) * maxDelta;
 		}
@@ -105,8 +93,6 @@ public class DriveMotorSubsystem {
     	
     	driveTalon.set(0);
     	driveTalon.enableControl();
-
-    	//Note: RampRate doesn't work!
     	
     	return driveTalon;
     }

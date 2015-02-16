@@ -12,10 +12,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class LifterMotorSubsystem extends Subsystem {
 
-	private static final double DEADBAND = .15;
-	private static final double JOY_SCALE = 1/(1-DEADBAND);
-	private double offset = 0;
-	
 	private CANTalon lifterTalon1;
 	private CANTalon lifterTalon2;
 	private LifterLimitSwitchSubsystem limitSwitches;
@@ -35,18 +31,16 @@ public class LifterMotorSubsystem extends Subsystem {
     
 	//SetUp
 	 public void enable() {
-	    	// called if command is interrupted and restarted
-	    	safeMove(getPosition());
-	    	lifterTalon1.enableControl();
-	    	lifterTalon2.enableControl();
-//	    	System.out.println("ENABLING ----------------");
+	    // called if command is interrupted and restarted
+	    safeMove(getPosition());
+	    lifterTalon1.enableControl();
+	    lifterTalon2.enableControl();
 	 }
 	    
 	 public void disable() {
 	    stop();
 	    lifterTalon1.disableControl();
 	    lifterTalon2.disableControl();
-//	    System.out.println("DISABLING ----------------");
 	 }
 	
 	public void stop() {
@@ -66,7 +60,7 @@ public class LifterMotorSubsystem extends Subsystem {
 	}
   
 	//Moving
-	public void unsafeMove(double position) {
+	public void uncheckedMove(double position) {
 		boolean goingUp = position >= getPosition();
 		if ((!goingUp && !limitSwitches.isHit()) || (goingUp)) {
 			lifterTalon1.set(position);
@@ -86,7 +80,6 @@ public class LifterMotorSubsystem extends Subsystem {
 			lifterTalon1.set(getPosition());
 			lifterTalon2.set(getPosition());
 		}
-//		System.out.println("lifter position: " + getPosition() + "\t setpoint: " + lifterTalon1.getSetpoint() + "\t error: " + lifterTalon1.getClosedLoopError());
 	}
 	
 	
@@ -94,11 +87,10 @@ public class LifterMotorSubsystem extends Subsystem {
 	public void zeroEncoders() {
     	lifterTalon1.setPosition(0);
     	lifterTalon2.setPosition(0);
-    	System.out.println("ZEROED " + getPosition());
     }
 	
 	public double getPosition() {
-	    return lifterTalon1.getPosition(); //- offset;
+	    return lifterTalon1.getPosition();
 	}
 	
 	//Helper methods
@@ -106,9 +98,9 @@ public class LifterMotorSubsystem extends Subsystem {
     	CANTalon talon = new CANTalon(address);
     	
     	talon.disableControl(); // disable before set up
-    	talon.changeControlMode(CANTalon.ControlMode.Position); // position mode
-    	talon.enableBrakeMode(true); // set brake mode
-    	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
+    	talon.changeControlMode(CANTalon.ControlMode.Position);
+    	talon.enableBrakeMode(true);
+    	talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
     	talon.setPID(0.055, 0, 0);
     	talon.reverseOutput(true);
     	talon.enableForwardSoftLimit(false);
@@ -119,17 +111,9 @@ public class LifterMotorSubsystem extends Subsystem {
     	return talon;
     }
     
-    //Default
     public void initDefaultCommand() {
     	setDefaultCommand(new ManualLifterCommand());
     }
     
-    public void setOffset() {
-//    	offset = getPosition();
-    	lifterTalon1.setPosition(0);
-    	lifterTalon2.setPosition(0);
-//    	System.out.println("OFFSET: " + offset);
-    	System.out.println("ZEROED: " + getPosition());
-    }
 }
 

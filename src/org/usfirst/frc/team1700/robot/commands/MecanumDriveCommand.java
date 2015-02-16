@@ -14,18 +14,22 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MecanumDriveCommand extends Command {
 	
 	private static final double SCALE_DOWN = .8; // scale down factor
-	private final double rotationalConstant = 1;
 	private static final double DEADBAND = .15;
 	private static final double JOY_SCALE = 1/(1-DEADBAND);
 	private static final double STRAFE_FRONT_SCALE = 1;
 	private static final double PRECISION_STRAFE_SCALE_DOWN = .3;
+	private static final double POV_MOVE_SPEED = .2;
+	
+	private static final int POV_NONE = -1, 
+							 POV_FRONT = 0, 
+							 POV_BACK = 180, 
+							 POV_RIGHT = 90, 
+							 POV_LEFT = 270;
 	
 	private DriveSubsystem driveSubsystem;
 	private OI oi;
 	
     public MecanumDriveCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Subsystems.drive);
     	this.driveSubsystem = Subsystems.drive;
     	this.oi = Robot.oi;
@@ -42,24 +46,53 @@ public class MecanumDriveCommand extends Command {
     	double vy = - deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_Y));
     	double vx = deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_X));
     	double wz = - deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
-    	double FL, FR, BL, BR;
+    	int POV = oi.driveJoystick.getPOV();
+    	double FL = 0, FR = 0, BL = 0, BR = 0;
     	
-    	if (precisionStrafeRight <= DEADBAND && precisionStrafeLeft >= -DEADBAND) {
+    	if (precisionStrafeRight <= DEADBAND && precisionStrafeLeft >= -DEADBAND && POV == POV_NONE) {
 	    	// normal drive
 	    	FL = (SCALE_DOWN)*(vy - STRAFE_FRONT_SCALE * vx - wz);
 	    	FR = - (SCALE_DOWN)*(vy + STRAFE_FRONT_SCALE* vx + wz);
 	    	BL = (SCALE_DOWN)*(vy + vx - wz);
 	    	BR = - (SCALE_DOWN)*(vy - vx + wz);
-    	}
-	    else {
+    	} else if (POV == POV_NONE) { // precision strafing
 	    	vx = precisionStrafeRight + precisionStrafeLeft;
 	    	FL = (PRECISION_STRAFE_SCALE_DOWN)*(- STRAFE_FRONT_SCALE * vx);
 	    	FR = - (PRECISION_STRAFE_SCALE_DOWN)*(STRAFE_FRONT_SCALE* vx);
 	    	BL = (PRECISION_STRAFE_SCALE_DOWN)*(vx);
 	    	BR = - (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
+	    } else {
+	    	// precision moving
+	    	switch (POV) {
+	    	case POV_FRONT:
+	    		FL = POV_MOVE_SPEED;
+	    		FR = - POV_MOVE_SPEED;
+	    		BL = POV_MOVE_SPEED;
+	    		BR = - POV_MOVE_SPEED;
+	    		break;
+	    	case POV_BACK:
+	    		FL = - POV_MOVE_SPEED;
+	    		FR = POV_MOVE_SPEED;
+	    		BL = -POV_MOVE_SPEED;
+	    		BR = POV_MOVE_SPEED;
+	    		break;
+	    	case POV_RIGHT:
+	    		FL = -POV_MOVE_SPEED;
+	    		FR = -POV_MOVE_SPEED;
+	    		BL = POV_MOVE_SPEED;
+	    		BR = POV_MOVE_SPEED;
+	    		break;
+	    	case POV_LEFT:
+	    		FL = POV_MOVE_SPEED;
+	    		FR = POV_MOVE_SPEED;
+	    		BL = -POV_MOVE_SPEED;
+	    		BR = -POV_MOVE_SPEED;
+	    		break;
+	    	default:
+	    		break;
+	    	}
 	    }
     	
-    	//System.out.println("Setpoint: FR: " + FR + "  FL: " + FL + "  BR: " + BR + "  BL: " + BL);
     	driveSubsystem.teleopMove(FR, FL, BR, BL);
 
     }

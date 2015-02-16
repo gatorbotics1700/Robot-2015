@@ -16,8 +16,7 @@ public class OI {
 	public Joystick driveJoystick = new Joystick(RobotMap.DRIVE_JOYSTICK_PORT);
 	Button longAlignerChangeStateButton = new JoystickButton(driveJoystick, RobotMap.LONG_ALIGNER_STATE_CHANGE_BUTTON);
 	Button shortAlignerChangeStateButton = new JoystickButton(driveJoystick, RobotMap.SHORT_ALIGNER_STATE_CHANGE_BUTTON);
-	//Button alignToToteButton = new JoystickButton(driveJoystick, RobotMap.ALIGN_TO_TOTE_BUTTON);
-	//Button sensorButton = new JoystickButton(driveJoystick, RobotMap.SENSOR_BUTTON);
+	Button precisionMovePOV = new JoystickButton(driveJoystick, RobotMap.POV_INIT_NUMBER);
 	
 	// control joystick and buttons
 	public Joystick controlJoystick = new Joystick(RobotMap.CONTROL_JOYSTICK_PORT);
@@ -31,15 +30,11 @@ public class OI {
 		// tote aligner button bindings
 		longAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(true)); // true = long
 		shortAlignerChangeStateButton.whenPressed(new ChangeAlignerStateCommand(false)); // false = short
-		
-		// proximity sensor aligner button bindings
-//		alignToToteButton.whileHeld(new AlignToToteCommand());
-		//sensorButton.whileHeld(new ReadProximitySensorCommand());
 
 		// chain lifter button bindings
-		lifterLevelZeroButton.whenPressed(new LifterToLevelCommand(RobotMap.LEVEL_0));
-		lifterLevelOneButton.whenPressed(new LifterToLevelCommand(RobotMap.LEVEL_1));
-		lifterLevelTwoButton.whenPressed(new LifterToLevelCommand(RobotMap.LEVEL_2));
+		lifterLevelZeroButton.whileHeld(new LifterToLevelCommand(RobotMap.LEVEL_0));
+		lifterLevelOneButton.whileHeld(new LifterToLevelCommand(RobotMap.LEVEL_1));
+		lifterLevelTwoButton.whileHeld(new LifterToLevelCommand(RobotMap.LEVEL_2));
 		lifterLevelThreeButton.whileHeld(new LifterToLevelCommand(RobotMap.LEVEL_3));
 	}
 	

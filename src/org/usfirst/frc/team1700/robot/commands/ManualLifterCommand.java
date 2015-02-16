@@ -1,10 +1,8 @@
 package org.usfirst.frc.team1700.robot.commands;
 
-import org.usfirst.frc.team1700.robot.OI;
 import org.usfirst.frc.team1700.robot.Robot;
 import org.usfirst.frc.team1700.robot.RobotMap;
 import org.usfirst.frc.team1700.robot.Subsystems;
-import org.usfirst.frc.team1700.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1700.robot.subsystems.LifterMotorSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -14,7 +12,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ManualLifterCommand extends Command {
 	private LifterMotorSubsystem lifter;
-	private OI oi = Robot.oi;
 	public static final double DEADBAND = 0.1;
 	public static final double JOY_SCALE = 1/(1-DEADBAND);
 	private static final double SCALE = 10000;
@@ -34,13 +31,10 @@ public class ManualLifterCommand extends Command {
     protected void execute() {
     	// carrot on a stick;
     	if (Robot.oi.controlJoystick.getRawButton(RobotMap.LIFTER_UNSAFE_MOVE_BUTTON)) {
-    		lifter.unsafeMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition()); //compensating for joystick orientation  
+    		lifter.uncheckedMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition()); //compensating for joystick orientation  
     		System.out.println(lifter.getPosition());
-    		//never gets in here
     	} else {
-    		double position = lifter.getPosition();
     		lifter.safeMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition());
-    		//gets in this block fine
     	}
     	
     	if (Robot.oi.controlJoystick.getRawButton(RobotMap.ZERO_LIFTER_BUTTON)) {
@@ -63,19 +57,5 @@ public class ManualLifterCommand extends Command {
     protected void interrupted() {
     	lifter.stop();
     }
-    
-    private double deadband(double value) {
-		double output = 0;
-		if (value > DEADBAND || value < -DEADBAND) { // maps (0.1, 1) to (0,1)
-			if (value > DEADBAND){
-				output = (value - DEADBAND)*JOY_SCALE;
-			} else {
-				output = (value + DEADBAND)*JOY_SCALE;
-			}
-		} else { // outside of deadband
-			output = 0;
-		}
-		
-		return output;
-	}
+
 }
