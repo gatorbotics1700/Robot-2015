@@ -10,8 +10,8 @@ public class Autonomous extends CommandGroup {
     public  Autonomous() {
     	
     	addSequential(new CalibrateLifterCommand());
-    	addSequential(new AutonomousLiftCommand());
-    	addSequential(new AutonomousDriveCommand());
+    	//addSequential(new AutonomousLiftCommand());
+    	//addSequential(new AutonomousDriveCommand());
     	
     }
 }
