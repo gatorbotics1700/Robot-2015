@@ -9,14 +9,15 @@ import org.usfirst.frc.team1700.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Manual driving command for mecanum drive with Xbox controller. Right joystick 
+ * controls translation, while left joystick controls rotation. Also contains
+ * precision move modes: trigger strafing, and POV moving.
  */
 public class MecanumDriveCommand extends Command {
 	
 	private static final double SCALE_DOWN = .8; // scale down factor
-	private static final double DEADBAND = .15;
-	private static final double JOY_SCALE = 1/(1-DEADBAND);
-	private static final double STRAFE_FRONT_SCALE = 1;
+	private static final double JOY_DEADBAND = .15;
+	private static final double JOY_SCALE = 1/(1-JOY_DEADBAND);
 	private static final double PRECISION_STRAFE_SCALE_DOWN = .3;
 	private static final double POV_MOVE_SPEED = .2;
 	
@@ -41,6 +42,7 @@ public class MecanumDriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	// get values from joystick for processing
     	double precisionStrafeRight = deadband(oi.driveJoystick.getRawAxis(RobotMap.STRAFE_RIGHT));
     	double precisionStrafeLeft = -1 * deadband(oi.driveJoystick.getRawAxis(RobotMap.STRAFE_LEFT));
     	double vy = - deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_Y));
@@ -49,20 +51,19 @@ public class MecanumDriveCommand extends Command {
     	int POV = oi.driveJoystick.getPOV();
     	double FL = 0, FR = 0, BL = 0, BR = 0;
     	
-    	if (precisionStrafeRight <= DEADBAND && precisionStrafeLeft >= -DEADBAND && POV == POV_NONE) {
-	    	// normal drive
-	    	FL = (SCALE_DOWN)*(vy - STRAFE_FRONT_SCALE * vx - wz);
-	    	FR = - (SCALE_DOWN)*(vy + STRAFE_FRONT_SCALE* vx + wz);
+    	// use joystick values to calculate drive commands
+    	if (precisionStrafeRight <= JOY_DEADBAND && precisionStrafeLeft >= -JOY_DEADBAND && POV == POV_NONE) { // normal drive
+	    	FL = (SCALE_DOWN)*(vy - vx - wz);
+	    	FR = - (SCALE_DOWN)*(vy + vx + wz);
 	    	BL = (SCALE_DOWN)*(vy + vx - wz);
 	    	BR = - (SCALE_DOWN)*(vy - vx + wz);
     	} else if (POV == POV_NONE) { // precision strafing
 	    	vx = precisionStrafeRight + precisionStrafeLeft;
-	    	FL = (PRECISION_STRAFE_SCALE_DOWN)*(- STRAFE_FRONT_SCALE * vx);
-	    	FR = - (PRECISION_STRAFE_SCALE_DOWN)*(STRAFE_FRONT_SCALE* vx);
+	    	FL = (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
+	    	FR = - (PRECISION_STRAFE_SCALE_DOWN)*(vx);
 	    	BL = (PRECISION_STRAFE_SCALE_DOWN)*(vx);
 	    	BR = - (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
-	    } else {
-	    	// precision moving
+	    } else { // precision moving
 	    	switch (POV) {
 	    	case POV_FRONT:
 	    		FL = POV_MOVE_SPEED;
@@ -93,8 +94,8 @@ public class MecanumDriveCommand extends Command {
 	    	}
 	    }
     	
+    	// command drive subsystem
     	driveSubsystem.teleopMove(FR, FL, BR, BL);
-
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -113,13 +114,19 @@ public class MecanumDriveCommand extends Command {
     	driveSubsystem.stop();
     }
     
+    /**
+     * Enforces deadband (currently 0.1) on passed in value. Used to deadband
+     * joystick input to drive.
+     * @param value
+     * @return
+     */
     private double deadband(double value) {
 		double output = 0;
-		if (value > DEADBAND || value < -DEADBAND) { // maps (0.1, 1) to (0,1)
-			if (value > DEADBAND){
-				output = (value - DEADBAND)*JOY_SCALE;
+		if (value > JOY_DEADBAND || value < -JOY_DEADBAND) { // maps (0.1, 1) to (0,1)
+			if (value > JOY_DEADBAND){
+				output = (value - JOY_DEADBAND)*JOY_SCALE;
 			} else {
-				output = (value + DEADBAND)*JOY_SCALE;
+				output = (value + JOY_DEADBAND)*JOY_SCALE;
 			}
 		} else { // inside of deadband
 			output = 0;

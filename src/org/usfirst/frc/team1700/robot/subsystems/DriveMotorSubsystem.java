@@ -3,91 +3,94 @@ package org.usfirst.frc.team1700.robot.subsystems;
 import edu.wpi.first.wpilibj.CANTalon;
 
 /**
- * This class manages an individual drive train motor and its movement.
+ * This class manages an individual drive motor and its movement through speed PIDF control.
+ * Runs speeds through a second degree low pass filter to scale and minimize jerk.
  */
 public class DriveMotorSubsystem {
 	private CANTalon driveTalon;
-	private static final double JOYSTICK_DEADBAND = 0.1;
+	private int talonID;
+	private static final int MAX_SPEED = 5000;
+	private static final double JOY_DEADBAND = 0.1;
 	private double prevFilt1 = 0, prevFilt2 = 0;
-	private static final double FILTER_CONSTANT_1 = 0.2;
+	private static final double FILTER_CONSTANT_1 = 0.3;
 	private static final double FILTER_CONSTANT_2 = 0.2;
-	private int TalonID;
 	
 	public DriveMotorSubsystem(int ID) {
-		TalonID = ID;
+		talonID = ID;
 		initTalon();
 	}
 	
-	//Moving Methods
+	/** ==================== MOVING METHODS ==================== */
+	
 	/**
-	 * Given a commanded speed from the operator joystick, enforces a deadband
-	 * and sends the scaled speed to the motor's Talon.
-	 * @param speed
+	 * Given a commanded speed from the operator joystick, enforces a deadband,
+	 * runs the speed through the second degree low pass filter, and sends the
+	 * commands to the motor.
+	 * @param speed - joystick command
 	 */
 	public void move(double speed) {
-		if(speed > JOYSTICK_DEADBAND || speed < -JOYSTICK_DEADBAND){ 
-			double setpoint =  scale(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * 5000;
+		if(speed > JOY_DEADBAND || speed < -JOY_DEADBAND){ 
+			double setpoint =  filter(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * MAX_SPEED;
 			driveTalon.set(setpoint); 
 		} else {
-			driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)*5000);
+			driveTalon.set(filter(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)* MAX_SPEED);
 		}
 	}
 	
 	public void stop() {
-		driveTalon.set(scale(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2));
+		driveTalon.set(filter(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)*MAX_SPEED);
 	}
 	
+	/** ==================== ENCODER METHODS ==================== */
 	
-	//Encoder Methods
 	public double getPosition() {
 		return driveTalon.getPosition();
 	}
 	
 	public void zeroEncoder() {
-		driveTalon.setPosition(0); //beware! not sure if this is the right one to use
+		driveTalon.setPosition(0);
 	}
 	
+	/** ==================== HELPER METHODS ==================== */
+
 	/**
-	 * Given a target speed, implements low pass filter for smoother acc/deceleration.
-	 * If the calculated output speed is close enough to the target speed, sets ouptut
-	 * speed directly to target.
-	 * @param targetSpeed - target speed from joystick (joystick deadband implemented)
+	 * Given a target speed, implements a second degree low pass filter for smoother acceleration.
+	 * Also limits maximum acceleration in a given time step.
+	 * @param targetSpeed - target speed from joystick (deadband implemented)
 	 * @return - output speed to command to the motor
 	 */
-	
-	
-	//Helper Methods
-	private double scale(double input, double filterConstant1, double filterConstant2) {
-		double maxDelta = 0.03;
-		double filt1 = filterConstant1 * input + (1 - filterConstant1) * prevFilt1;
-		double filt2 = filterConstant2 * filt1 + (1 - filterConstant2) * prevFilt2;
+	private double filter(double input, double filterConstant1, double filterConstant2) {
+		double maxDelta = 0.03; // max acceleration
+		double filter1 = filterConstant1 * input + (1 - filterConstant1) * prevFilt1;
+		double filter2 = filterConstant2 * filter1 + (1 - filterConstant2) * prevFilt2;
 		
-		if (Math.abs(filt2 - prevFilt2) > maxDelta) {
-			filt2 = prevFilt2 + Math.signum(filt2 - prevFilt2) * maxDelta;
+		if (Math.abs(filter2 - prevFilt2) > maxDelta) {
+			filter2 = prevFilt2 + Math.signum(filter2 - prevFilt2) * maxDelta;
 		}
-		prevFilt1 = filt1;
-		prevFilt2 = filt2;
+		prevFilt1 = filter1;
+		prevFilt2 = filter2;
 		
-		return filt2;
+		return filter2;
 	}
 	
 	private CANTalon initTalon() {
-    	driveTalon = new CANTalon(TalonID);
+    	driveTalon = new CANTalon(talonID);
     	
-    	driveTalon.disableControl(); // disable before set up
+    	driveTalon.disableControl();
     	driveTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
     	
 		driveTalon.changeControlMode(CANTalon.ControlMode.Speed);
-		driveTalon.setPID(0.4,0.001,0); // 0.4,0.002,0 (yay! good!)
+		driveTalon.setPID(0.4,0.001,0);
     	
-    	switch(TalonID) {
-    		case 1: driveTalon.setF(0.94/2); //BL
+		// custom feed forward terms for each motor
+    	switch(talonID) {
+    		case 1: driveTalon.setF(0.94/2); // back left
     			break;
-    		case 2: driveTalon.setF(1.044/2); //FL
+    		case 2: driveTalon.setF(1.044/2); // front left
     			break;
-    		case 3: driveTalon.setF(1.01/2); //FR
+    		case 3: driveTalon.setF(1.01/2); // front right
     			break;
-    		case 4: driveTalon.setF(0.977/2); //BR
+    		case 4: driveTalon.setF(0.977/2); // back right
     			break;
     	}
     	

@@ -5,9 +5,11 @@ import org.usfirst.frc.team1700.robot.Subsystems;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Lifts up yellow tote during autonomous.
  */
 public class AutonomousLiftCommand extends Command {
+	private static final int AUTO_HEIGHT = 20000;
+	private static final int HEIGHT_DEADBAND = 1500;
 
     public AutonomousLiftCommand() {
     	requires(Subsystems.lifter);
@@ -20,12 +22,12 @@ public class AutonomousLiftCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Subsystems.lifter.safeMove(20000);
+    	Subsystems.lifter.safeMove(AUTO_HEIGHT);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Subsystems.lifter.getPosition() - 20000) < 1500; // check deadband
+        return Math.abs(Subsystems.lifter.getPosition() - AUTO_HEIGHT) < HEIGHT_DEADBAND;
     }
 
     // Called once after isFinished returns true

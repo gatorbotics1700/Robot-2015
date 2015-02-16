@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * The drive subsystem manages and controls the four drive motors.
- * Used in both normal mecanum drive and also the align to tote command.
+ * Used in teleop mecanum drive and autonomous drive command.
  */
 public class DriveSubsystem extends Subsystem {
 	
@@ -20,10 +20,9 @@ public class DriveSubsystem extends Subsystem {
 		super();
 	}
 	
-	
-	//Encoder functions
+	/** ==================== ENCODER METHODS ==================== */
 	public double getPosition(){
-		return driveMotorFL2.getPosition();
+		return driveMotorFL2.getPosition(); // gets front left position (which isn't reversed)
 	}
 	
 	public void zeroEncoders() {
@@ -33,14 +32,13 @@ public class DriveSubsystem extends Subsystem {
 		driveMotorBR4.zeroEncoder();
 	}
 
-	//Moving Methods
+	/** ==================== TELEOP MOVE METHODS ==================== */
 	public void teleopMove(double joyValueFR, double joyValueFL, double joyValueBR, double joyValueBL){
 		driveMotorFR1.move(joyValueFR);
 		driveMotorFL2.move(joyValueFL);
 		driveMotorBR4.move(joyValueBR);
 		driveMotorBL3.move(joyValueBL);
 	}
-	
 	
 	public void stop(){
 		driveMotorFR1.stop();
@@ -50,15 +48,14 @@ public class DriveSubsystem extends Subsystem {
 	}
 	
 
-	//Autonomous Move Methods
+	/** ==================== AUTO MOVE METHODS ==================== */
+	// moves forward at the given speed
 	public void autonomousMove(double speed) {
 		driveMotorFR1.move(-speed);
 		driveMotorFL2.move(speed);
 		driveMotorBR4.move(-speed);
 		driveMotorBL3.move(speed);
 	}
-	
-
 	
     public void initDefaultCommand() {
     	setDefaultCommand(new MecanumDriveCommand()); // drive command is always active

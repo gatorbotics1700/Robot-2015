@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * The alignment motors subsystem creates and controls the two motors of
  * one of the tote aligner gearboxes. Used in the ChangeAlignerState command
- * to move up or down at a constant speed.
+ * to move up or down, and in the ResetAligner command.
  */
 public class AlignmentMotorsSubsystem extends Subsystem {
-	private CANTalon alignmentTalon1; 
-	private CANTalon alignmentTalon2;
+	private CANTalon alignmentTalon1, alignmentTalon2;
 	private static int ALIGNER_SETPOINT_OFFSET = 20;
 	private double verticalSetpoint = RobotMap.ALIGNER_VERTICAL_STATE + ALIGNER_SETPOINT_OFFSET;
 	private double horizontalSetpoint;
@@ -35,20 +34,12 @@ public class AlignmentMotorsSubsystem extends Subsystem {
     	}
     	horizontalSetpoint -= ALIGNER_SETPOINT_OFFSET; 
 	}
-	
-	/**
-	 * Moves motors forward at a constant speed.
-	 * (NOTE: in the tote aligner gearboxes (Vex VersaPlanetary Gearbox) the two motors
-	 * should move in the same direction.) 
-	 */
+
 	public void goToVertical() {
 		alignmentTalon1.set(verticalSetpoint);
 		alignmentTalon2.set(verticalSetpoint);
 	}
 	
-	/**
-	 * Moves motors backward at a constant speed.
-	 */
 	public void goToHorizontal() {
 		alignmentTalon1.set(horizontalSetpoint);
 		alignmentTalon2.set(horizontalSetpoint);
@@ -62,12 +53,13 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 		return (alignmentTalon1.getPosition() <= horizontalSetpoint + ALIGNER_SETPOINT_OFFSET);
 	}
 	
-	public void stop(){
+	// sets the aligners' setpoints to their current position
+	public void stop() {
 		alignmentTalon1.set(alignmentTalon1.getPosition());
 		alignmentTalon2.set(alignmentTalon2.getPosition());
 	}
 	
-	public double getPosition(){
+	public double getPosition() {
 		return alignmentTalon1.getPosition();
 	}
 	

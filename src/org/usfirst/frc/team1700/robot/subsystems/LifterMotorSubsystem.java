@@ -8,12 +8,11 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * Manages the tote/bin lifter through position PID control.
  */
 public class LifterMotorSubsystem extends Subsystem {
 
-	private CANTalon lifterTalon1;
-	private CANTalon lifterTalon2;
+	private CANTalon lifterTalon1, lifterTalon2;
 	private LifterLimitSwitchSubsystem limitSwitches;
 	
 	public LifterMotorSubsystem() {
@@ -24,12 +23,8 @@ public class LifterMotorSubsystem extends Subsystem {
 	}
 	
 	
-	//Lifter Methods
-	public boolean limitSwitchHit() {
-		return limitSwitches.isHit();
-	}
     
-	//SetUp
+	/** ==================== SETUP ==================== */
 	 public void enable() {
 	    // called if command is interrupted and restarted
 	    safeMove(getPosition());
@@ -42,13 +37,13 @@ public class LifterMotorSubsystem extends Subsystem {
 	    lifterTalon1.disableControl();
 	    lifterTalon2.disableControl();
 	 }
+	 
+	 /** ==================== CHECKS ==================== */
 	
-	public void stop() {
-    	// sets Talon to current position (so doesn't move back to zero)
-    	lifterTalon1.set(getPosition());
-    	lifterTalon2.set(getPosition());
-    }
-    
+	 public boolean limitSwitchHit() {
+		return limitSwitches.isHit();
+	 }
+	 
 	private boolean safeToMoveUp() {
 		double position = getPosition();
 		return (position < 155000);
@@ -59,7 +54,14 @@ public class LifterMotorSubsystem extends Subsystem {
 		return (position > 0 && !limitSwitches.isHit());
 	}
   
-	//Moving
+	/** ==================== MOVING ==================== */
+	public void stop() {
+		// sets Talon to current position (so doesn't move back to zero)
+		lifterTalon1.set(getPosition());
+		lifterTalon2.set(getPosition());
+	 }
+	
+	// Does not check for the encoder soft limits. Used during calibration and for emergencies.
 	public void uncheckedMove(double position) {
 		boolean goingUp = position >= getPosition();
 		if ((!goingUp && !limitSwitches.isHit()) || (goingUp)) {
@@ -71,6 +73,7 @@ public class LifterMotorSubsystem extends Subsystem {
 		}
 	}
 	
+	// Checks for encoder's soft limits.
 	public void safeMove(double position) {
 		boolean goingUp = position >= getPosition();
 		if ((goingUp && safeToMoveUp()) || (!goingUp && safeToMoveDown())) {
@@ -82,8 +85,7 @@ public class LifterMotorSubsystem extends Subsystem {
 		}
 	}
 	
-	
-	//Encoder methods
+	/** ==================== ENCODERS ==================== */
 	public void zeroEncoders() {
     	lifterTalon1.setPosition(0);
     	lifterTalon2.setPosition(0);
@@ -93,7 +95,6 @@ public class LifterMotorSubsystem extends Subsystem {
 	    return lifterTalon1.getPosition();
 	}
 	
-	//Helper methods
     private CANTalon initTalon(int address) {
     	CANTalon talon = new CANTalon(address);
     	

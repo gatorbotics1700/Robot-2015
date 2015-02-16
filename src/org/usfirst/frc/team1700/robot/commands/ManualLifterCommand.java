@@ -8,7 +8,8 @@ import org.usfirst.frc.team1700.robot.subsystems.LifterMotorSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Mimics speed commands to lifter through position mode. Moves based on
+ * control joystick's Y axis.
  */
 public class ManualLifterCommand extends Command {
 	private LifterMotorSubsystem lifter;
@@ -29,11 +30,11 @@ public class ManualLifterCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	// carrot on a stick;
-    	if (Robot.oi.controlJoystick.getRawButton(RobotMap.LIFTER_UNSAFE_MOVE_BUTTON)) {
-    		lifter.uncheckedMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition()); //compensating for joystick orientation  
+    	// carrot on a stick
+    	if (Robot.oi.controlJoystick.getRawButton(RobotMap.LIFTER_UNCHECKED_MOVE_BUTTON)) { // unchecked move
+    		lifter.uncheckedMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition()); 
     		System.out.println(lifter.getPosition());
-    	} else {
+    	} else { // normal move
     		lifter.safeMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition());
     	}
     	

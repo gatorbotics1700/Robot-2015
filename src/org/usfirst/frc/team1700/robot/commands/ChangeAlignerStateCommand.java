@@ -13,12 +13,12 @@ public class ChangeAlignerStateCommand extends Command {
 	// remember previous state of tote aligner
 	private boolean wasVertical = false;
 	private boolean wasHorizontal = false;
+	
 	private AlignmentMotorsSubsystem motors;
-	private boolean isLong;
 	
 	/**
 	 * Requires the appropriate tote aligner motor subsystem (as decided by
-	 * the isLong boolean argument) and the potentiometer subsystem.
+	 * the isLong boolean argument).
 	 * @param isLong
 	 */
     public ChangeAlignerStateCommand(boolean isLong) {
@@ -27,27 +27,24 @@ public class ChangeAlignerStateCommand extends Command {
     	} else {
     		motors = Subsystems.shortAlignmentMotorsSubsystem;
     	}
-    	this.isLong = isLong;
 		requires(motors);
     }
 
-    // Called just before this Command runs the first time
     /**
+     * Called just before this Command runs the first time
      * Checks and stores initial state of tote aligner.
      */
     protected void initialize() {
-    	if(motors.isVertical()) {
+    	if (motors.isVertical()) {
     		wasVertical = true;
     		motors.zeroEncoder();
-    	}
-    	else if(motors.isHorizontal()) {
+    	} else if (motors.isHorizontal()) {
     		wasHorizontal = true;
     	} 
-//    	System.out.println("is vertical? " + motors.isVertical());
     }
 
-    // Called repeatedly when this Command is scheduled to run
     /**
+     * Called repeatedly when this Command is scheduled to run
      * Called when operator presses button to toggle tote aligner state.
      */
     protected void execute() {
@@ -60,13 +57,8 @@ public class ChangeAlignerStateCommand extends Command {
     		wasHorizontal = true;
     		motors.goToVertical();
     	}
-//    	System.out.println("Long: " + isLong + "   Position:" + motors.getPosition());
-//    	System.out.println("Encoder: " + encoder.encoderValue());
-//    	System.out.println("Encoder verticle: " + encoder.isAlignerVertical());
-//    	System.out.println("Encoder horizontal: " + encoder.isAlignerHorizontal());
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     /**
      * Command is complete when tote aligner has reached its desired position.
      * Before execution stops, updates tote aligner's stored state based on its 
@@ -76,18 +68,15 @@ public class ChangeAlignerStateCommand extends Command {
     	if(wasVertical && motors.isHorizontal()) {
     		wasHorizontal = true;
     		wasVertical = false; 
-//    		System.out.println("DONE MOVING TO HORIZONTAL");
     		return true;
     	} else if (wasHorizontal && motors.isVertical()) {
     		wasVertical = true;
     		wasHorizontal = false;
     		motors.zeroEncoder();
-//    		System.out.println("DONE MOVING TO VERTICAL");
     		return true;
     	} else {
     		return false;
     	}
-//    	return false;
     }
 
     // Called once after isFinished returns true

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * Manages limit switch on the bottom of the lifter. Used for calibration and as a soft limit.
  */
 public class LifterLimitSwitchSubsystem extends Subsystem {
 	private DigitalInput leftLS, rightLS;
