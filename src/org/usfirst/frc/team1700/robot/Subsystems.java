@@ -21,4 +21,12 @@ public class Subsystems {
 	public static LifterLimitSwitchSubsystem lifterLS = new LifterLimitSwitchSubsystem();
 	public static LifterMotorSubsystem lifter = new LifterMotorSubsystem();
 	
+	//camera
+//	public CameraSubsystem toteCamera;
+//	public CameraSubsystem fieldCamera;
+	
+	public Subsystems (){
+//		toteCamera = new CameraSubsystem("10.17.0.21");
+//		fieldCamera =  new CameraSubsystem("10.17.0.22");
+	}
 }
