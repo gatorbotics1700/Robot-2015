@@ -35,6 +35,7 @@ public class ChangeAlignerStateCommand extends Command {
      * Checks and stores initial state of tote aligner.
      */
     protected void initialize() {
+    	motors.clearIAccumulator();
     	if (motors.isVertical()) {
     		wasVertical = true;
     		motors.zeroEncoder();
@@ -57,6 +58,7 @@ public class ChangeAlignerStateCommand extends Command {
     		wasHorizontal = true;
     		motors.goToVertical();
     	}
+    	
     }
 
     /**

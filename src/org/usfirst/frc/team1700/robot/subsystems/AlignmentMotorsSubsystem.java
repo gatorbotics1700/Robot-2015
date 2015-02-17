@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * to move up or down, and in the ResetAligner command.
  */
 public class AlignmentMotorsSubsystem extends Subsystem {
-	private CANTalon alignmentTalon1, alignmentTalon2;
-	private static int ALIGNER_SETPOINT_OFFSET = 20;
-	private double verticalSetpoint = RobotMap.ALIGNER_VERTICAL_STATE + ALIGNER_SETPOINT_OFFSET;
+	private CANTalon alignmentTalon;
+	private double verticalSetpoint = RobotMap.ALIGNER_VERTICAL_STATE;
 	private double horizontalSetpoint;
 	
 	/**
@@ -24,48 +23,41 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	public AlignmentMotorsSubsystem(boolean isLong){
 		super();
     	if(isLong){
-        	alignmentTalon1 = initTalon(RobotMap.LONG_ALIGNMENT_TALON_1_ID);
-        	alignmentTalon2 = initTalon(RobotMap.LONG_ALIGNMENT_TALON_2_ID);
+        	alignmentTalon = initTalon(RobotMap.LONG_ALIGNMENT_TALON_1_ID);
         	horizontalSetpoint = RobotMap.LONG_ALIGNER_HORIZONTAL_STATE;
     	} else {
-    		alignmentTalon1 = initTalon(RobotMap.SHORT_ALIGNMENT_TALON_1_ID);
-        	alignmentTalon2 = initTalon(RobotMap.SHORT_ALIGNMENT_TALON_2_ID);
+    		alignmentTalon = initTalon(RobotMap.SHORT_ALIGNMENT_TALON_1_ID);
         	horizontalSetpoint = RobotMap.SHORT_ALIGNER_HORIZONTAL_STATE;
     	}
-    	horizontalSetpoint -= ALIGNER_SETPOINT_OFFSET; 
 	}
 
 	public void goToVertical() {
-		alignmentTalon1.set(verticalSetpoint);
-		alignmentTalon2.set(verticalSetpoint);
+		alignmentTalon.set(verticalSetpoint);
 	}
 	
 	public void goToHorizontal() {
-		alignmentTalon1.set(horizontalSetpoint);
-		alignmentTalon2.set(horizontalSetpoint);
+		alignmentTalon.set(horizontalSetpoint);
 	}
 	
 	public boolean isVertical(){
-		return (alignmentTalon1.getPosition() >= RobotMap.ALIGNER_VERTICAL_STATE);
+		return (alignmentTalon.getPosition() >= RobotMap.ALIGNER_VERTICAL_STATE);
 	}
 	
 	public boolean isHorizontal(){
-		return (alignmentTalon1.getPosition() <= horizontalSetpoint + ALIGNER_SETPOINT_OFFSET);
+		return (alignmentTalon.getPosition() <= horizontalSetpoint);
 	}
 	
 	// sets the aligners' setpoints to their current position
 	public void stop() {
-		alignmentTalon1.set(alignmentTalon1.getPosition());
-		alignmentTalon2.set(alignmentTalon2.getPosition());
+		alignmentTalon.set(alignmentTalon.getPosition());
 	}
 	
 	public double getPosition() {
-		return alignmentTalon1.getPosition();
+		return alignmentTalon.getPosition();
 	}
 	
 	public void zeroEncoder() {
-		alignmentTalon1.setPosition(0);
-		alignmentTalon2.setPosition(0);
+		alignmentTalon.setPosition(0);
 	}
 	
 	private CANTalon initTalon(int ID) {
@@ -77,10 +69,18 @@ public class AlignmentMotorsSubsystem extends Subsystem {
     	talon.enableControl();
     	talon.setPosition(0);
     	talon.set(talon.getPosition());
-    	talon.setPID(0.2,0,0);
+    	talon.setPID(0.2,0.00002,0);
     	    	
     	return talon;
     }
+	
+	public void clearIAccumulator (){
+		alignmentTalon.ClearIaccum();
+	}
+	
+	public double getAccumulation () {
+		return alignmentTalon.GetIaccum();
+	}
 	
     public void initDefaultCommand() {
         // no need to set default because command is already bound to a joystick button

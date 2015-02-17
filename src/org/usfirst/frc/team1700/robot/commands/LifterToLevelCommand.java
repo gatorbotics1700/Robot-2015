@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class LifterToLevelCommand extends Command {
 	private double targetLevel, currentLevel;
 	private LifterMotorSubsystem lifter;
+	private static final int LIFTER_DEADBAND = 925;
 	
     public LifterToLevelCommand(int level) {
     	requires(Subsystems.lifter);
@@ -32,7 +33,7 @@ public class LifterToLevelCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return (Math.abs(currentLevel - targetLevel) < 925);
+    	return (Math.abs(currentLevel - targetLevel) < LIFTER_DEADBAND);
     }
 
     // Called once after isFinished returns true

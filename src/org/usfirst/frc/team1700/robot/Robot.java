@@ -71,11 +71,4 @@ public class Robot extends IterativeRobot {
         LiveWindow.run();
     }
     
-    /**
-     * Returns collection of subsystems.
-     * @return
-     */
-    public Subsystems getSubsystems(){
-    	return subsystems;
-    }
 }

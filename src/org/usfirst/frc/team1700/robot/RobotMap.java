@@ -46,9 +46,9 @@ public class RobotMap {
 							LIFTER_TALON_1_ID = 9,
 							LIFTER_TALON_2_ID = 10,
 							SHORT_ALIGNMENT_TALON_1_ID = 6,
-							SHORT_ALIGNMENT_TALON_2_ID = 5,
-							LONG_ALIGNMENT_TALON_1_ID = 7,
-							LONG_ALIGNMENT_TALON_2_ID = 8;
+							//SHORT_ALIGNMENT_TALON_2_ID = 5,
+							LONG_ALIGNMENT_TALON_1_ID = 7;
+							//LONG_ALIGNMENT_TALON_2_ID = 8;
 	
 	// sensor ports
 	public static final int LIFTER_LIMIT_SWITCH_LEFT = 0,
@@ -56,7 +56,7 @@ public class RobotMap {
 							AUTONOMOUS_SWITCH = 1;
 		
 	// Aligner Encoder Values
-	public static final int ALIGNER_VERTICAL_STATE = -150,
+	public static final int ALIGNER_VERTICAL_STATE = -50, 
 							LONG_ALIGNER_HORIZONTAL_STATE = -1820,
 							SHORT_ALIGNER_HORIZONTAL_STATE = -1970;
 	
