@@ -33,7 +33,7 @@ public class ManualLifterCommand extends Command {
     	// carrot on a stick
     	if (Robot.oi.controlJoystick.getRawButton(RobotMap.LIFTER_UNCHECKED_MOVE_BUTTON)) { // unchecked move
     		lifter.uncheckedMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition()); 
-    		System.out.println(lifter.getPosition());
+    		System.out.println("Lifter Position:\t" + lifter.getPosition());
     	} else { // normal move
     		lifter.safeMove(-Robot.oi.controlJoystick.getY() * SCALE + lifter.getPosition());
     	}

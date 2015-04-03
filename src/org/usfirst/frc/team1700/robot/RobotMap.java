@@ -45,7 +45,7 @@ public class RobotMap {
 							TALON_DRIVE_BR_ID = 4, 
 							LIFTER_TALON_1_ID = 9,
 							LIFTER_TALON_2_ID = 10,
-							SHORT_ALIGNMENT_TALON_1_ID = 6,
+							SHORT_ALIGNMENT_TALON_1_ID = 8, //6,
 							LONG_ALIGNMENT_TALON_1_ID = 7;
 	
 	// sensor ports
@@ -54,7 +54,8 @@ public class RobotMap {
 							AUTONOMOUS_SWITCH = 1;
 		
 	// Aligner Encoder Values
-	public static final int ALIGNER_VERTICAL_STATE = -50, 
+	public static final int LONG_ALIGNER_VERTICAL_STATE = -50, 
+							SHORT_ALIGNER_VERTICAL_STATE = -125,
 							LONG_ALIGNER_HORIZONTAL_STATE = -1820,
 							SHORT_ALIGNER_HORIZONTAL_STATE = -1970;
 	
@@ -65,7 +66,7 @@ public class RobotMap {
 							LEVEL_3 = 155900; // little bit less than soft limit 154946.0
 
 	// autonomous driving
-	public static final double AUTONOMOUS_DRIVE_SPEED = 0.2;
+	public static final double AUTONOMOUS_DRIVE_SPEED = 0.6;
 	public static final int AUTONOMOUS_QUARTER_TURN_DIST = 6000,
 							AUTONOMOUS_HALF_TURN_DIST = 12000,
 							AUTONOMOUS_FORWARD_FLAT_DISTANCE = 70000,

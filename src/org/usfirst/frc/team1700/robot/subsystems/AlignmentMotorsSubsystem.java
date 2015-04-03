@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class AlignmentMotorsSubsystem extends Subsystem {
 	private CANTalon alignmentTalon;
-	private double verticalSetpoint = RobotMap.ALIGNER_VERTICAL_STATE;
+	private double verticalSetpoint;
 	private double horizontalSetpoint;
 	
 	/**
@@ -25,22 +25,34 @@ public class AlignmentMotorsSubsystem extends Subsystem {
     	if(isLong){
         	alignmentTalon = initTalon(RobotMap.LONG_ALIGNMENT_TALON_1_ID);
         	horizontalSetpoint = RobotMap.LONG_ALIGNER_HORIZONTAL_STATE;
+        	verticalSetpoint = RobotMap.LONG_ALIGNER_VERTICAL_STATE;
     	} else {
     		alignmentTalon = initTalon(RobotMap.SHORT_ALIGNMENT_TALON_1_ID);
         	horizontalSetpoint = RobotMap.SHORT_ALIGNER_HORIZONTAL_STATE;
+        	verticalSetpoint = RobotMap.SHORT_ALIGNER_VERTICAL_STATE;
     	}
 	}
 
 	public void goToVertical() {
+		System.out.println("going vertical");
+		System.out.println("position:\t" + alignmentTalon.getPosition());
+		System.out.println("voltage:\t" + alignmentTalon.getOutputVoltage());
+		System.out.println("error:\t" + alignmentTalon.getClosedLoopError());
+		System.out.println("i value:\t" + alignmentTalon.GetIaccum());
 		alignmentTalon.set(verticalSetpoint);
 	}
 	
 	public void goToHorizontal() {
+		System.out.println("going horizontal");
+		System.out.println("position:\t" + alignmentTalon.getPosition());
+		System.out.println("voltage:\t" + alignmentTalon.getOutputVoltage());
+		System.out.println("error:\t" + alignmentTalon.getClosedLoopError());
+		System.out.println("i value:\t" + alignmentTalon.GetIaccum());
 		alignmentTalon.set(horizontalSetpoint);
 	}
 	
 	public boolean isVertical(){
-		return (alignmentTalon.getPosition() >= RobotMap.ALIGNER_VERTICAL_STATE);
+		return (alignmentTalon.getPosition() >= verticalSetpoint);
 	}
 	
 	public boolean isHorizontal(){
@@ -50,6 +62,7 @@ public class AlignmentMotorsSubsystem extends Subsystem {
 	// sets the aligners' setpoints to their current position
 	public void stop() {
 		alignmentTalon.set(alignmentTalon.getPosition());
+		
 	}
 	
 	public double getPosition() {
@@ -69,7 +82,7 @@ public class AlignmentMotorsSubsystem extends Subsystem {
     	talon.enableControl();
     	talon.setPosition(0);
     	talon.set(talon.getPosition());
-    	talon.setPID(0.2,0.00002,0);
+    	talon.setPID(0.2,0,0);
     	    	
     	return talon;
     }

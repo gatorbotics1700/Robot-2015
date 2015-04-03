@@ -34,10 +34,11 @@ public class DriveSubsystem extends Subsystem {
 
 	/** ==================== TELEOP MOVE METHODS ==================== */
 	public void teleopMove(double joyValueFR, double joyValueFL, double joyValueBR, double joyValueBL){
-		driveMotorFR1.move(joyValueFR);
-		driveMotorFL2.move(joyValueFL);
-		driveMotorBR4.move(joyValueBR);
-		driveMotorBL3.move(joyValueBL);
+		System.out.print("FR "); driveMotorFR1.move(joyValueFR);
+		System.out.print("FL "); driveMotorFL2.move(joyValueFL);
+		System.out.print("BR "); driveMotorBR4.move(joyValueBR);
+		System.out.print("BL "); driveMotorBL3.move(joyValueBL);
+		System.out.println("\n");
 	}
 	
 	public void stop(){

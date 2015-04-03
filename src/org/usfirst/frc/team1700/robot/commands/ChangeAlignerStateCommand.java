@@ -50,11 +50,14 @@ public class ChangeAlignerStateCommand extends Command {
      */
     protected void execute() {
     	if(wasVertical == true) {
+    		System.out.println("Was Vertical");
     		motors.goToHorizontal();
     	} else if(wasHorizontal == true) {
+    		System.out.println("Was Horizontal");
     		motors.goToVertical();
     	} else { 
     		// default position = vertical (if tote aligner started in the middle or something went wrong)
+    		System.out.print("else");
     		wasHorizontal = true;
     		motors.goToVertical();
     	}
@@ -70,11 +73,13 @@ public class ChangeAlignerStateCommand extends Command {
     	if(wasVertical && motors.isHorizontal()) {
     		wasHorizontal = true;
     		wasVertical = false; 
+    		System.out.println("DONE Moving to Horizontal -----------------");
     		return true;
     	} else if (wasHorizontal && motors.isVertical()) {
     		wasVertical = true;
     		wasHorizontal = false;
     		motors.zeroEncoder();
+    		System.out.println("DONE Moving to Verticle -----------------");
     		return true;
     	} else {
     		return false;

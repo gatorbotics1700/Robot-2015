@@ -30,9 +30,12 @@ public class DriveMotorSubsystem {
 	 */
 	public void move(double speed) {
 		if(speed > JOY_DEADBAND || speed < -JOY_DEADBAND){ 
+			speed = Math.pow(speed, 3);
 			double setpoint =  filter(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * MAX_SPEED;
+			System.out.println("Joystick: "+ speed + "\tSetpoint: " + setpoint + "\t Measured:" + driveTalon.getSpeed());
 			driveTalon.set(setpoint); 
 		} else {
+			driveTalon.ClearIaccum();
 			driveTalon.set(filter(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)* MAX_SPEED);
 		}
 	}

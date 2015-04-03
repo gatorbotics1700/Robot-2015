@@ -15,11 +15,12 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class MecanumDriveCommand extends Command {
 	
-	private static final double SCALE_DOWN = .8; // scale down factor
+	private static final double SCALE_DOWN = .6; // scale down factor //was 0.8 but trying to make slower
+	private static final double ROTATIONAL_SCALE = 1;
 	private static final double JOY_DEADBAND = .15;
 	private static final double JOY_SCALE = 1/(1-JOY_DEADBAND);
-	private static final double PRECISION_STRAFE_SCALE_DOWN = .3;
-	private static final double POV_MOVE_SPEED = .2;
+	private static final double PRECISION_STRAFE_SCALE_DOWN = .67;
+	private static final double POV_MOVE_SPEED = 0.3;//.6;
 	
 	private static final int POV_NONE = -1, 
 							 POV_FRONT = 0, 
@@ -46,8 +47,8 @@ public class MecanumDriveCommand extends Command {
     	double precisionStrafeRight = deadband(oi.driveJoystick.getRawAxis(RobotMap.STRAFE_RIGHT));
     	double precisionStrafeLeft = -1 * deadband(oi.driveJoystick.getRawAxis(RobotMap.STRAFE_LEFT));
     	double vy = - deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_Y));
-    	double vx = deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_X));
-    	double wz = - deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
+    	double vx = - deadband(oi.driveJoystick.getRawAxis(RobotMap.MOVE_X));
+    	double wz = - ROTATIONAL_SCALE * deadband(oi.driveJoystick.getRawAxis(RobotMap.ROTATE_X));
     	int POV = oi.driveJoystick.getPOV();
     	double FL = 0, FR = 0, BL = 0, BR = 0;
     	
@@ -59,10 +60,10 @@ public class MecanumDriveCommand extends Command {
 	    	BR = - (SCALE_DOWN)*(vy - vx + wz);
     	} else if (POV == POV_NONE) { // precision strafing
 	    	vx = precisionStrafeRight + precisionStrafeLeft;
-	    	FL = (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
-	    	FR = - (PRECISION_STRAFE_SCALE_DOWN)*(vx);
-	    	BL = (PRECISION_STRAFE_SCALE_DOWN)*(vx);
-	    	BR = - (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
+	    	FL = - (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
+	    	FR = (PRECISION_STRAFE_SCALE_DOWN)*(vx);
+	    	BL = - (PRECISION_STRAFE_SCALE_DOWN)*(vx);
+	    	BR = (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
 	    } else { // precision moving
 	    	switch (POV) {
 	    	case POV_FRONT:
@@ -77,13 +78,13 @@ public class MecanumDriveCommand extends Command {
 	    		BL = -POV_MOVE_SPEED;
 	    		BR = POV_MOVE_SPEED;
 	    		break;
-	    	case POV_RIGHT:
+	    	case POV_LEFT:
 	    		FL = -POV_MOVE_SPEED;
 	    		FR = -POV_MOVE_SPEED;
 	    		BL = POV_MOVE_SPEED;
 	    		BR = POV_MOVE_SPEED;
 	    		break;
-	    	case POV_LEFT:
+	    	case POV_RIGHT:
 	    		FL = POV_MOVE_SPEED;
 	    		FR = POV_MOVE_SPEED;
 	    		BL = -POV_MOVE_SPEED;
