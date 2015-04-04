@@ -57,7 +57,7 @@ public class RobotMap {
 	public static final int LONG_ALIGNER_VERTICAL_STATE = -50, 
 							SHORT_ALIGNER_VERTICAL_STATE = -125,
 							LONG_ALIGNER_HORIZONTAL_STATE = -1820,
-							SHORT_ALIGNER_HORIZONTAL_STATE = -1970;
+							SHORT_ALIGNER_HORIZONTAL_STATE = -1900;
 	
 	//Lifter Levels
 	public static final int LEVEL_0 = -50,

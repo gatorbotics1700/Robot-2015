@@ -15,12 +15,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class MecanumDriveCommand extends Command {
 	
-	private static final double SCALE_DOWN = .6; // scale down factor //was 0.8 but trying to make slower
+	private boolean PID = true;
+
+	private static double scaleDown; // scale down factor //was 0.8 but trying to make slower
 	private static final double ROTATIONAL_SCALE = 1;
 	private static final double JOY_DEADBAND = .15;
 	private static final double JOY_SCALE = 1/(1-JOY_DEADBAND);
-	private static final double PRECISION_STRAFE_SCALE_DOWN = .67;
-	private static final double POV_MOVE_SPEED = 0.3;//.6;
+	private static double precisionStrafeScaleDown;
+	private static double POVMoveSpeed;
+	
 	
 	private static final int POV_NONE = -1, 
 							 POV_FRONT = 0, 
@@ -35,6 +38,17 @@ public class MecanumDriveCommand extends Command {
     	requires(Subsystems.drive);
     	this.driveSubsystem = Subsystems.drive;
     	this.oi = Robot.oi;
+    	
+    	if (PID) {
+    		scaleDown = 0.6;
+    		precisionStrafeScaleDown = 0.67;
+    		POVMoveSpeed = 0.3;
+    	} else {
+    		scaleDown = 1;
+    		precisionStrafeScaleDown = 1;
+    		POVMoveSpeed = 0.7;
+    	}
+    	
     }
 
     // Called just before this Command runs the first time
@@ -54,41 +68,41 @@ public class MecanumDriveCommand extends Command {
     	
     	// use joystick values to calculate drive commands
     	if (precisionStrafeRight <= JOY_DEADBAND && precisionStrafeLeft >= -JOY_DEADBAND && POV == POV_NONE) { // normal drive
-	    	FL = (SCALE_DOWN)*(vy - vx - wz);
-	    	FR = - (SCALE_DOWN)*(vy + vx + wz);
-	    	BL = (SCALE_DOWN)*(vy + vx - wz);
-	    	BR = - (SCALE_DOWN)*(vy - vx + wz);
+	    	FL = (scaleDown)*(vy - vx - wz);
+	    	FR = - (scaleDown)*(vy + vx + wz);
+	    	BL = (scaleDown)*(vy + vx - wz);
+	    	BR = - (scaleDown)*(vy - vx + wz);
     	} else if (POV == POV_NONE) { // precision strafing
 	    	vx = precisionStrafeRight + precisionStrafeLeft;
-	    	FL = - (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
-	    	FR = (PRECISION_STRAFE_SCALE_DOWN)*(vx);
-	    	BL = - (PRECISION_STRAFE_SCALE_DOWN)*(vx);
-	    	BR = (PRECISION_STRAFE_SCALE_DOWN)*(-vx);
+	    	FL = - (precisionStrafeScaleDown)*(-vx);
+	    	FR = (precisionStrafeScaleDown)*(vx);
+	    	BL = - (precisionStrafeScaleDown)*(vx);
+	    	BR = (precisionStrafeScaleDown)*(-vx);
 	    } else { // precision moving
 	    	switch (POV) {
 	    	case POV_FRONT:
-	    		FL = POV_MOVE_SPEED;
-	    		FR = - POV_MOVE_SPEED;
-	    		BL = POV_MOVE_SPEED;
-	    		BR = - POV_MOVE_SPEED;
+	    		FL = POVMoveSpeed;
+	    		FR = - POVMoveSpeed;
+	    		BL = POVMoveSpeed;
+	    		BR = - POVMoveSpeed;
 	    		break;
 	    	case POV_BACK:
-	    		FL = - POV_MOVE_SPEED;
-	    		FR = POV_MOVE_SPEED;
-	    		BL = -POV_MOVE_SPEED;
-	    		BR = POV_MOVE_SPEED;
+	    		FL = - POVMoveSpeed;
+	    		FR = POVMoveSpeed;
+	    		BL = -POVMoveSpeed;
+	    		BR = POVMoveSpeed;
 	    		break;
 	    	case POV_LEFT:
-	    		FL = -POV_MOVE_SPEED;
-	    		FR = -POV_MOVE_SPEED;
-	    		BL = POV_MOVE_SPEED;
-	    		BR = POV_MOVE_SPEED;
+	    		FL = -POVMoveSpeed;
+	    		FR = -POVMoveSpeed;
+	    		BL = POVMoveSpeed;
+	    		BR = POVMoveSpeed;
 	    		break;
 	    	case POV_RIGHT:
-	    		FL = POV_MOVE_SPEED;
-	    		FR = POV_MOVE_SPEED;
-	    		BL = -POV_MOVE_SPEED;
-	    		BR = -POV_MOVE_SPEED;
+	    		FL = POVMoveSpeed;
+	    		FR = POVMoveSpeed;
+	    		BL = -POVMoveSpeed;
+	    		BR = -POVMoveSpeed;
 	    		break;
 	    	default:
 	    		break;

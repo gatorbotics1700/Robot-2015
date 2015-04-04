@@ -7,9 +7,12 @@ import edu.wpi.first.wpilibj.CANTalon;
  * Runs speeds through a second degree low pass filter to scale and minimize jerk.
  */
 public class DriveMotorSubsystem {
+	
+	private boolean PID = true;
+	
 	private CANTalon driveTalon;
 	private int talonID;
-	private static final int MAX_SPEED = 5000;
+	private static int maxSpeed = 0;
 	private static final double JOY_DEADBAND = 0.1;
 	private double prevFilt1 = 0, prevFilt2 = 0;
 	private static final double FILTER_CONSTANT_1 = 0.3;
@@ -18,6 +21,11 @@ public class DriveMotorSubsystem {
 	public DriveMotorSubsystem(int ID) {
 		talonID = ID;
 		initTalon();
+		if(PID){
+			maxSpeed = 5000;
+		} else{
+			maxSpeed = 1;
+		}
 	}
 	
 	/** ==================== MOVING METHODS ==================== */
@@ -31,17 +39,18 @@ public class DriveMotorSubsystem {
 	public void move(double speed) {
 		if(speed > JOY_DEADBAND || speed < -JOY_DEADBAND){ 
 			speed = Math.pow(speed, 3);
-			double setpoint =  filter(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * MAX_SPEED;
-			System.out.println("Joystick: "+ speed + "\tSetpoint: " + setpoint + "\t Measured:" + driveTalon.getSpeed());
+			double setpoint =  filter(speed, FILTER_CONSTANT_1, FILTER_CONSTANT_2) * maxSpeed;
+			System.out.println("Joystick: "+ speed + "\tSetpoint: " + setpoint + "\t Measured:" + driveTalon.getSpeed() + "\t Voltage: " + driveTalon.getOutputVoltage() + "\t Current: " + driveTalon.getOutputCurrent());
+//			System.out.println("output voltage: " + driveTalon.getOutputVoltage());
 			driveTalon.set(setpoint); 
 		} else {
 			driveTalon.ClearIaccum();
-			driveTalon.set(filter(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)* MAX_SPEED);
+			driveTalon.set(filter(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)* maxSpeed);
 		}
 	}
 	
 	public void stop() {
-		driveTalon.set(filter(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)*MAX_SPEED);
+		driveTalon.set(filter(0, FILTER_CONSTANT_1, FILTER_CONSTANT_2)*maxSpeed);
 	}
 	
 	/** ==================== ENCODER METHODS ==================== */
@@ -82,19 +91,23 @@ public class DriveMotorSubsystem {
     	driveTalon.disableControl();
     	driveTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder); // set input device
     	
-		driveTalon.changeControlMode(CANTalon.ControlMode.Speed);
-		driveTalon.setPID(0.4,0.001,0);
-    	
-		// custom feed forward terms for each motor
-    	switch(talonID) {
-    		case 1: driveTalon.setF(0.94/2); // back left
-    			break;
-    		case 2: driveTalon.setF(1.044/2); // front left
-    			break;
-    		case 3: driveTalon.setF(1.01/2); // front right
-    			break;
-    		case 4: driveTalon.setF(0.977/2); // back right
-    			break;
+    	if(PID){
+			driveTalon.changeControlMode(CANTalon.ControlMode.Speed);
+			driveTalon.setPID(0.4,0.001,0);
+	    	
+			// custom feed forward terms for each motor
+	    	switch(talonID) {
+	    		case 1: driveTalon.setF(0.94/2); // back left
+	    			break;
+	    		case 2: driveTalon.setF(1.044/2); // front left
+	    			break;
+	    		case 3: driveTalon.setF(1.01/2); // front right
+	    			break;
+	    		case 4: driveTalon.setF(0.977/2); // back right
+	    			break;
+	    	}
+    	}else {
+    		driveTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
     	}
     	
     	driveTalon.set(0);
