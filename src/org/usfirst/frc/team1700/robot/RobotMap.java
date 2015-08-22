@@ -75,5 +75,6 @@ public class RobotMap {
 
 
 	public static final int PROGRAMMING_WORKSHOP_TEST = 10;
+        public static final int PROGRAMMING_TEST = 2;
 }
 
