@@ -73,7 +73,10 @@ public class RobotMap {
 							AUTONOMOUS_FORWARD_PLATFORM_DISTANCE = 71000,
 							AUTONOMOUS_BACKWARD_FLAT_DISTANCE = -50000; // same for platform distance
 
-
+<<<<<<< HEAD
+	public static final int PROGRAMMING_WORKSHOP_TEST = 11;
+=======
 	public static final int PROGRAMMING_WORKSHOP_TEST = 10;
+>>>>>>> 236c1a418ec739e69844abbbcd2917f26083d169
 }
 
